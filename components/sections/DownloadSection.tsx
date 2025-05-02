@@ -163,8 +163,8 @@ export default function DownloadSection({
               </div>
               <p className="text-gray-400 text-sm">
                 Meet people near you through real, in-person meetups. Whether
-                you're looking for friends or business connections, Evertwine
-                helps you find your community.
+                you&apos;re looking for friends or business connections,
+                Evertwine helps you find your community.
               </p>
               <div className="mt-6">
                 <a

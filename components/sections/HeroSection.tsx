@@ -1,28 +1,31 @@
-"use client"
-import type React from "react"
-import { smoothScrollTo } from "@/utils/smooth-scroll"
+"use client";
+import type React from "react";
+import { smoothScrollTo } from "@/utils/smooth-scroll";
 
 interface HeroSectionProps {
-  isLoaded: boolean
+  isLoaded: boolean;
 }
 
 export default function HeroSection({ isLoaded }: HeroSectionProps) {
-  const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, targetId: string) => {
-    e.preventDefault()
+  const handleNavClick = (
+    e: React.MouseEvent<HTMLAnchorElement>,
+    targetId: string
+  ) => {
+    e.preventDefault();
 
-    const targetElement = document.getElementById(targetId)
+    const targetElement = document.getElementById(targetId);
 
     if (targetElement) {
       // Get the top position of the target element relative to the viewport
-      const targetPosition = targetElement.getBoundingClientRect().top
+      const targetPosition = targetElement.getBoundingClientRect().top;
 
       // Add the current scroll position to get the absolute position
-      const offsetPosition = targetPosition + window.scrollY - 110 // Adjust for header height
+      const offsetPosition = targetPosition + window.scrollY - 110; // Adjust for header height
 
       // Use our custom smooth scroll function (1 second duration)
-      smoothScrollTo(offsetPosition, 1000)
+      smoothScrollTo(offsetPosition, 1000);
     }
-  }
+  };
 
   return (
     <div className="min-h-screen flex flex-col justify-center">
@@ -45,10 +48,15 @@ export default function HeroSection({ isLoaded }: HeroSectionProps) {
               isLoaded ? "animate-fade-in-up-delayed" : ""
             }`}
           >
-            Meet people near you through real, in-person meetups. Whether you're looking for friends or business
-            connections, Evertwine helps you find your community—safely and authentically.
+            Meet people near you through real, in-person meetups. Whether
+            you&apos;re looking for friends or business connections, Evertwine
+            helps you find your community—safely and authentically.
           </p>
-          <div className={`mt-8 opacity-0 ${isLoaded ? "animate-fade-in-up-more-delayed" : ""}`}>
+          <div
+            className={`mt-8 opacity-0 ${
+              isLoaded ? "animate-fade-in-up-more-delayed" : ""
+            }`}
+          >
             <a
               href="#download"
               onClick={(e) => handleNavClick(e, "download")}
@@ -76,10 +84,15 @@ export default function HeroSection({ isLoaded }: HeroSectionProps) {
                 isLoaded ? "animate-fade-in-up-delayed" : ""
               }`}
             >
-              Meet people near you through real, in-person meetups. Whether you're looking for friends or business
-              connections, Evertwine helps you find your community—safely and authentically.
+              Meet people near you through real, in-person meetups. Whether
+              you&apos;re looking for friends or business connections, Evertwine
+              helps you find your community—safely and authentically.
             </p>
-            <div className={`mt-10 opacity-0 ${isLoaded ? "animate-fade-in-up-more-delayed" : ""}`}>
+            <div
+              className={`mt-10 opacity-0 ${
+                isLoaded ? "animate-fade-in-up-more-delayed" : ""
+              }`}
+            >
               <a
                 href="#download"
                 onClick={(e) => handleNavClick(e, "download")}
@@ -89,9 +102,11 @@ export default function HeroSection({ isLoaded }: HeroSectionProps) {
               </a>
             </div>
           </div>
-          <div className="w-1/2">{/* Empty space for layout balance - no image */}</div>
+          <div className="w-1/2">
+            {/* Empty space for layout balance - no image */}
+          </div>
         </div>
       </div>
     </div>
-  )
+  );
 }

@@ -1,30 +1,31 @@
-"use client"
+"use client";
 
-import type React from "react"
+import type React from "react";
 
-import { useRef, useState, useEffect } from "react"
-import { ChevronLeft, ChevronRight } from "lucide-react"
-import TestimonialCard from "../ui/TestimonialCard"
+import { useRef, useState, useEffect } from "react";
+import { ChevronLeft, ChevronRight } from "lucide-react";
+import TestimonialCard from "../ui/TestimonialCard";
 
 interface TestimonialsSectionProps {
-  isTestimonialsVisible: boolean
+  isTestimonialsVisible: boolean;
 }
 
-export default function TestimonialsSection({ isTestimonialsVisible }: TestimonialsSectionProps) {
-  const [activeTestimonial, setActiveTestimonial] = useState(0)
-  const testimonialScrollRef = useRef<HTMLDivElement>(null)
-  const [isDragging, setIsDragging] = useState(false)
-  const [startX, setStartX] = useState(0)
-  const [scrollLeft, setScrollLeft] = useState(0)
-  const [dragDistance, setDragDistance] = useState(0)
-  const [dragSpeed, setDragSpeed] = useState(0)
-  const lastDragTimeRef = useRef<number>(0)
-  const dragPositionsRef = useRef<{ time: number; position: number }[]>([])
-  const animationFrameRef = useRef<number | null>(null)
+export default function TestimonialsSection({
+  isTestimonialsVisible,
+}: TestimonialsSectionProps) {
+  const [activeTestimonial, setActiveTestimonial] = useState(0);
+  const testimonialScrollRef = useRef<HTMLDivElement>(null);
+  const [isDragging, setIsDragging] = useState(false);
+  const [startX, setStartX] = useState(0);
+  const [scrollLeft, setScrollLeft] = useState(0);
+  const lastDragTimeRef = useRef<number>(0);
+  const dragPositionsRef = useRef<{ time: number; position: number }[]>([]);
+  const animationFrameRef = useRef<number | null>(null);
 
   const testimonials = [
     {
-      quote: "Best Financial Managing App. It's easy to use and help me gain more money",
+      quote:
+        "Best Financial Managing App. It's easy to use and help me gain more money",
       author: "Brooklyn Simmons",
       gradient: "from-blue-600 to-purple-500",
     },
@@ -45,46 +46,55 @@ export default function TestimonialsSection({ isTestimonialsVisible }: Testimoni
       gradient: "from-blue-400 to-purple-400",
     },
     {
-      quote: "This app has completely transformed how I manage my finances. The insights are incredible.",
+      quote:
+        "This app has completely transformed how I manage my finances. The insights are incredible.",
       author: "Sarah Johnson",
       gradient: "from-indigo-500 to-blue-500",
     },
     {
-      quote: "I've tried many finance apps, but this one stands out with its intuitive design and powerful features.",
+      quote:
+        "I've tried many finance apps, but this one stands out with its intuitive design and powerful features.",
       author: "Michael Chen",
       gradient: "from-purple-600 to-blue-500",
     },
-  ]
+  ];
 
   // Update active testimonial based on scroll position
   useEffect(() => {
     const handleScroll = () => {
       if (testimonialScrollRef.current) {
-        const scrollPosition = testimonialScrollRef.current.scrollLeft
-        const cardWidth = testimonialScrollRef.current.clientWidth
-        const newActiveIndex = Math.round(scrollPosition / cardWidth)
+        const scrollPosition = testimonialScrollRef.current.scrollLeft;
+        const cardWidth = testimonialScrollRef.current.clientWidth;
+        const newActiveIndex = Math.round(scrollPosition / cardWidth);
 
         // Only update if the active index has changed
-        if (newActiveIndex !== activeTestimonial && newActiveIndex >= 0 && newActiveIndex < testimonials.length) {
-          setActiveTestimonial(newActiveIndex)
+        if (
+          newActiveIndex !== activeTestimonial &&
+          newActiveIndex >= 0 &&
+          newActiveIndex < testimonials.length
+        ) {
+          setActiveTestimonial(newActiveIndex);
         }
       }
-    }
+    };
 
-    const scrollContainer = testimonialScrollRef.current
+    const scrollContainer = testimonialScrollRef.current;
     if (scrollContainer) {
-      scrollContainer.addEventListener("scroll", handleScroll)
-      return () => scrollContainer.removeEventListener("scroll", handleScroll)
+      scrollContainer.addEventListener("scroll", handleScroll);
+      return () => scrollContainer.removeEventListener("scroll", handleScroll);
     }
-  }, [activeTestimonial, testimonials.length])
+  }, [activeTestimonial, testimonials.length]);
 
   const scrollTestimonials = (direction: "left" | "right") => {
     if (testimonialScrollRef.current) {
-      const cardWidth = testimonialScrollRef.current.clientWidth
-      const scrollAmount = direction === "left" ? -cardWidth : cardWidth
-      testimonialScrollRef.current.scrollBy({ left: scrollAmount, behavior: "smooth" })
+      const cardWidth = testimonialScrollRef.current.clientWidth;
+      const scrollAmount = direction === "left" ? -cardWidth : cardWidth;
+      testimonialScrollRef.current.scrollBy({
+        left: scrollAmount,
+        behavior: "smooth",
+      });
     }
-  }
+  };
 
   // Smooth scroll to a specific position
   const smoothScrollTo = (position: number) => {
@@ -92,172 +102,172 @@ export default function TestimonialsSection({ isTestimonialsVisible }: Testimoni
       testimonialScrollRef.current.scrollTo({
         left: position,
         behavior: "smooth",
-      })
+      });
     }
-  }
+  };
 
   // Calculate momentum and snap to nearest card
   const calculateMomentumScroll = () => {
-    if (!testimonialScrollRef.current) return
+    if (!testimonialScrollRef.current) return;
 
-    const positions = dragPositionsRef.current
-    if (positions.length < 2) return
+    const positions = dragPositionsRef.current;
+    if (positions.length < 2) return;
 
     // Calculate velocity based on the last few drag events
-    const recentPositions = positions.slice(-5)
-    if (recentPositions.length < 2) return
+    const recentPositions = positions.slice(-5);
+    if (recentPositions.length < 2) return;
 
-    const firstPos = recentPositions[0]
-    const lastPos = recentPositions[recentPositions.length - 1]
-    const timeDiff = lastPos.time - firstPos.time
+    const firstPos = recentPositions[0];
+    const lastPos = recentPositions[recentPositions.length - 1];
+    const timeDiff = lastPos.time - firstPos.time;
 
-    if (timeDiff === 0) return
+    if (timeDiff === 0) return;
 
     // Calculate velocity (pixels per millisecond)
-    const velocity = (lastPos.position - firstPos.position) / timeDiff
+    const velocity = (lastPos.position - firstPos.position) / timeDiff;
 
     // Apply momentum
-    const momentum = velocity * 300 // Adjust this multiplier to control momentum strength
+    const momentum = velocity * 300; // Adjust this multiplier to control momentum strength
 
-    const currentScroll = testimonialScrollRef.current.scrollLeft
-    const targetScroll = currentScroll - momentum
+    const currentScroll = testimonialScrollRef.current.scrollLeft;
+    const targetScroll = currentScroll - momentum;
 
     // Snap to nearest card
-    const cardWidth = testimonialScrollRef.current.clientWidth
-    const nearestCardIndex = Math.round(targetScroll / cardWidth)
-    const snappedScroll = nearestCardIndex * cardWidth
+    const cardWidth = testimonialScrollRef.current.clientWidth;
+    const nearestCardIndex = Math.round(targetScroll / cardWidth);
+    const snappedScroll = nearestCardIndex * cardWidth;
 
     // Smooth scroll to the snapped position
-    smoothScrollTo(snappedScroll)
-  }
+    smoothScrollTo(snappedScroll);
+  };
 
   // Mouse drag handlers
   const handleMouseDown = (e: React.MouseEvent) => {
     if (testimonialScrollRef.current) {
       // Cancel any ongoing animation
       if (animationFrameRef.current) {
-        cancelAnimationFrame(animationFrameRef.current)
-        animationFrameRef.current = null
+        cancelAnimationFrame(animationFrameRef.current);
+        animationFrameRef.current = null;
       }
 
-      setIsDragging(true)
-      setStartX(e.pageX - testimonialScrollRef.current.offsetLeft)
-      setScrollLeft(testimonialScrollRef.current.scrollLeft)
-      testimonialScrollRef.current.style.cursor = "grabbing"
-      testimonialScrollRef.current.style.userSelect = "none"
+      setIsDragging(true);
+      setStartX(e.pageX - testimonialScrollRef.current.offsetLeft);
+      setScrollLeft(testimonialScrollRef.current.scrollLeft);
+      testimonialScrollRef.current.style.cursor = "grabbing";
+      testimonialScrollRef.current.style.userSelect = "none";
 
       // Reset drag tracking
-      dragPositionsRef.current = []
-      lastDragTimeRef.current = Date.now()
+      dragPositionsRef.current = [];
+      lastDragTimeRef.current = Date.now();
       dragPositionsRef.current.push({
         time: lastDragTimeRef.current,
         position: e.pageX,
-      })
+      });
     }
-  }
+  };
 
   const handleMouseMove = (e: React.MouseEvent) => {
-    if (!isDragging) return
-    e.preventDefault()
+    if (!isDragging) return;
+    e.preventDefault();
 
     if (testimonialScrollRef.current) {
-      const x = e.pageX - testimonialScrollRef.current.offsetLeft
-      const walk = (x - startX) * 1.5 // Scroll speed multiplier
+      const x = e.pageX - testimonialScrollRef.current.offsetLeft;
+      const walk = (x - startX) * 1.5; // Scroll speed multiplier
 
       // Track drag position and time for momentum calculation
-      const now = Date.now()
+      const now = Date.now();
       dragPositionsRef.current.push({
         time: now,
         position: e.pageX,
-      })
+      });
 
       // Keep only the last 10 positions for performance
       if (dragPositionsRef.current.length > 10) {
-        dragPositionsRef.current.shift()
+        dragPositionsRef.current.shift();
       }
 
       // Update scroll position directly during drag for responsiveness
-      testimonialScrollRef.current.scrollLeft = scrollLeft - walk
-      setDragDistance(walk)
+      // Update scroll position directly during drag for responsiveness
+      testimonialScrollRef.current.scrollLeft = scrollLeft - walk;
     }
-  }
+  };
 
   const handleMouseUp = () => {
-    setIsDragging(false)
+    setIsDragging(false);
     if (testimonialScrollRef.current) {
-      testimonialScrollRef.current.style.cursor = "grab"
-      testimonialScrollRef.current.style.removeProperty("user-select")
+      testimonialScrollRef.current.style.cursor = "grab";
+      testimonialScrollRef.current.style.removeProperty("user-select");
 
       // Apply momentum scrolling when mouse is released
-      calculateMomentumScroll()
+      calculateMomentumScroll();
     }
-  }
+  };
 
   const handleMouseLeave = () => {
     if (isDragging) {
-      setIsDragging(false)
+      setIsDragging(false);
       if (testimonialScrollRef.current) {
-        testimonialScrollRef.current.style.cursor = "grab"
-        testimonialScrollRef.current.style.removeProperty("user-select")
+        testimonialScrollRef.current.style.cursor = "grab";
+        testimonialScrollRef.current.style.removeProperty("user-select");
 
         // Apply momentum scrolling when mouse leaves
-        calculateMomentumScroll()
+        calculateMomentumScroll();
       }
     }
-  }
+  };
 
   // Touch event handlers for mobile
   const handleTouchStart = (e: React.TouchEvent) => {
     if (testimonialScrollRef.current) {
       // Cancel any ongoing animation
       if (animationFrameRef.current) {
-        cancelAnimationFrame(animationFrameRef.current)
-        animationFrameRef.current = null
+        cancelAnimationFrame(animationFrameRef.current);
+        animationFrameRef.current = null;
       }
 
-      setIsDragging(true)
-      setStartX(e.touches[0].pageX - testimonialScrollRef.current.offsetLeft)
-      setScrollLeft(testimonialScrollRef.current.scrollLeft)
+      setIsDragging(true);
+      setStartX(e.touches[0].pageX - testimonialScrollRef.current.offsetLeft);
+      setScrollLeft(testimonialScrollRef.current.scrollLeft);
 
       // Reset drag tracking
-      dragPositionsRef.current = []
-      lastDragTimeRef.current = Date.now()
+      dragPositionsRef.current = [];
+      lastDragTimeRef.current = Date.now();
       dragPositionsRef.current.push({
         time: lastDragTimeRef.current,
         position: e.touches[0].pageX,
-      })
+      });
     }
-  }
+  };
 
   const handleTouchMove = (e: React.TouchEvent) => {
-    if (!isDragging) return
+    if (!isDragging) return;
 
     if (testimonialScrollRef.current) {
-      const x = e.touches[0].pageX - testimonialScrollRef.current.offsetLeft
-      const walk = (x - startX) * 1.5 // Scroll speed multiplier
+      const x = e.touches[0].pageX - testimonialScrollRef.current.offsetLeft;
+      const walk = (x - startX) * 1.5; // Scroll speed multiplier
 
       // Track touch position and time for momentum calculation
-      const now = Date.now()
+      const now = Date.now();
       dragPositionsRef.current.push({
         time: now,
         position: e.touches[0].pageX,
-      })
+      });
 
       // Keep only the last 10 positions for performance
       if (dragPositionsRef.current.length > 10) {
-        dragPositionsRef.current.shift()
+        dragPositionsRef.current.shift();
       }
 
-      testimonialScrollRef.current.scrollLeft = scrollLeft - walk
+      testimonialScrollRef.current.scrollLeft = scrollLeft - walk;
     }
-  }
+  };
 
   const handleTouchEnd = () => {
-    setIsDragging(false)
+    setIsDragging(false);
 
     // Apply momentum scrolling when touch ends
-    calculateMomentumScroll()
-  }
+    calculateMomentumScroll();
+  };
 
   return (
     <section className="min-h-screen bg-black flex items-center relative">
@@ -272,7 +282,9 @@ export default function TestimonialsSection({ isTestimonialsVisible }: Testimoni
           {/* Navigation Buttons */}
           <button
             onClick={() => scrollTestimonials("left")}
-            className={`absolute left-0 top-1/2 -translate-y-1/2 z-10 bg-black/50 hover:bg-black/80 p-3 rounded-full text-white hidden lg:flex items-center justify-center transition-opacity duration-300 ${isTestimonialsVisible ? "opacity-100" : "opacity-0"}`}
+            className={`absolute left-0 top-1/2 -translate-y-1/2 z-10 bg-black/50 hover:bg-black/80 p-3 rounded-full text-white hidden lg:flex items-center justify-center transition-opacity duration-300 ${
+              isTestimonialsVisible ? "opacity-100" : "opacity-0"
+            }`}
             aria-label="Previous testimonial"
           >
             <ChevronLeft className="h-6 w-6" />
@@ -280,7 +292,9 @@ export default function TestimonialsSection({ isTestimonialsVisible }: Testimoni
 
           <button
             onClick={() => scrollTestimonials("right")}
-            className={`absolute right-0 top-1/2 -translate-y-1/2 z-10 bg-black/50 hover:bg-black/80 p-3 rounded-full text-white hidden lg:flex items-center justify-center transition-opacity duration-300 ${isTestimonialsVisible ? "opacity-100" : "opacity-0"}`}
+            className={`absolute right-0 top-1/2 -translate-y-1/2 z-10 bg-black/50 hover:bg-black/80 p-3 rounded-full text-white hidden lg:flex items-center justify-center transition-opacity duration-300 ${
+              isTestimonialsVisible ? "opacity-100" : "opacity-0"
+            }`}
             aria-label="Next testimonial"
           >
             <ChevronRight className="h-6 w-6" />
@@ -312,5 +326,5 @@ export default function TestimonialsSection({ isTestimonialsVisible }: Testimoni
         </div>
       </div>
     </section>
-  )
+  );
 }
