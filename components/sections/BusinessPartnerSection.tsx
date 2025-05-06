@@ -1,16 +1,25 @@
-"use client"
+"use client";
 
-import type React from "react"
+import type React from "react";
 
-import { useState } from "react"
-import { ArrowRight, CheckCircle, Building2, Users, Gift, TrendingUp } from "lucide-react"
+import { useState } from "react";
+import {
+  ArrowRight,
+  CheckCircle,
+  Building2,
+  Users,
+  Gift,
+  TrendingUp,
+} from "lucide-react";
 
 interface BusinessPartnerSectionProps {
-  isBusinessPartnerVisible: boolean
+  isBusinessPartnerVisible: boolean;
 }
 
-export default function BusinessPartnerSection({ isBusinessPartnerVisible }: BusinessPartnerSectionProps) {
-  const [formSubmitted, setFormSubmitted] = useState(false)
+export default function BusinessPartnerSection({
+  isBusinessPartnerVisible,
+}: BusinessPartnerSectionProps) {
+  const [formSubmitted, setFormSubmitted] = useState(false);
   const [formData, setFormData] = useState({
     businessName: "",
     contactName: "",
@@ -19,18 +28,22 @@ export default function BusinessPartnerSection({ isBusinessPartnerVisible }: Bus
     businessType: "",
     location: "",
     message: "",
-  })
+  });
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
-    const { name, value } = e.target
-    setFormData((prev) => ({ ...prev, [name]: value }))
-  }
+  const handleChange = (
+    e: React.ChangeEvent<
+      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
+    >
+  ) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+  };
 
   const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault()
+    e.preventDefault();
     // Here you would typically send the data to your backend
-    console.log("Business Partnership Form Submitted:", formData)
-    setFormSubmitted(true)
+    console.log("Business Partnership Form Submitted:", formData);
+    setFormSubmitted(true);
     // Reset form after submission
     setFormData({
       businessName: "",
@@ -40,26 +53,29 @@ export default function BusinessPartnerSection({ isBusinessPartnerVisible }: Bus
       businessType: "",
       location: "",
       message: "",
-    })
+    });
     // Show success message for 5 seconds
     setTimeout(() => {
-      setFormSubmitted(false)
-    }, 5000)
-  }
+      setFormSubmitted(false);
+    }, 5000);
+  };
 
   return (
     <section className="min-h-screen bg-gradient-to-b from-black to-blue-900 py-20">
       <div className="container mx-auto px-6 md:px-8">
         <div
           className={`text-center mb-16 transition-all duration-700 transform ${
-            isBusinessPartnerVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
+            isBusinessPartnerVisible
+              ? "opacity-100 translate-y-0"
+              : "opacity-0 translate-y-10"
           }`}
         >
           <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-4 font-sora">
             Partner Your <span className="text-blue-400">Business</span> With Us
           </h2>
           <p className="text-xl text-white/80 max-w-3xl mx-auto font-dm-sans">
-            Join our network of local businesses and connect with our community of engaged users.
+            Join our network of local businesses and connect with our community
+            of engaged users.
           </p>
         </div>
 
@@ -67,27 +83,37 @@ export default function BusinessPartnerSection({ isBusinessPartnerVisible }: Bus
           {/* Left side - Form */}
           <div
             className={`w-full lg:w-1/2 transition-all duration-700 delay-300 transform ${
-              isBusinessPartnerVisible ? "opacity-100 translate-x-0" : "opacity-0 -translate-x-10"
+              isBusinessPartnerVisible
+                ? "opacity-100 translate-x-0"
+                : "opacity-0 -translate-x-10"
             }`}
           >
             <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-3xl p-8 md:p-10">
-              <h3 className="text-2xl md:text-3xl font-bold text-white mb-8 font-sora">Contact Us</h3>
+              <h3 className="text-2xl md:text-3xl font-bold text-white mb-8 font-sora">
+                Contact Us
+              </h3>
 
               {formSubmitted ? (
                 <div className="flex flex-col items-center justify-center py-10 text-center">
                   <div className="w-16 h-16 bg-blue-500/20 rounded-full flex items-center justify-center mb-6">
                     <CheckCircle className="h-8 w-8 text-blue-400" />
                   </div>
-                  <h4 className="text-2xl font-bold text-white mb-2 font-sora">Partnership Request Received!</h4>
+                  <h4 className="text-2xl font-bold text-white mb-2 font-sora">
+                    Partnership Request Received!
+                  </h4>
                   <p className="text-white/70 max-w-md font-dm-sans">
-                    Thank you for your interest in partnering with Evertwine. Our business development team will review
-                    your information and reach out within 2 business days.
+                    Thank you for your interest in partnering with Evertwine.
+                    Our business development team will review your information
+                    and reach out within 2 business days.
                   </p>
                 </div>
               ) : (
                 <form onSubmit={handleSubmit} className="space-y-6">
                   <div className="space-y-2">
-                    <label htmlFor="businessName" className="block text-white font-medium font-dm-sans">
+                    <label
+                      htmlFor="businessName"
+                      className="block text-white font-medium font-dm-sans"
+                    >
                       Business Name
                     </label>
                     <input
@@ -104,7 +130,10 @@ export default function BusinessPartnerSection({ isBusinessPartnerVisible }: Bus
 
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div className="space-y-2">
-                      <label htmlFor="contactName" className="block text-white font-medium font-dm-sans">
+                      <label
+                        htmlFor="contactName"
+                        className="block text-white font-medium font-dm-sans"
+                      >
                         Contact Person
                       </label>
                       <input
@@ -119,7 +148,10 @@ export default function BusinessPartnerSection({ isBusinessPartnerVisible }: Bus
                       />
                     </div>
                     <div className="space-y-2">
-                      <label htmlFor="email" className="block text-white font-medium font-dm-sans">
+                      <label
+                        htmlFor="email"
+                        className="block text-white font-medium font-dm-sans"
+                      >
                         Email Address
                       </label>
                       <input
@@ -137,7 +169,10 @@ export default function BusinessPartnerSection({ isBusinessPartnerVisible }: Bus
 
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div className="space-y-2">
-                      <label htmlFor="phone" className="block text-white font-medium font-dm-sans">
+                      <label
+                        htmlFor="phone"
+                        className="block text-white font-medium font-dm-sans"
+                      >
                         Phone Number
                       </label>
                       <input
@@ -151,7 +186,10 @@ export default function BusinessPartnerSection({ isBusinessPartnerVisible }: Bus
                       />
                     </div>
                     <div className="space-y-2">
-                      <label htmlFor="businessType" className="block text-white font-medium font-dm-sans">
+                      <label
+                        htmlFor="businessType"
+                        className="block text-white font-medium font-dm-sans"
+                      >
                         Business Type
                       </label>
                       <select
@@ -195,7 +233,10 @@ export default function BusinessPartnerSection({ isBusinessPartnerVisible }: Bus
                   </div>
 
                   <div className="space-y-2">
-                    <label htmlFor="location" className="block text-white font-medium font-dm-sans">
+                    <label
+                      htmlFor="location"
+                      className="block text-white font-medium font-dm-sans"
+                    >
                       Business Location
                     </label>
                     <input
@@ -211,7 +252,10 @@ export default function BusinessPartnerSection({ isBusinessPartnerVisible }: Bus
                   </div>
 
                   <div className="space-y-2">
-                    <label htmlFor="message" className="block text-white font-medium font-dm-sans">
+                    <label
+                      htmlFor="message"
+                      className="block text-white font-medium font-dm-sans"
+                    >
                       How would you like to partner with Evertwine?
                     </label>
                     <textarea
@@ -240,11 +284,15 @@ export default function BusinessPartnerSection({ isBusinessPartnerVisible }: Bus
           {/* Right side - Benefits */}
           <div
             className={`w-full lg:w-1/2 transition-all duration-700 delay-200 transform ${
-              isBusinessPartnerVisible ? "opacity-100 translate-x-0" : "opacity-0 translate-x-10"
+              isBusinessPartnerVisible
+                ? "opacity-100 translate-x-0"
+                : "opacity-0 translate-x-10"
             }`}
           >
             <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-3xl p-8 md:p-10">
-              <h3 className="text-2xl md:text-3xl font-bold text-white mb-8 font-sora">Partnership Benefits</h3>
+              <h3 className="text-2xl md:text-3xl font-bold text-white mb-8 font-sora">
+                Partnership Benefits
+              </h3>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                 {[
@@ -257,35 +305,49 @@ export default function BusinessPartnerSection({ isBusinessPartnerVisible }: Bus
                   {
                     icon: <TrendingUp className="h-8 w-8 text-blue-400" />,
                     title: "Increase Foot Traffic",
-                    description: "Drive real-world visits to your location through our meetup and event features.",
+                    description:
+                      "Drive real-world visits to your location through our meetup and event features.",
                   },
                   {
                     icon: <Building2 className="h-8 w-8 text-blue-400" />,
                     title: "Enhanced Visibility",
-                    description: "Get featured in our app with premium placement and promotional opportunities.",
+                    description:
+                      "Get featured in our app with premium placement and promotional opportunities.",
                   },
                   {
                     icon: <Gift className="h-8 w-8 text-blue-400" />,
                     title: "Exclusive Promotions",
-                    description: "Offer special deals to Evertwine users and track engagement with our analytics.",
+                    description:
+                      "Offer special deals to Evertwine users and track engagement with our analytics.",
                   },
                 ].map((benefit, index) => (
-                  <div key={index} className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-6">
+                  <div
+                    key={index}
+                    className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-6"
+                  >
                     <div className="w-14 h-14 bg-blue-500/20 rounded-full flex items-center justify-center mb-4">
                       {benefit.icon}
                     </div>
-                    <h4 className="text-xl font-semibold text-white mb-2 font-sora">{benefit.title}</h4>
-                    <p className="text-white/70 font-dm-sans">{benefit.description}</p>
+                    <h4 className="text-xl font-semibold text-white mb-2 font-sora">
+                      {benefit.title}
+                    </h4>
+                    <p className="text-white/70 font-dm-sans">
+                      {benefit.description}
+                    </p>
                   </div>
                 ))}
               </div>
 
               <div className="mt-8 p-6 bg-blue-500/10 border border-blue-500/20 rounded-xl">
-                <h4 className="text-xl font-semibold text-white mb-2 font-sora">Our Partnership Approach</h4>
+                <h4 className="text-xl font-semibold text-white mb-2 font-sora">
+                  Our Partnership Approach
+                </h4>
                 <p className="text-white/70 font-dm-sans">
-                  We create customized partnership plans based on your business goals. Whether you're looking to
-                  increase brand awareness, drive foot traffic, or create special offers for our users, we'll work with
-                  you to design a partnership that delivers results.
+                  We create customized partnership plans based on your business
+                  goals. Whether you&apos;re looking to increase brand
+                  awareness, drive foot traffic, or create special offers for
+                  our users, we&apos;ll work with you to design a partnership
+                  that delivers results.
                 </p>
               </div>
             </div>
@@ -293,5 +355,5 @@ export default function BusinessPartnerSection({ isBusinessPartnerVisible }: Bus
         </div>
       </div>
     </section>
-  )
+  );
 }

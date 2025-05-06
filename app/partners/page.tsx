@@ -394,8 +394,8 @@ export default function PartnersPage() {
                       <p className="text-white/70 max-w-md font-dm-sans animate-fade-in-up-delayed">
                         Thank you for your interest in partnering with
                         Evertwine. Your request has been sent to our team at
-                        support@evertwine.social. We'll review your information
-                        and reach out within 2 business days.
+                        support@evertwine.social. We&apos;ll review your
+                        information and reach out within 2 business days.
                       </p>
                     </div>
                   ) : (
@@ -646,10 +646,10 @@ export default function PartnersPage() {
                     </h4>
                     <p className="text-white/70 font-dm-sans">
                       We create customized partnership plans based on your
-                      business goals. Whether you're looking to increase brand
-                      awareness, drive foot traffic, or create special offers
-                      for our users, we'll work with you to design a partnership
-                      that delivers results.
+                      business goals. Whether you&apos;re looking to increase
+                      brand awareness, drive foot traffic, or create special
+                      offers for our users, we&apos;ll work with you to design a
+                      partnership that delivers results.
                     </p>
                   </div>
                 </div>
@@ -755,7 +755,7 @@ export default function PartnersPage() {
                       <p className="text-white/70 max-w-md font-dm-sans animate-fade-in-up-delayed">
                         Thank you for your interest in becoming an Evertwine
                         affiliate partner. Your application has been sent to our
-                        team at support@evertwine.social. We'll review your
+                        team at support@evertwine.social. We&apos;ll review your
                         information and contact you within 2-3 business days.
                       </p>
                     </div>

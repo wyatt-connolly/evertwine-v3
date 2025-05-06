@@ -1,14 +1,20 @@
 interface TestimonialCardProps {
-  quote: string
-  author: string
-  gradient: string
-  isVisible: boolean
-  index: number
+  quote: string;
+  author: string;
+  gradient: string;
+  isVisible: boolean;
+  index: number;
 }
 
-export default function TestimonialCard({ quote, author, gradient, isVisible, index }: TestimonialCardProps) {
+export default function TestimonialCard({
+  quote,
+  author,
+  gradient,
+  isVisible,
+  index,
+}: TestimonialCardProps) {
   // Calculate a staggered delay based on the index
-  const delay = index * 150
+  const delay = index * 150;
 
   return (
     <div
@@ -26,17 +32,21 @@ export default function TestimonialCard({ quote, author, gradient, isVisible, in
         <div className="mb-4 overflow-auto max-h-[160px] md:max-h-[180px] scrollbar-hide">
           <p
             className={`text-white text-base md:text-xl font-medium leading-relaxed transition-all duration-500 ${
-              isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
+              isVisible
+                ? "opacity-100 translate-y-0"
+                : "opacity-0 translate-y-4"
             }`}
             style={{ transitionDelay: isVisible ? `${delay + 200}ms` : "0ms" }}
           >
-            "{quote}"
+            &quot;{quote}&quot;
           </p>
         </div>
         <div>
           <p
             className={`text-white font-medium text-sm md:text-base transition-all duration-500 ${
-              isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
+              isVisible
+                ? "opacity-100 translate-y-0"
+                : "opacity-0 translate-y-4"
             }`}
             style={{ transitionDelay: isVisible ? `${delay + 300}ms` : "0ms" }}
           >
@@ -45,5 +55,5 @@ export default function TestimonialCard({ quote, author, gradient, isVisible, in
         </div>
       </div>
     </div>
-  )
+  );
 }

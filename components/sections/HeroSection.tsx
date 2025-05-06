@@ -59,9 +59,9 @@ export default function HeroSection({ isLoaded }: HeroSectionProps) {
               isLoaded ? "animate-fade-in-up-delayed" : ""
             }`}
           >
-            Meet people near you through real, in-person meetups. Whether you're
-            looking for friends or business connections, Evertwine helps you
-            find your community—safely and authentically.
+            Meet people near you through real, in-person meetups. Whether
+            you&apos;re looking for friends or business connections, Evertwine
+            helps you find your community—safely and authentically.
           </p>
           <div
             className={`mt-6 sm:mt-8 flex flex-col sm:flex-row gap-4 opacity-0 ${
@@ -102,7 +102,7 @@ export default function HeroSection({ isLoaded }: HeroSectionProps) {
               }`}
             >
               Meet people near you through real, in-person meetups. Whether
-              you're looking for friends or business connections, Evertwine
+              you&apos;re looking for friends or business connections, Evertwine
               helps you find your community—safely and authentically.
             </p>
             <div
