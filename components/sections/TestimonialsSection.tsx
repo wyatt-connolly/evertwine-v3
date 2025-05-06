@@ -18,7 +18,6 @@ export default function TestimonialsSection({
   const [isDragging, setIsDragging] = useState(false);
   const [startX, setStartX] = useState(0);
   const [scrollLeft, setScrollLeft] = useState(0);
-  const [dragDistance, setDragDistance] = useState(0);
   const lastDragTimeRef = useRef<number>(0);
   const dragPositionsRef = useRef<{ time: number; position: number }[]>([]);
   const animationFrameRef = useRef<number | null>(null);
@@ -203,8 +202,8 @@ export default function TestimonialsSection({
       }
 
       // Update scroll position directly during drag for responsiveness
+      // Update scroll position directly during drag for responsiveness
       testimonialScrollRef.current.scrollLeft = scrollLeft - walk;
-      setDragDistance(walk);
     }
   };
 

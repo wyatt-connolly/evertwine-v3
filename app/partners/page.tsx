@@ -86,10 +86,7 @@ export default function PartnersPage() {
       rootMargin: "0px 0px -10% 0px",
     };
 
-    const handleIntersection = (
-      entries: IntersectionObserverEntry[],
-      observer: IntersectionObserver
-    ) => {
+    const handleIntersection = (entries: IntersectionObserverEntry[]) => {
       entries.forEach((entry) => {
         if (entry.isIntersecting) {
           const targetId = entry.target.id;
@@ -707,7 +704,6 @@ export default function PartnersPage() {
                         key={index}
                         className={`flex items-start p-4 bg-blue-950/20 border border-blue-900/20 rounded-xl mb-4 transition-all duration-700 hover:translate-x-2 opacity-0`}
                         style={{
-                          animationDelay: `${index * 150 + 300}ms`,
                           animation: inViewElements.affiliateBenefits
                             ? "fadeInRight 0.7s forwards"
                             : "none",
