@@ -27,6 +27,15 @@ body {
   background: rgb(var(--background-rgb));
   font-feature_settings: "ss01", "ss02", "cv01", "cv02";
   font-size: 18px;
+  /* Force scroll to top on page load */
+  overflow-anchor: none;
+}
+
+/* Force scroll to top for all pages */
+html,
+body {
+  scroll-behavior: auto;
+  overflow-x: hidden;
 }
 
 section {
@@ -336,38 +345,6 @@ section {
   animation-delay: 1.5s;
 }
 
-/* Phone mockup styles */
-.phone-mockup {
-  position: relative;
-  width: 180px; /* Much smaller on mobile */
-  height: 360px; /* Much smaller on mobile */
-  background: #f0f0f0;
-  border-radius: 36px;
-  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
-  padding: 8px;
-  overflow: hidden;
-  margin: 0 auto; /* Center the phone */
-  transform: scale(0.85); /* Scale down even further on mobile */
-}
-
-/* Larger phone on desktop */
-@media (min-width: 1024px) {
-  .phone-mockup {
-    width: 280px;
-    height: 560px;
-    padding: 10px;
-    transform: scale(1);
-  }
-}
-
-.phone-screen {
-  width: 100%;
-  height: 100%;
-  background: #000;
-  border-radius: 28px;
-  overflow: hidden;
-}
-
 /* Feature card hover effects */
 .feature-card {
   position: relative;
@@ -420,4 +397,76 @@ section {
 /* Smooth scrolling */
 .scroll-smooth {
   scroll-behavior: smooth;
+}
+
+/* Testimonial and FAQ animations */
+@keyframes fadeInScale {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes slideInStagger {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes pulseGlow {
+  0%,
+  100% {
+    box-shadow: 0 0 0 rgba(59, 130, 246, 0);
+  }
+  50% {
+    box-shadow: 0 0 20px rgba(59, 130, 246, 0.4);
+  }
+}
+
+.animate-fade-in-scale {
+  animation: fadeInScale 0.7s ease forwards;
+}
+
+.animate-slide-in-stagger {
+  animation: slideInStagger 0.5s ease forwards;
+}
+
+.animate-pulse-glow {
+  animation: pulseGlow 2s infinite;
+}
+
+/* Enhanced FAQ animations */
+.faq-item-enter {
+  max-height: 0;
+  opacity: 0;
+  transform: translateY(-10px);
+}
+
+.faq-item-enter-active {
+  max-height: 500px;
+  opacity: 1;
+  transform: translateY(0);
+  transition: all 0.5s ease;
+}
+
+.faq-item-exit {
+  max-height: 500px;
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.faq-item-exit-active {
+  max-height: 0;
+  opacity: 0;
+  transform: translateY(-10px);
+  transition: all 0.5s ease;
 }

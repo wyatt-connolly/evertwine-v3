@@ -64,21 +64,22 @@ export default function MobileMenu({
           >
             <Image
               src="/evertwine-logo.png"
-              width={48}
-              height={48}
-              alt="Evertwine Logo"
+              alt="Evertwine logo"
+              width={32}
+              height={32}
+              className="w-8 h-8 md:w-10 md:h-10 mr-2 md:mr-3"
             />
-            <span className="text-white text-3xl font-bold tracking-tight pl-2">
+            <span className="text-white text-2xl md:text-3xl font-bold tracking-tight font-sora">
               Evertwine
             </span>
           </a>
         </div>
         <button onClick={handleCloseMenu}>
-          <X className="h-10 w-10 text-white" />
+          <X className="h-8 w-8 md:h-10 md:w-10 text-white" />
         </button>
       </div>
       <nav className="mt-20">
-        <ul className="space-y-10">
+        <ul className="space-y-8 font-dm-sans">
           <li>
             <a
               href="#overview"
@@ -103,7 +104,7 @@ export default function MobileMenu({
               className="text-white text-2xl font-light tracking-wide"
               onClick={(e) => handleNavClick(e, "testimonials")}
             >
-              Testimonial
+              Testimonials
             </a>
           </li>
           <li>

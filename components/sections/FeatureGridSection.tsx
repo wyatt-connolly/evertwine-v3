@@ -1,5 +1,4 @@
 "use client"
-
 import { Search, MapPin, Shield, Map, Users, Gift } from "lucide-react"
 
 interface FeatureGridSectionProps {
@@ -10,19 +9,24 @@ export default function FeatureGridSection({ isFeatureGridVisible }: FeatureGrid
   return (
     <section className="min-h-screen bg-black px-4 lg:px-8 flex items-center">
       <div className="container mx-auto">
-        <div className="text-center mb-16">
-          <h2 className="text-5xl lg:text-6xl font-bold mb-4">
+        <div
+          className={`text-center mb-16 transition-all duration-700 transform ${
+            isFeatureGridVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-16"
+          }`}
+        >
+          <h2 className="text-3xl sm:text-4xl lg:text-6xl font-bold mb-4">
             Big on <span className="text-blue-500">features</span>.
           </h2>
-          <p className="text-4xl lg:text-5xl font-bold text-white">Deceptively simple</p>
+          <p className="text-2xl sm:text-3xl lg:text-5xl font-bold text-white">Deceptively simple</p>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {/* Interest-Based Matching Card */}
           <div
-            className={`feature-card rounded-3xl bg-black border border-gray-800 p-6 overflow-hidden transition-all duration-300 hover:border-blue-500 hover:shadow-xl hover:shadow-blue-500/20 ${
-              isFeatureGridVisible ? "animate-feature-card-1" : "opacity-0 translate-y-8"
+            className={`feature-card rounded-3xl bg-black border border-gray-800 p-6 overflow-hidden transition-all duration-500 hover:border-blue-500 hover:shadow-xl hover:shadow-blue-500/20 transform ${
+              isFeatureGridVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-16"
             }`}
+            style={{ transitionDelay: "100ms" }}
           >
             <h3 className="text-white text-2xl font-bold mb-6">🔍 Interest-Based Matching</h3>
             <div className="h-40 w-full relative">
@@ -58,9 +62,10 @@ export default function FeatureGridSection({ isFeatureGridVisible }: FeatureGrid
 
           {/* Real-World Meetups Card */}
           <div
-            className={`feature-card rounded-3xl bg-black border border-gray-800 p-6 overflow-hidden transition-all duration-300 hover:border-blue-500 hover:shadow-xl hover:shadow-blue-500/20 ${
-              isFeatureGridVisible ? "animate-feature-card-2" : "opacity-0 translate-y-8"
+            className={`feature-card rounded-3xl bg-black border border-gray-800 p-6 overflow-hidden transition-all duration-500 hover:border-blue-500 hover:shadow-xl hover:shadow-blue-500/20 transform ${
+              isFeatureGridVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-16"
             }`}
+            style={{ transitionDelay: "200ms" }}
           >
             <h3 className="text-white text-2xl font-bold mb-6">📍 Real-World Meetups</h3>
             <div className="h-40 w-full relative">
@@ -100,9 +105,10 @@ export default function FeatureGridSection({ isFeatureGridVisible }: FeatureGrid
 
           {/* Verified & Vetted Community Card */}
           <div
-            className={`feature-card rounded-3xl bg-black border border-gray-800 p-6 overflow-hidden transition-all duration-300 hover:border-blue-500 hover:shadow-xl hover:shadow-blue-500/20 ${
-              isFeatureGridVisible ? "animate-feature-card-3" : "opacity-0 translate-y-8"
+            className={`feature-card rounded-3xl bg-black border border-gray-800 p-6 overflow-hidden transition-all duration-500 hover:border-blue-500 hover:shadow-xl hover:shadow-blue-500/20 transform ${
+              isFeatureGridVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-16"
             }`}
+            style={{ transitionDelay: "300ms" }}
           >
             <h3 className="text-white text-2xl font-bold mb-6">🛡️ Verified & Vetted Community</h3>
             <div className="h-40 w-full relative">
@@ -130,9 +136,10 @@ export default function FeatureGridSection({ isFeatureGridVisible }: FeatureGrid
 
           {/* Interactive Map & List View Card */}
           <div
-            className={`feature-card rounded-3xl bg-black border border-gray-800 p-6 overflow-hidden transition-all duration-300 hover:border-blue-500 hover:shadow-xl hover:shadow-blue-500/20 ${
-              isFeatureGridVisible ? "animate-feature-card-4" : "opacity-0 translate-y-8"
+            className={`feature-card rounded-3xl bg-black border border-gray-800 p-6 overflow-hidden transition-all duration-500 hover:border-blue-500 hover:shadow-xl hover:shadow-blue-500/20 transform ${
+              isFeatureGridVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-16"
             }`}
+            style={{ transitionDelay: "400ms" }}
           >
             <h3 className="text-white text-2xl font-bold mb-6">🧭 Interactive Map & List View</h3>
             <div className="h-40 w-full relative">
@@ -159,9 +166,10 @@ export default function FeatureGridSection({ isFeatureGridVisible }: FeatureGrid
 
           {/* Friend & Business Modes Card */}
           <div
-            className={`feature-card rounded-3xl bg-black border border-gray-800 p-6 overflow-hidden transition-all duration-300 hover:border-blue-500 hover:shadow-xl hover:shadow-blue-500/20 ${
-              isFeatureGridVisible ? "animate-feature-card-5" : "opacity-0 translate-y-8"
+            className={`feature-card rounded-3xl bg-black border border-gray-800 p-6 overflow-hidden transition-all duration-500 hover:border-blue-500 hover:shadow-xl hover:shadow-blue-500/20 transform ${
+              isFeatureGridVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-16"
             }`}
+            style={{ transitionDelay: "500ms" }}
           >
             <h3 className="text-white text-2xl font-bold mb-6">🔄 Friend & Business Modes</h3>
             <div className="h-40 w-full flex items-center justify-center">
@@ -217,9 +225,10 @@ export default function FeatureGridSection({ isFeatureGridVisible }: FeatureGrid
 
           {/* Local Partner Perks Card */}
           <div
-            className={`feature-card rounded-3xl bg-black border border-gray-800 p-6 overflow-hidden transition-all duration-300 hover:border-blue-500 hover:shadow-xl hover:shadow-blue-500/20 ${
-              isFeatureGridVisible ? "animate-feature-card-6" : "opacity-0 translate-y-8"
+            className={`feature-card rounded-3xl bg-black border border-gray-800 p-6 overflow-hidden transition-all duration-500 hover:border-blue-500 hover:shadow-xl hover:shadow-blue-500/20 transform ${
+              isFeatureGridVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-16"
             }`}
+            style={{ transitionDelay: "600ms" }}
           >
             <h3 className="text-white text-2xl font-bold mb-6">🎁 Local Partner Perks</h3>
             <div className="h-40 w-full relative">

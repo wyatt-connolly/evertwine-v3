@@ -21,6 +21,8 @@ const config = {
     extend: {
       fontFamily: {
         sans: ["var(--font-inter)", "Helvetica Neue", "Helvetica", "Arial", "sans-serif"],
+        sora: ["var(--font-sora)", "sans-serif"],
+        "dm-sans": ["var(--font-dm-sans)", "sans-serif"],
       },
       screens: {
         mobile: { max: "1023px" },

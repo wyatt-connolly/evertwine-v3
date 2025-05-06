@@ -2,7 +2,7 @@
 import { Instagram, Twitter, Facebook } from "lucide-react";
 import type React from "react";
 import { smoothScrollTo } from "@/utils/smooth-scroll";
-import PhoneMockup from "../ui/PhoneMockup";
+import Link from "next/link";
 import Image from "next/image";
 
 interface DownloadSectionProps {
@@ -34,104 +34,63 @@ export default function DownloadSection({
 
   return (
     <section className="relative">
-      {/* Blue gradient background */}
-      <div className="bg-gradient-to-b from-blue-700 to-blue-500 py-12 md:py-16">
-        <div className="container mx-auto px-6 md:px-8">
-          <div className="flex flex-col md:flex-row items-center justify-between">
-            {/* Left side - Text and download button */}
-            <div
-              className={`mb-8 md:mb-0 text-center md:text-left transition-all duration-700 ${
+      {/* Enhanced gradient background */}
+      <div className="bg-gradient-to-b from-blue-900 via-blue-700 to-blue-500 py-20 md:py-24 overflow-hidden relative">
+        {/* Horizontal gradient overlay */}
+        <div className="absolute inset-0 bg-gradient-to-r from-blue-900/80 via-blue-800/60 to-indigo-900/80 mix-blend-multiply"></div>
+
+        {/* Download section content */}
+        <div className="container mx-auto px-6 md:px-8 relative z-10">
+          <div className="text-center max-w-3xl mx-auto">
+            <h2
+              className={`text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6 font-sora transition-all duration-700 ${
                 isDownloadVisible
                   ? "opacity-100 translate-y-0"
                   : "opacity-0 translate-y-10"
               }`}
             >
-              <h2 className="text-2xl md:text-4xl lg:text-5xl font-bold text-white mb-6">
-                Get Evertwine App
-                <br />
-                Right Now
-              </h2>
-              <div className="flex flex-col sm:flex-row justify-center md:justify-start space-y-4 sm:space-y-0 sm:space-x-4">
-                <a
-                  href="#"
-                  className={`inline-flex items-center justify-center space-x-2 bg-white/10 backdrop-blur-sm border border-white/20 rounded-full py-3 px-6 text-white hover:bg-white/20 transition-all duration-300 ${
-                    isDownloadVisible ? "animate-fade-in-up" : "opacity-0"
-                  }`}
-                >
-                  <svg
-                    className="w-5 h-5"
-                    viewBox="0 0 24 24"
-                    fill="currentColor"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path d="M18.71 19.5C17.88 20.74 17 21.95 15.66 21.97C14.32 22 13.89 21.18 12.37 21.18C10.84 21.18 10.37 21.95 9.09998 22C7.78998 22.05 6.79998 20.68 5.95998 19.47C4.24998 17 2.93998 12.45 4.69998 9.39C5.56998 7.87 7.12998 6.91 8.81998 6.88C10.1 6.86 11.32 7.75 12.11 7.75C12.89 7.75 14.37 6.68 15.92 6.84C16.57 6.87 18.39 7.1 19.56 8.82C19.47 8.88 17.39 10.1 17.41 12.63C17.44 15.65 20.06 16.66 20.09 16.67C20.06 16.74 19.67 18.11 18.71 19.5ZM13 3.5C13.73 2.67 14.94 2.04 15.94 2C16.07 3.17 15.6 4.35 14.9 5.19C14.21 6.04 13.09 6.7 11.95 6.61C11.8 5.46 12.36 4.26 13 3.5Z" />
-                  </svg>
-                  <span>AppStore</span>
-                </a>
-              </div>
-            </div>
-
-            {/* Right side - Phone mockup */}
-            <div
-              className={`relative transition-all duration-1000 ${
+              Ready to find your people?
+            </h2>
+            <p
+              className={`text-xl text-white/90 mb-10 font-dm-sans transition-all duration-700 delay-100 ${
                 isDownloadVisible
                   ? "opacity-100 translate-y-0"
-                  : "opacity-0 translate-y-20"
+                  : "opacity-0 translate-y-10"
               }`}
             >
-              <PhoneMockup>
-                <div className="p-4">
-                  <p className="text-gray-300 text-sm lg:text-lg">
-                    Good evening,
-                  </p>
-                  <p className="text-gray-300 text-sm lg:text-lg mb-2 lg:mb-4">
-                    Jacob
-                  </p>
+              Download Evertwine today and start connecting with like-minded
+              individuals in your area.
+            </p>
 
-                  <div className="mb-4 lg:mb-6">
-                    <h3 className="text-white text-3xl lg:text-5xl font-bold">
-                      $7525.25
-                    </h3>
-                    <div className="flex items-center mt-1 lg:mt-2">
-                      <span className="text-green-400 mr-2 text-sm lg:text-base">
-                        +15%
-                      </span>
-                      <span className="text-gray-400 text-xs lg:text-base">
-                        Lorem Ipsum Dolor
-                      </span>
-                    </div>
-                  </div>
-
-                  <div className="mt-4 lg:mt-8">
-                    <button className="w-full py-2 lg:py-4 px-4 lg:px-6 rounded-xl bg-gradient-to-r from-blue-700 to-purple-600 text-white text-base lg:text-xl flex items-center justify-center">
-                      <span className="mr-2">Send Money</span>
-                      <div className="w-6 h-6 lg:w-8 lg:h-8 rounded-full bg-white/20 flex items-center justify-center">
-                        <svg
-                          width="12"
-                          height="12"
-                          viewBox="0 0 24 24"
-                          fill="none"
-                          xmlns="http://www.w3.org/2000/svg"
-                        >
-                          <path
-                            d="M5 12H19M19 12L12 5M19 12L12 19"
-                            stroke="currentColor"
-                            strokeWidth="2"
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                          />
-                        </svg>
-                      </div>
-                    </button>
-                  </div>
-                </div>
-              </PhoneMockup>
+            <div
+              className={`flex flex-col sm:flex-row justify-center gap-6 transition-all duration-700 delay-200 ${
+                isDownloadVisible
+                  ? "opacity-100 translate-y-0"
+                  : "opacity-0 translate-y-10"
+              }`}
+            >
+              <a
+                href="https://apps.apple.com/us/app/evertwine/id6479545288"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center justify-center gap-3 bg-white text-blue-900 px-8 py-4 rounded-full text-lg font-medium hover:bg-gray-100 transition-all duration-300 transform hover:scale-105"
+              >
+                <svg
+                  className="w-6 h-6 flex-shrink-0"
+                  viewBox="0 0 24 24"
+                  fill="currentColor"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path d="M18.71 19.5C17.88 20.74 17 21.95 15.66 21.97C14.32 22 13.89 21.18 12.37 21.18C10.84 21.18 10.37 21.95 9.09998 22C7.78998 22.05 6.79998 20.68 5.95998 19.47C4.24998 17 2.93998 12.45 4.69998 9.39C5.56998 7.87 7.12998 6.91 8.81998 6.88C10.1 6.86 11.32 7.75 12.11 7.75C12.89 7.75 14.37 6.68 15.92 6.84C16.57 6.87 18.39 7.1 19.56 8.82C19.47 8.88 17.39 10.1 17.41 12.63C17.44 15.65 20.06 16.66 20.09 16.67C20.06 16.74 19.67 18.11 18.71 19.5ZM13 3.5C13.73 2.67 14.94 2.04 15.94 2C16.07 3.17 15.6 4.35 14.9 5.19C14.21 6.04 13.09 6.7 11.95 6.61C11.8 5.46 12.36 4.26 13 3.5Z" />
+                </svg>
+                <span className="block">Download on the App Store</span>
+              </a>
             </div>
           </div>
         </div>
       </div>
 
-      {/* Footer section */}
+      {/* Footer section - keep this intact */}
       <footer className="bg-black text-white py-16">
         <div className="container mx-auto px-6 md:px-8">
           {/* Top section */}
@@ -152,24 +111,27 @@ export default function DownloadSection({
                 >
                   <Image
                     src="/evertwine-logo.png"
-                    width={48}
-                    height={48}
-                    alt="Evertwine Logo"
+                    alt="Evertwine logo"
+                    width={32}
+                    height={32}
+                    className="w-8 h-8 mr-3"
                   />
-                  <span className="text-white text-2xl font-bold pl-2">
+                  <span className="text-white text-2xl font-bold font-sora">
                     Evertwine
                   </span>
                 </a>
               </div>
-              <p className="text-gray-400 text-sm">
+              <p className="text-gray-400 text-sm font-dm-sans">
                 Meet people near you through real, in-person meetups. Whether
-                you&apos;re looking for friends or business connections,
-                Evertwine helps you find your community.
+                you're looking for friends or business connections, Evertwine
+                helps you find your community.
               </p>
               <div className="mt-6">
                 <a
-                  href="#"
-                  className="inline-flex items-center justify-center space-x-2 bg-black border border-gray-800 rounded-lg py-2 px-4 text-white hover:bg-gray-900 transition-all duration-300"
+                  href="https://apps.apple.com/us/app/evertwine/id6479545288"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center justify-center space-x-2 bg-black border border-gray-800 rounded-lg py-2 px-4 text-white hover:bg-gray-900 transition-all duration-300 font-dm-sans"
                 >
                   <svg
                     className="w-5 h-5"
@@ -192,8 +154,8 @@ export default function DownloadSection({
                   : "opacity-0 translate-y-10"
               }`}
             >
-              <h3 className="text-lg font-semibold mb-6">Product</h3>
-              <ul className="space-y-4">
+              <h3 className="text-lg font-semibold mb-6 font-sora">Product</h3>
+              <ul className="space-y-4 font-dm-sans">
                 <li>
                   <a
                     href="#overview"
@@ -233,7 +195,7 @@ export default function DownloadSection({
               </ul>
             </div>
 
-            {/* Template links */}
+            {/* Legal links - Updated with all legal documents */}
             <div
               className={`transition-all duration-700 delay-300 ${
                 isDownloadVisible
@@ -241,31 +203,55 @@ export default function DownloadSection({
                   : "opacity-0 translate-y-10"
               }`}
             >
-              <h3 className="text-lg font-semibold mb-6">Template</h3>
-              <ul className="space-y-4">
+              <h3 className="text-lg font-semibold mb-6 font-sora">Legal</h3>
+              <ul className="space-y-4 font-dm-sans">
                 <li>
-                  <a
-                    href="#"
+                  <Link
+                    href="/legal/eula"
                     className="text-gray-400 hover:text-white transition-colors"
                   >
-                    Style Guide
-                  </a>
+                    End User License Agreement
+                  </Link>
                 </li>
                 <li>
-                  <a
-                    href="#"
+                  <Link
+                    href="/legal/privacy-policy"
                     className="text-gray-400 hover:text-white transition-colors"
                   >
-                    Licences
-                  </a>
+                    Privacy Policy
+                  </Link>
                 </li>
                 <li>
-                  <a
-                    href="#"
+                  <Link
+                    href="/legal/cookie-policy"
                     className="text-gray-400 hover:text-white transition-colors"
                   >
-                    Changelog
-                  </a>
+                    Cookie Policy
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    href="/legal/terms-of-service"
+                    className="text-gray-400 hover:text-white transition-colors"
+                  >
+                    Terms of Service
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    href="/legal/health-privacy"
+                    className="text-gray-400 hover:text-white transition-colors"
+                  >
+                    Health Data Privacy
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    href="/legal/colorado-privacy"
+                    className="text-gray-400 hover:text-white transition-colors"
+                  >
+                    Colorado Privacy Notice
+                  </Link>
                 </li>
               </ul>
             </div>
@@ -301,7 +287,7 @@ export default function DownloadSection({
               </a>
             </div>
             <div
-              className={`text-gray-500 text-sm transition-all duration-700 delay-500 ${
+              className={`text-gray-500 text-sm transition-all duration-700 delay-500 font-dm-sans ${
                 isDownloadVisible ? "opacity-100" : "opacity-0"
               }`}
             >

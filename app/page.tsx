@@ -32,6 +32,7 @@ export default function Home() {
   const testimonialsRef = useRef<HTMLDivElement>(null)
   const faqRef = useRef<HTMLDivElement>(null)
   const downloadRef = useRef<HTMLDivElement>(null)
+  const heroRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     // Trigger the animation after component mount
@@ -145,7 +146,10 @@ export default function Home() {
     // Handle scroll event for navbar background change
     const handleScroll = () => {
       const scrollPosition = window.scrollY
-      if (scrollPosition > 50) {
+      const windowHeight = window.innerHeight
+
+      // Change navbar background when scrolled 75% down the hero section
+      if (scrollPosition > windowHeight * 0.75) {
         setScrolled(true)
       } else {
         setScrolled(false)
@@ -182,7 +186,7 @@ export default function Home() {
   }
 
   return (
-    <div className="min-h-screen bg-blue-900">
+    <div className="min-h-screen bg-gradient-to-b from-blue-900 to-black">
       {/* Mobile Menu */}
       <MobileMenu mobileMenuOpen={mobileMenuOpen} menuAnimation={menuAnimation} handleCloseMenu={handleCloseMenu} />
 
@@ -192,7 +196,7 @@ export default function Home() {
         <Navbar scrolled={scrolled} setMobileMenuOpen={setMobileMenuOpen} />
 
         {/* Hero Section */}
-        <section id="overview" className="h-screen">
+        <section id="overview" className="h-screen" ref={heroRef}>
           <HeroSection isLoaded={isLoaded} />
         </section>
 
