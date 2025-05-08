@@ -23,10 +23,12 @@ export default function FeatureSection({
           }`}
         ></div>
 
-        {/* Phone content */}
+        {/* Phone content - hidden until visible */}
         <div
-          className={`relative w-[40%] sm:w-[35%] md:w-[30%] lg:w-[40%] xl:w-[50%] 2xl:w-[65%] max-w-[450px] z-10 transition-transform duration-1000 ${
-            isFeatureVisible ? "translate-x-0" : "-translate-x-full"
+          className={`relative w-[40%] sm:w-[35%] md:w-[30%] lg:w-[40%] xl:w-[50%] 2xl:w-[65%] max-w-[450px] z-10 transition-all duration-1000 ${
+            isFeatureVisible
+              ? "translate-x-0 opacity-100"
+              : "-translate-x-full opacity-0"
           }`}
         >
           <div className="relative">

@@ -65,7 +65,7 @@ export default function LegalLayout({
               <div className="flex items-center mb-4">
                 <Link href="/" className="flex items-center">
                   <Image
-                    src="/images/evertwine-logo.png"
+                    src="/evertwine-logo.png"
                     alt="Evertwine logo"
                     width={32}
                     height={32}
