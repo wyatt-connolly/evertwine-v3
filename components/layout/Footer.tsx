@@ -32,7 +32,7 @@ export default function Footer({ isHomepage = false }: FooterProps) {
             </div>
             <p className="text-gray-400 text-sm mb-6">
               Meet people near you through real, in-person meetups. Whether
-              you're looking for friends or business connections, Evertwine
+              you&apos;re looking for friends or business connections, Evertwine
               helps you find your community—safely and authentically.
             </p>
             <div className="flex flex-wrap gap-4">

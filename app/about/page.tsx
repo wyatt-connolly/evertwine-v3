@@ -1,37 +1,48 @@
-"use client"
+"use client";
 
-import { useEffect, useState, useRef } from "react"
-import { motion, useInView } from "framer-motion"
-import { ArrowRight, Check, Users, Shield, Zap, Clock, Target, BarChart, PieChart, Lightbulb } from "lucide-react"
-import LegalNavbar from "@/components/layout/LegalNavbar"
-import Footer from "@/components/layout/Footer"
+import { useEffect, useState, useRef } from "react";
+import { motion, useInView } from "framer-motion";
+import {
+  ArrowRight,
+  Check,
+  Users,
+  Shield,
+  Zap,
+  Clock,
+  Target,
+  BarChart,
+  PieChart,
+  Lightbulb,
+} from "lucide-react";
+import LegalNavbar from "@/components/layout/LegalNavbar";
+import Footer from "@/components/layout/Footer";
 
 export default function AboutPage() {
-  const [scrolled, setScrolled] = useState(false)
+  const [scrolled, setScrolled] = useState(false);
 
   // Refs for scroll animations
-  const problemRef = useRef<HTMLDivElement>(null)
-  const marketRef = useRef<HTMLDivElement>(null)
-  const futureRef = useRef<HTMLDivElement>(null)
+  const problemRef = useRef<HTMLDivElement>(null);
+  const marketRef = useRef<HTMLDivElement>(null);
+  const futureRef = useRef<HTMLDivElement>(null);
 
-  const problemInView = useInView(problemRef, { once: true, amount: 0.3 })
-  const marketInView = useInView(marketRef, { once: true, amount: 0.3 })
-  const futureInView = useInView(futureRef, { once: true, amount: 0.3 })
+  const problemInView = useInView(problemRef, { once: true, amount: 0.3 });
+  const marketInView = useInView(marketRef, { once: true, amount: 0.3 });
+  const futureInView = useInView(futureRef, { once: true, amount: 0.3 });
 
   useEffect(() => {
     const handleScroll = () => {
       if (window.scrollY > 50) {
-        setScrolled(true)
+        setScrolled(true);
       } else {
-        setScrolled(false)
+        setScrolled(false);
       }
-    }
+    };
 
-    window.addEventListener("scroll", handleScroll)
+    window.addEventListener("scroll", handleScroll);
     return () => {
-      window.removeEventListener("scroll", handleScroll)
-    }
-  }, [])
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
 
   return (
     <main className="min-h-screen bg-black text-white">
@@ -54,11 +65,14 @@ export default function AboutPage() {
               className="mb-12"
             >
               <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 font-sora">
-                The <span className="text-blue-400">Problem</span> We&apos;re Solving
+                The <span className="text-blue-400">Problem</span> We&apos;re
+                Solving
               </h1>
               <p className="text-xl text-gray-300 mb-8">
-                In today&apos;s digital world, genuine human connection has become increasingly rare. Despite being more
-                &quot;connected&quot; than ever through social media, many people report feeling isolated and lonely.
+                In today&apos;s digital world, genuine human connection has
+                become increasingly rare. Despite being more
+                &quot;connected&quot; than ever through social media, many
+                people report feeling isolated and lonely.
               </p>
             </motion.div>
 
@@ -69,11 +83,15 @@ export default function AboutPage() {
                 transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
                 className="bg-white/5 backdrop-blur-sm p-8 rounded-2xl border border-white/10 hover:border-blue-500/30 transition-all duration-300"
               >
-                <h3 className="text-2xl font-semibold mb-4 font-sora">Digital Disconnect</h3>
+                <h3 className="text-2xl font-semibold mb-4 font-sora">
+                  Digital Disconnect
+                </h3>
                 <p className="text-gray-300">
-                  Studies show that despite spending an average of 7+ hours daily on digital devices, 61% of young
-                  adults report feeling &quot;very lonely&quot; on a regular basis. Traditional social media often
-                  creates shallow connections rather than meaningful relationships.
+                  Studies show that despite spending an average of 7+ hours
+                  daily on digital devices, 61% of young adults report feeling
+                  &quot;very lonely&quot; on a regular basis. Traditional social
+                  media often creates shallow connections rather than meaningful
+                  relationships.
                 </p>
               </motion.div>
 
@@ -83,11 +101,14 @@ export default function AboutPage() {
                 transition={{ duration: 0.8, delay: 0.4, ease: "easeOut" }}
                 className="bg-white/5 backdrop-blur-sm p-8 rounded-2xl border border-white/10 hover:border-purple-500/30 transition-all duration-300"
               >
-                <h3 className="text-2xl font-semibold mb-4 font-sora">Safety Concerns</h3>
+                <h3 className="text-2xl font-semibold mb-4 font-sora">
+                  Safety Concerns
+                </h3>
                 <p className="text-gray-300">
-                  Meeting new people in-person comes with legitimate safety concerns. 48% of adults say they avoid
-                  meeting new people due to safety worries, and 73% of women report having safety concerns when
-                  considering attending events with strangers.
+                  Meeting new people in-person comes with legitimate safety
+                  concerns. 48% of adults say they avoid meeting new people due
+                  to safety worries, and 73% of women report having safety
+                  concerns when considering attending events with strangers.
                 </p>
               </motion.div>
             </div>
@@ -98,28 +119,40 @@ export default function AboutPage() {
               transition={{ duration: 0.8, delay: 0.6, ease: "easeOut" }}
               className="mt-12 bg-gradient-to-r from-blue-500/20 to-purple-500/20 p-8 rounded-2xl border border-white/10"
             >
-              <h3 className="text-2xl font-semibold mb-4 font-sora">Our Solution</h3>
+              <h3 className="text-2xl font-semibold mb-4 font-sora">
+                Our Solution
+              </h3>
               <p className="text-gray-200 mb-4">
-                Evertwine bridges the gap between digital convenience and authentic human connection. We&apos;ve created
-                a platform that facilitates real-world meetups while prioritizing safety, verification, and community
-                building.
+                Evertwine bridges the gap between digital convenience and
+                authentic human connection. We&apos;ve created a platform that
+                facilitates real-world meetups while prioritizing safety,
+                verification, and community building.
               </p>
               <div className="grid md:grid-cols-2 gap-4 mt-6">
                 <div className="flex items-start">
                   <Check className="text-green-400 mr-3 mt-1 flex-shrink-0" />
-                  <p className="text-gray-300">ID verification and safety features built into every interaction</p>
+                  <p className="text-gray-300">
+                    ID verification and safety features built into every
+                    interaction
+                  </p>
                 </div>
                 <div className="flex items-start">
                   <Check className="text-green-400 mr-3 mt-1 flex-shrink-0" />
-                  <p className="text-gray-300">Location-based meetups with like-minded individuals</p>
+                  <p className="text-gray-300">
+                    Location-based meetups with like-minded individuals
+                  </p>
                 </div>
                 <div className="flex items-start">
                   <Check className="text-green-400 mr-3 mt-1 flex-shrink-0" />
-                  <p className="text-gray-300">Community-driven events and interest groups</p>
+                  <p className="text-gray-300">
+                    Community-driven events and interest groups
+                  </p>
                 </div>
                 <div className="flex items-start">
                   <Check className="text-green-400 mr-3 mt-1 flex-shrink-0" />
-                  <p className="text-gray-300">Privacy-first approach to social networking</p>
+                  <p className="text-gray-300">
+                    Privacy-first approach to social networking
+                  </p>
                 </div>
               </div>
             </motion.div>
@@ -128,7 +161,10 @@ export default function AboutPage() {
       </section>
 
       {/* Market Opportunity Section */}
-      <section ref={marketRef} className="py-20 relative overflow-hidden bg-black">
+      <section
+        ref={marketRef}
+        className="py-20 relative overflow-hidden bg-black"
+      >
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(59,130,246,0.1),transparent_70%)]"></div>
 
         <div className="container mx-auto px-6 relative z-10">
@@ -142,7 +178,8 @@ export default function AboutPage() {
               The <span className="text-blue-400">Opportunity</span>
             </h2>
             <p className="text-xl text-gray-300">
-              We're addressing a significant and growing need in today's increasingly digital society.
+              We&apos;re addressing a significant and growing need in
+              today&apos;s increasingly digital society.
             </p>
           </motion.div>
 
@@ -170,7 +207,9 @@ export default function AboutPage() {
                   </div>
                   <div className="flex justify-between mt-2 text-sm">
                     <span className="text-gray-400">Social Networking</span>
-                    <span className="text-blue-400 font-medium">$223B by 2025</span>
+                    <span className="text-blue-400 font-medium">
+                      $223B by 2025
+                    </span>
                   </div>
                 </div>
 
@@ -185,7 +224,9 @@ export default function AboutPage() {
                   </div>
                   <div className="flex justify-between mt-2 text-sm">
                     <span className="text-gray-400">Event Discovery</span>
-                    <span className="text-blue-400 font-medium">$87B by 2025</span>
+                    <span className="text-blue-400 font-medium">
+                      $87B by 2025
+                    </span>
                   </div>
                 </div>
 
@@ -200,14 +241,16 @@ export default function AboutPage() {
                   </div>
                   <div className="flex justify-between mt-2 text-sm">
                     <span className="text-gray-400">Safety Tech</span>
-                    <span className="text-blue-400 font-medium">$54B by 2025</span>
+                    <span className="text-blue-400 font-medium">
+                      $54B by 2025
+                    </span>
                   </div>
                 </div>
               </div>
 
               <p className="mt-6 text-gray-300">
-                Our platform sits at the intersection of these growing markets, with a unique focus on authentic
-                connections and safety.
+                Our platform sits at the intersection of these growing markets,
+                with a unique focus on authentic connections and safety.
               </p>
             </motion.div>
 
@@ -228,10 +271,13 @@ export default function AboutPage() {
                     <BarChart className="h-6 w-6 text-blue-400" />
                   </div>
                   <div>
-                    <h4 className="font-medium text-white mb-1">Growing Loneliness Epidemic</h4>
+                    <h4 className="font-medium text-white mb-1">
+                      Growing Loneliness Epidemic
+                    </h4>
                     <p className="text-gray-300 text-sm">
-                      36% of Americans report feeling "serious loneliness," with rates highest among young adults (61%)
-                      and mothers with young children (51%).
+                      36% of Americans report feeling &quot;serious
+                      loneliness,&quot; with rates highest among young adults
+                      (61%) and mothers with young children (51%).
                     </p>
                   </div>
                 </div>
@@ -241,9 +287,12 @@ export default function AboutPage() {
                     <PieChart className="h-6 w-6 text-purple-400" />
                   </div>
                   <div>
-                    <h4 className="font-medium text-white mb-1">Digital Fatigue</h4>
+                    <h4 className="font-medium text-white mb-1">
+                      Digital Fatigue
+                    </h4>
                     <p className="text-gray-300 text-sm">
-                      73% of Gen Z and Millennials report experiencing "digital fatigue" and express desire for more
+                      73% of Gen Z and Millennials report experiencing
+                      &quot;digital fatigue&quot; and express desire for more
                       in-person interactions.
                     </p>
                   </div>
@@ -254,9 +303,12 @@ export default function AboutPage() {
                     <Users className="h-6 w-6 text-green-400" />
                   </div>
                   <div>
-                    <h4 className="font-medium text-white mb-1">Safety Concerns</h4>
+                    <h4 className="font-medium text-white mb-1">
+                      Safety Concerns
+                    </h4>
                     <p className="text-gray-300 text-sm">
-                      82% of women and 52% of men consider safety features "extremely important" when using platforms to
+                      82% of women and 52% of men consider safety features
+                      &quot;extremely important&quot; when using platforms to
                       meet new people.
                     </p>
                   </div>
@@ -265,8 +317,8 @@ export default function AboutPage() {
 
               <div className="mt-6 pt-6 border-t border-white/10">
                 <p className="text-gray-300">
-                  These insights drive our product development, focusing on creating safe, meaningful connections in a
-                  digital age.
+                  These insights drive our product development, focusing on
+                  creating safe, meaningful connections in a digital age.
                 </p>
               </div>
             </motion.div>
@@ -279,8 +331,8 @@ export default function AboutPage() {
             className="mt-16 max-w-3xl mx-auto text-center"
           >
             <p className="text-xl text-gray-300 italic">
-              &quot;We&apos;re building Evertwine to be the bridge between digital convenience and authentic human
-              connection.&quot;
+              &quot;We&apos;re building Evertwine to be the bridge between
+              digital convenience and authentic human connection.&quot;
             </p>
           </motion.div>
         </div>
@@ -304,8 +356,8 @@ export default function AboutPage() {
               The <span className="text-blue-400">Future</span> of Evertwine
             </h2>
             <p className="text-xl text-gray-300">
-              We&apos;re constantly evolving to create the best platform for authentic connections. Here&apos;s
-              what&apos;s coming next:
+              We&apos;re constantly evolving to create the best platform for
+              authentic connections. Here&apos;s what&apos;s coming next:
             </p>
           </motion.div>
 
@@ -340,10 +392,13 @@ export default function AboutPage() {
                   />
                 </svg>
               </div>
-              <h3 className="text-2xl font-semibold mb-4 font-sora">Exclusive Local Promotions</h3>
+              <h3 className="text-2xl font-semibold mb-4 font-sora">
+                Exclusive Local Promotions
+              </h3>
               <p className="text-gray-300 mb-4">
-                Unlock special deals at your favorite local spots—coffee shops, restaurants, and venues—just for being
-                active on Evertwine. The more you show up, the more perks you get.
+                Unlock special deals at your favorite local spots—coffee shops,
+                restaurants, and venues—just for being active on Evertwine. The
+                more you show up, the more perks you get.
               </p>
               <p className="text-orange-400 flex items-center font-medium">
                 Coming Q3 2025 <ArrowRight className="ml-2 h-4 w-4" />
@@ -360,10 +415,13 @@ export default function AboutPage() {
               <div className="bg-gradient-to-br from-blue-500/20 to-purple-500/20 p-4 rounded-xl mb-6 inline-block group-hover:scale-110 transition-transform duration-300">
                 <Shield className="h-8 w-8 text-blue-400" />
               </div>
-              <h3 className="text-2xl font-semibold mb-4 font-sora">Enhanced Safety Features</h3>
+              <h3 className="text-2xl font-semibold mb-4 font-sora">
+                Enhanced Safety Features
+              </h3>
               <p className="text-gray-300 mb-4">
-                We're developing advanced AI-powered safety features, including behavior analysis and enhanced
-                verification systems to ensure all meetups remain secure.
+                We&apos;re developing advanced AI-powered safety features,
+                including behavior analysis and enhanced verification systems to
+                ensure all meetups remain secure.
               </p>
               <p className="text-blue-400 flex items-center font-medium">
                 Coming Q4 2025 <ArrowRight className="ml-2 h-4 w-4" />
@@ -380,10 +438,13 @@ export default function AboutPage() {
               <div className="bg-gradient-to-br from-purple-500/20 to-pink-500/20 p-4 rounded-xl mb-6 inline-block group-hover:scale-110 transition-transform duration-300">
                 <Zap className="h-8 w-8 text-purple-400" />
               </div>
-              <h3 className="text-2xl font-semibold mb-4 font-sora">Interest-Based Communities</h3>
+              <h3 className="text-2xl font-semibold mb-4 font-sora">
+                Interest-Based Communities
+              </h3>
               <p className="text-gray-300 mb-4">
-                We're expanding our platform to include dedicated interest-based communities, allowing users to connect
-                over shared passions and organize regular meetups.
+                We&apos;re expanding our platform to include dedicated
+                interest-based communities, allowing users to connect over
+                shared passions and organize regular meetups.
               </p>
               <p className="text-purple-400 flex items-center font-medium">
                 Coming Q4 2025 <ArrowRight className="ml-2 h-4 w-4" />
@@ -400,10 +461,13 @@ export default function AboutPage() {
               <div className="bg-gradient-to-br from-green-500/20 to-blue-500/20 p-4 rounded-xl mb-6 inline-block group-hover:scale-110 transition-transform duration-300">
                 <Clock className="h-8 w-8 text-green-400" />
               </div>
-              <h3 className="text-2xl font-semibold mb-4 font-sora">Event Planning Tools</h3>
+              <h3 className="text-2xl font-semibold mb-4 font-sora">
+                Event Planning Tools
+              </h3>
               <p className="text-gray-300 mb-4">
-                Advanced event planning tools will make organizing meetups easier than ever, with integrated scheduling,
-                venue recommendations, and attendance management.
+                Advanced event planning tools will make organizing meetups
+                easier than ever, with integrated scheduling, venue
+                recommendations, and attendance management.
               </p>
               <p className="text-green-400 flex items-center font-medium">
                 Coming Q1 2026 <ArrowRight className="ml-2 h-4 w-4" />
@@ -432,5 +496,5 @@ export default function AboutPage() {
       {/* Footer - without isHomepage prop */}
       <Footer />
     </main>
-  )
+  );
 }
