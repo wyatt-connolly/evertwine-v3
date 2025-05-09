@@ -267,7 +267,6 @@ export default function PartnersPage() {
                 pageLoaded ? "opacity-100" : "opacity-0 translate-x-8"
               }`}
             >
-              <ArrowLeft className="h-4 w-4" />
               <span>Back to Home</span>
             </Link>
           </div>
