@@ -18,7 +18,7 @@ export default function Navbar({ scrolled }: NavbarProps) {
           <div className="flex items-center">
             <Link href="/" className="flex items-center">
               <Image
-                src="s/evertwine-logo.png"
+                src="/evertwine-logo.png"
                 alt="Evertwine logo"
                 width={32}
                 height={32}
