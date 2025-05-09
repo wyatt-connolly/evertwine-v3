@@ -87,11 +87,15 @@ export default function AboutPage() {
                   Digital Disconnect
                 </h3>
                 <p className="text-gray-300">
-                  Studies show that despite spending an average of 7+ hours
-                  daily on digital devices, 61% of young adults report feeling
-                  &quot;very lonely&quot; on a regular basis. Traditional social
-                  media often creates shallow connections rather than meaningful
-                  relationships.
+                  Studies show that despite spending an average of{" "}
+                  <span className="text-blue-400 font-semibold">
+                    7+ hours daily
+                  </span>{" "}
+                  on digital devices,{" "}
+                  <span className="text-blue-400 font-semibold">61%</span> of
+                  young adults report feeling &quot;very lonely&quot; on a
+                  regular basis. Traditional social media often creates shallow
+                  connections rather than meaningful relationships.
                 </p>
               </motion.div>
 
@@ -106,9 +110,13 @@ export default function AboutPage() {
                 </h3>
                 <p className="text-gray-300">
                   Meeting new people in-person comes with legitimate safety
-                  concerns. 48% of adults say they avoid meeting new people due
-                  to safety worries, and 73% of women report having safety
-                  concerns when considering attending events with strangers.
+                  concerns.{" "}
+                  <span className="text-purple-400 font-semibold">48%</span> of
+                  adults say they avoid meeting new people due to safety
+                  worries, and{" "}
+                  <span className="text-purple-400 font-semibold">73%</span> of
+                  women report having safety concerns when considering attending
+                  events with strangers.
                 </p>
               </motion.div>
             </div>
@@ -123,10 +131,11 @@ export default function AboutPage() {
                 Our Solution
               </h3>
               <p className="text-gray-200 mb-4">
-                Evertwine bridges the gap between digital convenience and
-                authentic human connection. We&apos;ve created a platform that
-                facilitates real-world meetups while prioritizing safety,
-                verification, and community building.
+                <span className="text-white font-semibold">Evertwine</span>{" "}
+                bridges the gap between digital convenience and authentic human
+                connection. We&apos;ve created a platform that facilitates
+                real-world meetups while prioritizing safety, verification, and
+                community building.
               </p>
               <div className="grid md:grid-cols-2 gap-4 mt-6">
                 <div className="flex items-start">
@@ -207,9 +216,17 @@ export default function AboutPage() {
                   </div>
                   <div className="flex justify-between mt-2 text-sm">
                     <span className="text-gray-400">Social Networking</span>
-                    <span className="text-blue-400 font-medium">
-                      $223B by 2025
-                    </span>
+                    <div>
+                      <span className="text-gray-400">Today: </span>
+                      <span className="text-blue-400 font-medium text-base">
+                        $142B
+                      </span>
+                      <span className="mx-2 text-gray-500">→</span>
+                      <span className="text-gray-400">2030: </span>
+                      <span className="text-blue-400 font-bold text-lg">
+                        $223B
+                      </span>
+                    </div>
                   </div>
                 </div>
 
@@ -224,9 +241,17 @@ export default function AboutPage() {
                   </div>
                   <div className="flex justify-between mt-2 text-sm">
                     <span className="text-gray-400">Event Discovery</span>
-                    <span className="text-blue-400 font-medium">
-                      $87B by 2025
-                    </span>
+                    <div>
+                      <span className="text-gray-400">Today: </span>
+                      <span className="text-blue-400 font-medium text-base">
+                        $52B
+                      </span>
+                      <span className="mx-2 text-gray-500">→</span>
+                      <span className="text-gray-400">2030: </span>
+                      <span className="text-blue-400 font-bold text-lg">
+                        $87B
+                      </span>
+                    </div>
                   </div>
                 </div>
 
@@ -241,9 +266,17 @@ export default function AboutPage() {
                   </div>
                   <div className="flex justify-between mt-2 text-sm">
                     <span className="text-gray-400">Safety Tech</span>
-                    <span className="text-blue-400 font-medium">
-                      $54B by 2025
-                    </span>
+                    <div>
+                      <span className="text-gray-400">Today: </span>
+                      <span className="text-blue-400 font-medium text-base">
+                        $27B
+                      </span>
+                      <span className="mx-2 text-gray-500">→</span>
+                      <span className="text-gray-400">2030: </span>
+                      <span className="text-blue-400 font-bold text-lg">
+                        $54B
+                      </span>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -275,9 +308,12 @@ export default function AboutPage() {
                       Growing Loneliness Epidemic
                     </h4>
                     <p className="text-gray-300 text-sm">
-                      36% of Americans report feeling &quot;serious
-                      loneliness,&quot; with rates highest among young adults
-                      (61%) and mothers with young children (51%).
+                      <span className="text-blue-400 font-semibold">36%</span>{" "}
+                      of Americans report feeling &quot;serious
+                      loneliness,&quot; with rates highest among young adults (
+                      <span className="text-blue-400 font-semibold">61%</span>)
+                      and mothers with young children (
+                      <span className="text-blue-400 font-semibold">51%</span>).
                     </p>
                   </div>
                 </div>
@@ -291,9 +327,14 @@ export default function AboutPage() {
                       Digital Fatigue
                     </h4>
                     <p className="text-gray-300 text-sm">
-                      73% of Gen Z and Millennials report experiencing
-                      &quot;digital fatigue&quot; and express desire for more
-                      in-person interactions.
+                      <span className="text-purple-400 font-semibold">73%</span>{" "}
+                      of <span className="text-white font-medium">Gen Z</span>{" "}
+                      and{" "}
+                      <span className="text-white font-medium">
+                        Millennials
+                      </span>{" "}
+                      report experiencing &quot;digital fatigue&quot; and
+                      express desire for more in-person interactions.
                     </p>
                   </div>
                 </div>
@@ -307,9 +348,11 @@ export default function AboutPage() {
                       Safety Concerns
                     </h4>
                     <p className="text-gray-300 text-sm">
-                      82% of women and 52% of men consider safety features
-                      &quot;extremely important&quot; when using platforms to
-                      meet new people.
+                      <span className="text-green-400 font-semibold">82%</span>{" "}
+                      of women and{" "}
+                      <span className="text-green-400 font-semibold">52%</span>{" "}
+                      of men consider safety features &quot;extremely
+                      important&quot; when using platforms to meet new people.
                     </p>
                   </div>
                 </div>
@@ -331,8 +374,10 @@ export default function AboutPage() {
             className="mt-16 max-w-3xl mx-auto text-center"
           >
             <p className="text-xl text-gray-300 italic">
-              &quot;We&apos;re building Evertwine to be the bridge between
-              digital convenience and authentic human connection.&quot;
+              &quot;We&apos;re building{" "}
+              <span className="text-white font-semibold">Evertwine</span> to be
+              the bridge between digital convenience and authentic human
+              connection.&quot;
             </p>
           </motion.div>
         </div>
@@ -401,7 +446,8 @@ export default function AboutPage() {
                 more you show up, the more perks you get.
               </p>
               <p className="text-orange-400 flex items-center font-medium">
-                Coming Q3 2025 <ArrowRight className="ml-2 h-4 w-4" />
+                Coming <span className="font-bold">Q3 2025</span>{" "}
+                <ArrowRight className="ml-2 h-4 w-4" />
               </p>
             </motion.div>
 
@@ -424,7 +470,8 @@ export default function AboutPage() {
                 ensure all meetups remain secure.
               </p>
               <p className="text-blue-400 flex items-center font-medium">
-                Coming Q4 2025 <ArrowRight className="ml-2 h-4 w-4" />
+                Coming <span className="font-bold">Q4 2025</span>{" "}
+                <ArrowRight className="ml-2 h-4 w-4" />
               </p>
             </motion.div>
 
@@ -447,7 +494,8 @@ export default function AboutPage() {
                 shared passions and organize regular meetups.
               </p>
               <p className="text-purple-400 flex items-center font-medium">
-                Coming Q4 2025 <ArrowRight className="ml-2 h-4 w-4" />
+                Coming <span className="font-bold">Q4 2025</span>{" "}
+                <ArrowRight className="ml-2 h-4 w-4" />
               </p>
             </motion.div>
 
@@ -470,7 +518,8 @@ export default function AboutPage() {
                 recommendations, and attendance management.
               </p>
               <p className="text-green-400 flex items-center font-medium">
-                Coming Q1 2026 <ArrowRight className="ml-2 h-4 w-4" />
+                Coming <span className="font-bold">Q1 2026</span>{" "}
+                <ArrowRight className="ml-2 h-4 w-4" />
               </p>
             </motion.div>
           </div>
