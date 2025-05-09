@@ -3,6 +3,8 @@ import type React from "react";
 import { X } from "lucide-react";
 import { smoothScrollTo } from "@/utils/smooth-scroll";
 import Image from "next/image";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 interface MobileMenuProps {
   mobileMenuOpen: boolean;
@@ -15,6 +17,9 @@ export default function MobileMenu({
   menuAnimation,
   handleCloseMenu,
 }: MobileMenuProps) {
+  const pathname = usePathname();
+  const isHomePage = pathname === "/";
+
   if (!mobileMenuOpen && menuAnimation !== "slideOut") {
     return null;
   }
@@ -27,6 +32,14 @@ export default function MobileMenu({
 
     // First close the menu
     handleCloseMenu();
+
+    if (!isHomePage) {
+      // If not on home page, navigate to home page with hash after menu closes
+      setTimeout(() => {
+        window.location.href = `/#${targetId}`;
+      }, 400);
+      return;
+    }
 
     // Then scroll to the section after the menu animation completes
     setTimeout(() => {
@@ -47,23 +60,17 @@ export default function MobileMenu({
 
   return (
     <div
-      className={`fixed inset-0 bg-black z-50 p-8 ${
-        menuAnimation === "slideIn"
-          ? "animate-slide-in"
-          : menuAnimation === "slideOut"
-          ? "animate-slide-out"
-          : ""
-      }`}
+      className={`fixed inset-0 bg-black z-50 p-8 ${menuAnimation === "slideIn" ? "animate-slide-in" : menuAnimation === "slideOut" ? "animate-slide-out" : ""}`}
     >
       <div className="flex justify-between items-center">
         <div className="flex items-center">
-          <a
-            href="#overview"
-            onClick={(e) => handleNavClick(e, "overview")}
+          <Link
+            href="/"
+            onClick={handleCloseMenu}
             className="flex items-center"
           >
             <Image
-              src="/evertwine-logo.png"
+              src="s/evertwine-logo.png"
               alt="Evertwine logo"
               width={32}
               height={32}
@@ -72,7 +79,7 @@ export default function MobileMenu({
             <span className="text-white text-2xl md:text-3xl font-bold tracking-tight font-sora">
               Evertwine
             </span>
-          </a>
+          </Link>
         </div>
         <button onClick={handleCloseMenu}>
           <X className="h-8 w-8 md:h-10 md:w-10 text-white" />
@@ -82,48 +89,75 @@ export default function MobileMenu({
         <ul className="space-y-8 font-dm-sans">
           <li>
             <a
-              href="#overview"
+              href={isHomePage ? "#overview" : "/#overview"}
               className="text-white text-2xl font-light tracking-wide"
-              onClick={(e) => handleNavClick(e, "overview")}
+              onClick={
+                isHomePage
+                  ? (e) => handleNavClick(e, "overview")
+                  : handleCloseMenu
+              }
             >
               Overview
             </a>
           </li>
           <li>
             <a
-              href="#features"
+              href={isHomePage ? "#features" : "/#features"}
               className="text-white text-2xl font-light tracking-wide"
-              onClick={(e) => handleNavClick(e, "features")}
+              onClick={
+                isHomePage
+                  ? (e) => handleNavClick(e, "features")
+                  : handleCloseMenu
+              }
             >
               Features
             </a>
           </li>
           <li>
             <a
-              href="#testimonials"
+              href={isHomePage ? "#testimonials" : "/#testimonials"}
               className="text-white text-2xl font-light tracking-wide"
-              onClick={(e) => handleNavClick(e, "testimonials")}
+              onClick={
+                isHomePage
+                  ? (e) => handleNavClick(e, "testimonials")
+                  : handleCloseMenu
+              }
             >
               Testimonials
             </a>
           </li>
           <li>
             <a
-              href="#faq"
+              href={isHomePage ? "#faq" : "/#faq"}
               className="text-white text-2xl font-light tracking-wide"
-              onClick={(e) => handleNavClick(e, "faq")}
+              onClick={
+                isHomePage ? (e) => handleNavClick(e, "faq") : handleCloseMenu
+              }
             >
               FAQ
             </a>
           </li>
           <li>
             <a
-              href="#download"
+              href={isHomePage ? "#download" : "/#download"}
               className="text-white text-2xl font-light tracking-wide"
-              onClick={(e) => handleNavClick(e, "download")}
+              onClick={
+                isHomePage
+                  ? (e) => handleNavClick(e, "download")
+                  : handleCloseMenu
+              }
             >
               Download
             </a>
+          </li>
+          <li>
+            <Link
+              href="/contact"
+              className="text-white text-2xl font-light tracking-wide"
+              onClick={handleCloseMenu}
+            >
+              Contact Us
+            </Link>
           </li>
         </ul>
       </nav>

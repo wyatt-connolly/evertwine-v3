@@ -12,9 +12,7 @@ export default function Footer({ isHomepage = false }: FooterProps) {
       <div className="container mx-auto px-6 md:px-8">
         {/* Top section */}
         <div
-          className={`grid gap-12 ${
-            isHomepage ? "md:grid-cols-3" : "md:grid-cols-2"
-          }`}
+          className={`grid gap-12 ${isHomepage ? "md:grid-cols-4" : "md:grid-cols-3"}`}
         >
           {/* Logo and description - wider on non-homepage */}
           <div className={isHomepage ? "" : "md:max-w-md"}>
@@ -127,11 +125,34 @@ export default function Footer({ isHomepage = false }: FooterProps) {
             </div>
           )}
 
+          {/* Company links - shown on both homepage and non-homepage */}
+          <div>
+            <h3 className="text-lg font-semibold mb-6">Company</h3>
+            <ul className="space-y-4">
+              <li>
+                <Link
+                  href="/partners"
+                  className="text-gray-400 hover:text-white transition-colors"
+                >
+                  Partners
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/contact"
+                  className="text-gray-400 hover:text-white transition-colors"
+                >
+                  Contact Us
+                </Link>
+              </li>
+            </ul>
+          </div>
+
           {/* Legal links - with better organization for non-homepage */}
-          <div className={isHomepage ? "" : "md:ml-auto"}>
+          <div className={isHomepage ? "" : ""}>
             <h3 className="text-lg font-semibold mb-6">Legal</h3>
             {isHomepage ? (
-              <ul className="space-y-6">
+              <ul className="space-y-4">
                 <li>
                   <Link
                     href="/legal/eula"
@@ -182,68 +203,56 @@ export default function Footer({ isHomepage = false }: FooterProps) {
                 </li>
               </ul>
             ) : (
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-8">
-                <ul className="space-y-6">
-                  <li>
-                    <Link
-                      href="/legal/eula"
-                      className="text-gray-400 hover:text-white transition-colors"
-                    >
-                      End User License Agreement
-                    </Link>
-                  </li>
-                  <li>
-                    <Link
-                      href="/legal/privacy-policy"
-                      className="text-gray-400 hover:text-white transition-colors"
-                    >
-                      Privacy Policy
-                    </Link>
-                  </li>
-                  <li>
-                    <Link
-                      href="/legal/cookie-policy"
-                      className="text-gray-400 hover:text-white transition-colors"
-                    >
-                      Cookie Policy
-                    </Link>
-                  </li>
-                  <li>
-                    <Link
-                      href="/partners"
-                      className="text-gray-400 hover:text-white transition-colors"
-                    >
-                      Partners
-                    </Link>
-                  </li>
-                </ul>
-                <ul className="space-y-6 mt-6 sm:mt-0">
-                  <li>
-                    <Link
-                      href="/legal/terms-of-service"
-                      className="text-gray-400 hover:text-white transition-colors"
-                    >
-                      Terms of Service
-                    </Link>
-                  </li>
-                  <li>
-                    <Link
-                      href="/legal/health-privacy"
-                      className="text-gray-400 hover:text-white transition-colors"
-                    >
-                      Health Data Privacy
-                    </Link>
-                  </li>
-                  <li>
-                    <Link
-                      href="/legal/colorado-privacy"
-                      className="text-gray-400 hover:text-white transition-colors"
-                    >
-                      Colorado Privacy Notice
-                    </Link>
-                  </li>
-                </ul>
-              </div>
+              <ul className="space-y-6">
+                <li>
+                  <Link
+                    href="/legal/eula"
+                    className="text-gray-400 hover:text-white transition-colors"
+                  >
+                    End User License Agreement
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    href="/legal/privacy-policy"
+                    className="text-gray-400 hover:text-white transition-colors"
+                  >
+                    Privacy Policy
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    href="/legal/cookie-policy"
+                    className="text-gray-400 hover:text-white transition-colors"
+                  >
+                    Cookie Policy
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    href="/legal/terms-of-service"
+                    className="text-gray-400 hover:text-white transition-colors"
+                  >
+                    Terms of Service
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    href="/legal/health-privacy"
+                    className="text-gray-400 hover:text-white transition-colors"
+                  >
+                    Health Data Privacy
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    href="/legal/colorado-privacy"
+                    className="text-gray-400 hover:text-white transition-colors"
+                  >
+                    Colorado Privacy Notice
+                  </Link>
+                </li>
+              </ul>
             )}
           </div>
         </div>

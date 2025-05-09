@@ -3,6 +3,8 @@ import { Menu } from "lucide-react";
 import type React from "react";
 import { smoothScrollTo } from "@/utils/smooth-scroll";
 import Image from "next/image";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 interface NavbarProps {
   scrolled: boolean;
@@ -10,11 +12,20 @@ interface NavbarProps {
 }
 
 export default function Navbar({ scrolled, setMobileMenuOpen }: NavbarProps) {
+  const pathname = usePathname();
+  const isHomePage = pathname === "/";
+
   const handleNavClick = (
     e: React.MouseEvent<HTMLAnchorElement>,
     targetId: string
   ) => {
     e.preventDefault();
+
+    if (!isHomePage) {
+      // If not on home page, navigate to home page with hash
+      window.location.href = `/#${targetId}`;
+      return;
+    }
 
     const targetElement = document.getElementById(targetId);
 
@@ -33,17 +44,13 @@ export default function Navbar({ scrolled, setMobileMenuOpen }: NavbarProps) {
   return (
     <header
       className={`fixed top-0 left-0 right-0 z-40 transition-colors duration-500 ease-in-out ${
-        scrolled ? "bg-black" : "bg-transparent backdrop-blur-sm"
+        scrolled || !isHomePage ? "bg-black" : "bg-transparent backdrop-blur-sm"
       }`}
     >
       <div className="container mx-auto px-6 py-4 md:px-8 md:py-8 h-[96px] md:h-[110px] flex items-center">
         <div className="flex items-center justify-between w-full lg:justify-center relative">
           <div className="flex items-center lg:absolute lg:left-8">
-            <a
-              href="#overview"
-              onClick={(e) => handleNavClick(e, "overview")}
-              className="flex items-center"
-            >
+            <Link href="/" className="flex items-center">
               <Image
                 src="/evertwine-logo.png"
                 alt="Evertwine logo"
@@ -54,7 +61,7 @@ export default function Navbar({ scrolled, setMobileMenuOpen }: NavbarProps) {
               <span className="text-white text-2xl md:text-3xl font-bold tracking-tight font-sora">
                 Evertwine
               </span>
-            </a>
+            </Link>
           </div>
 
           {/* Mobile Menu Button */}
@@ -66,14 +73,20 @@ export default function Navbar({ scrolled, setMobileMenuOpen }: NavbarProps) {
           <div className="hidden lg:block">
             <div
               className={`rounded-full px-8 py-3 transition-colors duration-500 ${
-                scrolled ? "bg-white/5" : "bg-white/10 backdrop-blur-sm"
+                scrolled || !isHomePage
+                  ? "bg-white/5"
+                  : "bg-white/10 backdrop-blur-sm"
               }`}
             >
               <ul className="flex space-x-8 font-dm-sans">
                 <li>
                   <a
-                    href="#overview"
-                    onClick={(e) => handleNavClick(e, "overview")}
+                    href={isHomePage ? "#overview" : "/#overview"}
+                    onClick={
+                      isHomePage
+                        ? (e) => handleNavClick(e, "overview")
+                        : undefined
+                    }
                     className="text-white/90 hover:text-white font-light text-base"
                   >
                     Overview
@@ -81,8 +94,12 @@ export default function Navbar({ scrolled, setMobileMenuOpen }: NavbarProps) {
                 </li>
                 <li>
                   <a
-                    href="#features"
-                    onClick={(e) => handleNavClick(e, "features")}
+                    href={isHomePage ? "#features" : "/#features"}
+                    onClick={
+                      isHomePage
+                        ? (e) => handleNavClick(e, "features")
+                        : undefined
+                    }
                     className="text-white/90 hover:text-white font-light text-base"
                   >
                     Features
@@ -90,8 +107,12 @@ export default function Navbar({ scrolled, setMobileMenuOpen }: NavbarProps) {
                 </li>
                 <li>
                   <a
-                    href="#testimonials"
-                    onClick={(e) => handleNavClick(e, "testimonials")}
+                    href={isHomePage ? "#testimonials" : "/#testimonials"}
+                    onClick={
+                      isHomePage
+                        ? (e) => handleNavClick(e, "testimonials")
+                        : undefined
+                    }
                     className="text-white/90 hover:text-white font-light text-base"
                   >
                     Testimonials
@@ -99,8 +120,12 @@ export default function Navbar({ scrolled, setMobileMenuOpen }: NavbarProps) {
                 </li>
                 <li>
                   <a
-                    href="#download"
-                    onClick={(e) => handleNavClick(e, "download")}
+                    href={isHomePage ? "#download" : "/#download"}
+                    onClick={
+                      isHomePage
+                        ? (e) => handleNavClick(e, "download")
+                        : undefined
+                    }
                     className="text-white/90 hover:text-white font-light text-base"
                   >
                     Download
@@ -108,6 +133,16 @@ export default function Navbar({ scrolled, setMobileMenuOpen }: NavbarProps) {
                 </li>
               </ul>
             </div>
+          </div>
+
+          {/* Contact Link - Right Side */}
+          <div className="hidden lg:block lg:absolute lg:right-8">
+            <Link
+              href="/contact"
+              className="text-white hover:text-white/80 font-medium bg-white/10 hover:bg-white/20 px-6 py-2 rounded-full transition-colors"
+            >
+              Contact Us
+            </Link>
           </div>
         </div>
       </div>
