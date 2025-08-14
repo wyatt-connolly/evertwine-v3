@@ -102,20 +102,27 @@ const COLLECTION_NAME = "blog-posts";
 // Get all published blog posts, sorted by creation date (newest first)
 export async function getBlogPosts(): Promise<BlogPost[]> {
   try {
+    // Check if Firebase is properly initialized
+    if (!db) {
+      console.warn("⚠️ Firebase not initialized, returning sample data");
+      return sampleBlogPosts;
+    }
+
     console.log("🔍 Fetching blog posts from collection:", COLLECTION_NAME);
-    const postsRef = collection(db, COLLECTION_NAME);
+    const postsRef = collection(db!, COLLECTION_NAME);
 
     // First, let's see ALL documents in the collection
     console.log("🔍 Checking all documents in collection...");
-    const allDocsQuery = await getDocs(collection(db, COLLECTION_NAME));
+    const allDocsQuery = await getDocs(collection(db!, COLLECTION_NAME));
     console.log("📊 Total documents in collection:", allDocsQuery.size);
     allDocsQuery.forEach((doc) => {
       console.log("📄 All docs - ID:", doc.id, "Data:", doc.data());
     });
 
     // Now try to get published posts
-    const simpleQuery = query(postsRef, where("published", "==", true));
-    const querySnapshot = await getDocs(simpleQuery);
+    const publishedQuery = query(postsRef, where("published", "==", true));
+    console.log("🔍 Querying for published posts...");
+    const querySnapshot = await getDocs(publishedQuery);
 
     console.log("📊 Published posts query snapshot size:", querySnapshot.size);
     console.log(
@@ -166,7 +173,14 @@ export async function getBlogPostBySlug(
   slug: string
 ): Promise<BlogPost | null> {
   try {
-    const postsRef = collection(db, COLLECTION_NAME);
+    // Check if Firebase is properly initialized
+    if (!db) {
+      console.warn("⚠️ Firebase not initialized, checking sample data");
+      const samplePost = sampleBlogPosts.find((post) => post.slug === slug);
+      return samplePost || null;
+    }
+
+    const postsRef = collection(db!, COLLECTION_NAME);
     const q = query(
       postsRef,
       where("slug", "==", slug),
@@ -200,6 +214,12 @@ export async function createBlogPost(
   postData: BlogPostInput
 ): Promise<string | null> {
   try {
+    // Check if Firebase is properly initialized
+    if (!db) {
+      console.warn("⚠️ Firebase not initialized, cannot create blog post");
+      return null;
+    }
+
     console.log("🚀 Attempting to create blog post with data:", postData);
     console.log("📍 Collection name:", COLLECTION_NAME);
     console.log("🔥 Firebase db instance:", db);
@@ -223,7 +243,7 @@ export async function createBlogPost(
     };
     console.log("📄 Document data to be saved:", docData);
 
-    const docRef = await addDoc(collection(db, COLLECTION_NAME), docData);
+    const docRef = await addDoc(collection(db!, COLLECTION_NAME), docData);
     console.log("✅ Successfully created blog post with ID:", docRef.id);
 
     return docRef.id;
@@ -243,7 +263,13 @@ export async function updateBlogPost(
   updates: Partial<BlogPostInput>
 ): Promise<boolean> {
   try {
-    const docRef = doc(db, COLLECTION_NAME, id);
+    // Check if Firebase is properly initialized
+    if (!db) {
+      console.warn("⚠️ Firebase not initialized, cannot update blog post");
+      return false;
+    }
+
+    const docRef = doc(db!, COLLECTION_NAME, id);
     await updateDoc(docRef, {
       ...updates,
       updated_at: serverTimestamp(),
@@ -259,7 +285,13 @@ export async function updateBlogPost(
 // Delete a blog post
 export async function deleteBlogPost(id: string): Promise<boolean> {
   try {
-    await deleteDoc(doc(db, COLLECTION_NAME, id));
+    // Check if Firebase is properly initialized
+    if (!db) {
+      console.warn("⚠️ Firebase not initialized, cannot delete blog post");
+      return false;
+    }
+
+    await deleteDoc(doc(db!, COLLECTION_NAME, id));
     return true;
   } catch (error) {
     console.error("Error deleting blog post:", error);
@@ -313,6 +345,12 @@ export function createSlug(title: string): string {
 // Upload image to Firebase Storage
 export async function uploadBlogImage(file: File): Promise<string | null> {
   try {
+    // Check if Firebase Storage is properly initialized
+    if (!storage) {
+      console.warn("⚠️ Firebase Storage not initialized, cannot upload image");
+      return null;
+    }
+
     console.log("🚀 Uploading image:", file.name);
 
     // Create a unique filename
@@ -321,7 +359,7 @@ export async function uploadBlogImage(file: File): Promise<string | null> {
     const fileName = `blog-image-${timestamp}.${extension}`;
 
     // Create a reference to the file location
-    const storageRef = ref(storage, `blog-images/${fileName}`);
+    const storageRef = ref(storage!, `blog-images/${fileName}`);
 
     // Upload the file
     const snapshot = await uploadBytes(storageRef, file);

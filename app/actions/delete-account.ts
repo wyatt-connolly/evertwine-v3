@@ -19,7 +19,16 @@ export async function deleteUserAccount(
   userId: string
 ): Promise<DeleteAccountResult> {
   try {
-    const batch = writeBatch(db);
+    // Check if Firebase is properly initialized
+    if (!db) {
+      console.warn("⚠️ Firebase not initialized, cannot delete user account");
+      return {
+        success: false,
+        error: "Database not available",
+      };
+    }
+
+    const batch = writeBatch(db!);
 
     // Collections to clean up
     const collectionsToClean = [
@@ -47,13 +56,13 @@ export async function deleteUserAccount(
       if (collectionInfo.isArray) {
         // For array fields, use array-contains
         q = query(
-          collection(db, collectionInfo.name),
+          collection(db!, collectionInfo.name),
           where(collectionInfo.field, "array-contains", userId)
         );
       } else {
         // For regular fields
         q = query(
-          collection(db, collectionInfo.name),
+          collection(db!, collectionInfo.name),
           where(collectionInfo.field, "==", userId)
         );
       }
@@ -61,12 +70,12 @@ export async function deleteUserAccount(
       const querySnapshot = await getDocs(q);
 
       querySnapshot.forEach((document) => {
-        batch.delete(doc(db, collectionInfo.name, document.id));
+        batch.delete(doc(db!, collectionInfo.name, document.id));
       });
     }
 
     // Delete the main user document
-    const userDocRef = doc(db, "users", userId);
+    const userDocRef = doc(db!, "users", userId);
     batch.delete(userDocRef);
 
     // Commit the batch delete
