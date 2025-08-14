@@ -134,15 +134,15 @@ export default function AboutPage() {
                 <span className="text-white font-semibold">Evertwine</span>{" "}
                 bridges the gap between digital convenience and authentic human
                 connection. We&apos;ve created a platform that facilitates
-                real-world meetups while prioritizing safety, verification, and
-                community building.
+                real-world meetups while prioritizing safety, community
+                standards, and genuine connections.
               </p>
               <div className="grid md:grid-cols-2 gap-4 mt-6">
                 <div className="flex items-start">
                   <Check className="text-green-400 mr-3 mt-1 flex-shrink-0" />
                   <p className="text-gray-300">
-                    ID verification and safety features built into every
-                    interaction
+                    Upcoming ID verification and enhanced safety features for
+                    every interaction
                   </p>
                 </div>
                 <div className="flex items-start">
@@ -446,7 +446,7 @@ export default function AboutPage() {
                 more you show up, the more perks you get.
               </p>
               <p className="text-orange-400 flex items-center font-medium">
-                Coming <span className="font-bold">Q3 2025</span>{" "}
+                Coming <span className="font-bold">Q3 2025</span>
                 <ArrowRight className="ml-2 h-4 w-4" />
               </p>
             </motion.div>
@@ -470,7 +470,7 @@ export default function AboutPage() {
                 ensure all meetups remain secure.
               </p>
               <p className="text-blue-400 flex items-center font-medium">
-                Coming <span className="font-bold">Q4 2025</span>{" "}
+                Coming <span className="font-bold">Q4 2025</span>
                 <ArrowRight className="ml-2 h-4 w-4" />
               </p>
             </motion.div>
@@ -494,7 +494,7 @@ export default function AboutPage() {
                 shared passions and organize regular meetups.
               </p>
               <p className="text-purple-400 flex items-center font-medium">
-                Coming <span className="font-bold">Q4 2025</span>{" "}
+                Coming <span className="font-bold">Q4 2025</span>
                 <ArrowRight className="ml-2 h-4 w-4" />
               </p>
             </motion.div>
@@ -518,7 +518,7 @@ export default function AboutPage() {
                 recommendations, and attendance management.
               </p>
               <p className="text-green-400 flex items-center font-medium">
-                Coming <span className="font-bold">Q1 2026</span>{" "}
+                Coming <span className="font-bold">Q1 2026</span>
                 <ArrowRight className="ml-2 h-4 w-4" />
               </p>
             </motion.div>

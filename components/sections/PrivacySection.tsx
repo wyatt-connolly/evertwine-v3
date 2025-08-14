@@ -78,8 +78,8 @@ export default function PrivacySection({
             }`}
           >
             Plan hangouts or discover ones happening nearby—coffee chats,
-            workouts, networking events, and more. Evertwine gives you tools to
-            meet people in real life, on your terms.
+            workouts, hobby groups, and more. Evertwine gives you tools to meet
+            people in real life, on your terms.
           </p>
         </div>
       </div>

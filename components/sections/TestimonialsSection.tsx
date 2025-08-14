@@ -33,13 +33,13 @@ export default function TestimonialsSection({
     },
     {
       quote:
-        "After moving to a new city, Evertwine made it so easy to meet people. The verification process made me feel safe meeting new friends.",
+        "After moving to a new city, Evertwine made it so easy to meet people. The community guidelines and safety measures made me feel secure meeting new friends.",
       author: "Marcus Johnson",
       gradient: "from-blue-500 to-cyan-400",
     },
     {
       quote:
-        "I've expanded my professional network through Evertwine's business mode. The local meetups are so much more effective than online networking.",
+        "I found my favorite running buddy through Evertwine! We've been exploring new trails together for months.",
       author: "Aisha Patel",
       gradient: "from-blue-600 to-blue-400",
     },
@@ -51,13 +51,13 @@ export default function TestimonialsSection({
     },
     {
       quote:
-        "As someone who values safety, I appreciate the verification system. It's refreshing to meet people who are exactly who they say they are.",
+        "As someone who values safety, I appreciate the community standards and upcoming verification features. It's refreshing to be part of such a thoughtful platform.",
       author: "Emma Wilson",
       gradient: "from-indigo-500 to-blue-500",
     },
     {
       quote:
-        "I've hosted several business networking events through Evertwine. The platform makes organizing meetups seamless and stress-free.",
+        "I've organized several weekend hiking meetups through Evertwine. The platform makes connecting with fellow nature lovers seamless and fun!",
       author: "Jamal Washington",
       gradient: "from-purple-600 to-blue-500",
     },

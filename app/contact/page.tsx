@@ -7,6 +7,61 @@ import { ArrowRight, CheckCircle, Loader2 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { Button } from "@/components/ui/button";
+import { Label } from "@/components/ui/label";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+
+const subjectOptions = [
+  {
+    value: "general",
+    label: "General Inquiry",
+    instructions: "Please provide details about your question or comment.",
+  },
+  {
+    value: "support",
+    label: "Technical Support",
+    instructions:
+      "Please describe the issue you're experiencing, including your device type and any error messages.",
+  },
+  {
+    value: "feedback",
+    label: "App Feedback",
+    instructions:
+      "Share your thoughts, suggestions, or feature requests for improving Evertwine.",
+  },
+  {
+    value: "business",
+    label: "Business Inquiry",
+    instructions:
+      "Please describe your business proposal or partnership opportunity.",
+  },
+  {
+    value: "delete-account",
+    label: "Delete My Account/Data",
+    instructions:
+      "To delete your account, please provide: (1) Your registered email address, (2) Your account username, and (3) Reason for deletion. Note: This action is permanent and cannot be undone.",
+  },
+  {
+    value: "privacy",
+    label: "Privacy Concern",
+    instructions:
+      "Please describe your privacy concern or data-related question in detail.",
+  },
+  {
+    value: "report",
+    label: "Report User/Content",
+    instructions:
+      "Please provide: (1) Username or content to report, (2) Detailed description of the issue, and (3) Any relevant screenshots or evidence.",
+  },
+];
 
 export default function ContactPage() {
   const [scrolled, setScrolled] = useState(false);
@@ -14,6 +69,26 @@ export default function ContactPage() {
   const [isSuccess, setIsSuccess] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [focusedField, setFocusedField] = useState<string | null>(null);
+  const [selectedSubject, setSelectedSubject] = useState("");
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY > 50) {
+        setScrolled(true);
+      } else {
+        setScrolled(false);
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
+
+  const getSelectedSubjectData = () => {
+    return subjectOptions.find((option) => option.value === selectedSubject);
+  };
 
   useEffect(() => {
     const handleScroll = () => {
@@ -35,15 +110,22 @@ export default function ContactPage() {
     setError(null);
 
     try {
+      const subjectValue = formData.get("subject") as string;
+      const selectedOption = subjectOptions.find(
+        (option) => option.value === subjectValue
+      );
+      const subjectLabel = selectedOption ? selectedOption.label : subjectValue;
+
       const result = await sendContactEmail({
         name: formData.get("name") as string,
         email: formData.get("email") as string,
-        subject: formData.get("subject") as string,
+        subject: subjectLabel,
         message: formData.get("message") as string,
       });
 
       if (result.success) {
         setIsSuccess(true);
+        setSelectedSubject("");
         // Reset form
         const form = document.getElementById("contact-form") as HTMLFormElement;
         if (form) form.reset();
@@ -184,7 +266,7 @@ export default function ContactPage() {
         >
           <motion.div className="text-center mb-12" variants={itemVariants}>
             <motion.h1
-              className="text-4xl md:text-5xl font-bold text-white mb-4"
+              className="text-2xl md:text-3xl font-bold text-white mb-8 font-sora"
               initial={{ opacity: 0, y: -20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{
@@ -197,19 +279,19 @@ export default function ContactPage() {
               Contact Us
             </motion.h1>
             <motion.p
-              className="text-white/80 text-lg max-w-2xl mx-auto"
+              className="text-white/70 max-w-2xl mx-auto font-dm-sans"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 0.5, delay: 0.6 }}
             >
-              Have questions or feedback? We&apos;d love to hear from you. Fill
-              out the form below and our team will get back to you as soon as
-              possible.
+              Have questions, feedback or media inquiries? We&apos;d love to
+              hear from you. Fill out the form below and our team will get back
+              to you as soon as possible.
             </motion.p>
           </motion.div>
 
           <motion.div
-            className="bg-white/5 backdrop-blur-sm p-8 rounded-2xl"
+            className="bg-blue-950/20 backdrop-blur-sm border border-blue-900/20 rounded-3xl p-8 md:p-10 transition-all duration-500 hover:border-blue-500/30 hover:shadow-lg hover:shadow-blue-900/20"
             variants={itemVariants}
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
@@ -244,15 +326,23 @@ export default function ContactPage() {
                   Thank you for reaching out. We&apos;ll get back to you as soon
                   as possible.
                 </motion.p>
-                <motion.button
-                  onClick={() => setIsSuccess(false)}
-                  className="text-white bg-blue-900 hover:bg-blue-800 px-6 py-2 rounded-full transition-colors"
-                  variants={successItemVariants}
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                >
-                  Send another message
-                </motion.button>
+                <motion.div variants={successItemVariants}>
+                  <Button
+                    onClick={() => {
+                      setIsSuccess(false);
+                      setSelectedSubject("");
+                    }}
+                    className="bg-blue-900 hover:bg-blue-800 text-white px-6 py-2 rounded-full"
+                    asChild
+                  >
+                    <motion.button
+                      whileHover={{ scale: 1.05 }}
+                      whileTap={{ scale: 0.95 }}
+                    >
+                      Send another message
+                    </motion.button>
+                  </Button>
+                </motion.div>
               </motion.div>
             ) : (
               <form
@@ -263,91 +353,122 @@ export default function ContactPage() {
                 <motion.div
                   variants={formFieldVariants}
                   animate={focusedField === "name" ? "focused" : "visible"}
+                  className="space-y-2"
                 >
-                  <label
+                  <Label
                     htmlFor="name"
-                    className="block text-white/90 mb-2 font-medium"
+                    className="block text-white font-medium font-dm-sans"
                   >
                     Name
-                  </label>
-                  <input
+                  </Label>
+                  <Input
                     type="text"
                     id="name"
                     name="name"
                     required
-                    className="w-full bg-white/10 border border-white/20 rounded-lg px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-white/30 transition-all duration-300"
                     placeholder="Your name"
+                    className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent font-dm-sans transition-all duration-300 hover:bg-white/15"
                     onFocus={() => setFocusedField("name")}
                     onBlur={() => setFocusedField(null)}
                   />
                 </motion.div>
-
                 <motion.div
                   variants={formFieldVariants}
                   animate={focusedField === "email" ? "focused" : "visible"}
+                  className="space-y-2"
                 >
-                  <label
+                  <Label
                     htmlFor="email"
-                    className="block text-white/90 mb-2 font-medium"
+                    className="block text-white font-medium font-dm-sans"
                   >
                     Email
-                  </label>
-                  <input
+                  </Label>
+                  <Input
                     type="email"
                     id="email"
                     name="email"
                     required
-                    className="w-full bg-white/10 border border-white/20 rounded-lg px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-white/30 transition-all duration-300"
                     placeholder="your.email@example.com"
+                    className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent font-dm-sans transition-all duration-300 hover:bg-white/15"
                     onFocus={() => setFocusedField("email")}
                     onBlur={() => setFocusedField(null)}
                   />
                 </motion.div>
-
                 <motion.div
                   variants={formFieldVariants}
                   animate={focusedField === "subject" ? "focused" : "visible"}
+                  className="space-y-2"
                 >
-                  <label
+                  <Label
                     htmlFor="subject"
-                    className="block text-white/90 mb-2 font-medium"
+                    className="block text-white font-medium font-dm-sans"
                   >
                     Subject
-                  </label>
-                  <input
-                    type="text"
-                    id="subject"
-                    name="subject"
+                  </Label>
+                  <Select
+                    value={selectedSubject}
+                    onValueChange={setSelectedSubject}
                     required
-                    className="w-full bg-white/10 border border-white/20 rounded-lg px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-white/30 transition-all duration-300"
-                    placeholder="What's this about?"
-                    onFocus={() => setFocusedField("subject")}
-                    onBlur={() => setFocusedField(null)}
-                  />
-                </motion.div>
-
+                  >
+                    <SelectTrigger
+                      className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent font-dm-sans transition-all duration-300 hover:bg-white/15"
+                      onFocus={() => setFocusedField("subject")}
+                      onBlur={() => setFocusedField(null)}
+                    >
+                      <SelectValue
+                        placeholder="Select a subject"
+                        className="text-white placeholder:text-white/50"
+                      />
+                    </SelectTrigger>
+                    <SelectContent className="bg-gray-900 border-gray-700">
+                      {subjectOptions.map((option) => (
+                        <SelectItem
+                          key={option.value}
+                          value={option.value}
+                          className="text-white hover:bg-gray-800 focus:bg-gray-800 py-3"
+                        >
+                          {option.label}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                  <input type="hidden" name="subject" value={selectedSubject} />
+                  {selectedSubject && getSelectedSubjectData() && (
+                    <motion.div
+                      initial={{ opacity: 0, height: 0 }}
+                      animate={{ opacity: 1, height: "auto" }}
+                      transition={{ duration: 0.3 }}
+                      className="mt-4 p-4 bg-blue-500/10 border border-blue-500/30 rounded-lg"
+                    >
+                      <p className="text-blue-200 font-dm-sans">
+                        <strong>Instructions:</strong>{" "}
+                        {getSelectedSubjectData()?.instructions}
+                      </p>
+                    </motion.div>
+                  )}
+                </motion.div>{" "}
                 <motion.div
                   variants={formFieldVariants}
                   animate={focusedField === "message" ? "focused" : "visible"}
+                  className="space-y-2"
                 >
-                  <label
+                  <Label
                     htmlFor="message"
-                    className="block text-white/90 mb-2 font-medium"
+                    className="block text-white font-medium font-dm-sans"
                   >
                     Message
-                  </label>
-                  <textarea
+                  </Label>
+                  <Textarea
                     id="message"
                     name="message"
                     required
-                    rows={5}
-                    className="w-full bg-white/10 border border-white/20 rounded-lg px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-white/30 transition-all duration-300"
+                    rows={4}
                     placeholder="Your message here..."
+                    className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent font-dm-sans resize-none transition-all duration-300 hover:bg-white/15"
                     onFocus={() => setFocusedField("message")}
                     onBlur={() => setFocusedField(null)}
-                  ></textarea>
+                  />
                 </motion.div>
-
                 {error && (
                   <motion.div
                     className="bg-red-500/10 border border-red-500/30 text-red-200 p-3 rounded-lg"
@@ -358,38 +479,35 @@ export default function ContactPage() {
                     {error}
                   </motion.div>
                 )}
-
-                <motion.button
-                  type="submit"
-                  disabled={isSubmitting}
-                  className="flex items-center justify-center w-full bg-white text-black hover:bg-white/90 font-medium py-3 px-6 rounded-lg transition-colors disabled:opacity-70"
-                  whileHover={{ scale: 1.02 }}
-                  whileTap={{ scale: 0.98 }}
+                <motion.div
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   transition={{ delay: 0.8 }}
                 >
-                  {isSubmitting ? (
-                    <>
-                      <Loader2 className="animate-spin mr-2 h-5 w-5" />
-                      Sending...
-                    </>
-                  ) : (
-                    <>
-                      Send Message
-                      <motion.div
-                        animate={{ x: [0, 5, 0] }}
-                        transition={{
-                          repeat: Number.POSITIVE_INFINITY,
-                          repeatDelay: 3,
-                          duration: 0.8,
-                        }}
-                      >
-                        <ArrowRight className="ml-2 h-5 w-5" />
-                      </motion.div>
-                    </>
-                  )}
-                </motion.button>
+                  <Button
+                    type="submit"
+                    disabled={isSubmitting}
+                    className="w-full flex items-center justify-center space-x-2 bg-gradient-to-r from-blue-600 to-blue-400 hover:from-blue-500 hover:to-blue-300 text-white font-medium py-3 px-6 rounded-lg transition-all duration-500 transform hover:scale-[1.02] hover:shadow-lg hover:shadow-blue-600/30 font-dm-sans group"
+                    asChild
+                  >
+                    <motion.button
+                      whileHover={{ scale: 1.02 }}
+                      whileTap={{ scale: 0.98 }}
+                    >
+                      {isSubmitting ? (
+                        <>
+                          <Loader2 className="animate-spin mr-2 h-5 w-5" />
+                          <span>Sending...</span>
+                        </>
+                      ) : (
+                        <>
+                          <span>Send Message</span>
+                          <ArrowRight className="h-5 w-5 transition-transform duration-300 group-hover:translate-x-1" />
+                        </>
+                      )}
+                    </motion.button>
+                  </Button>
+                </motion.div>
               </form>
             )}
           </motion.div>

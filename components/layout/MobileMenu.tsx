@@ -127,6 +127,15 @@ export default function MobileMenu({
             </a>
           </li>
           <li>
+            <Link
+              href="/blog"
+              className="text-white text-2xl font-light tracking-wide"
+              onClick={handleCloseMenu}
+            >
+              Blog
+            </Link>
+          </li>
+          <li>
             <a
               href={isHomePage ? "#faq" : "/#faq"}
               className="text-white text-2xl font-light tracking-wide"

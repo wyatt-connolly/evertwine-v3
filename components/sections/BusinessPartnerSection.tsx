@@ -300,7 +300,7 @@ export default function BusinessPartnerSection({
                     icon: <Users className="h-8 w-8 text-blue-400" />,
                     title: "Access Our Community",
                     description:
-                      "Connect with our growing user base of local, verified individuals looking for authentic experiences.",
+                      "Connect with our growing user base of local, engaged individuals looking for authentic experiences.",
                   },
                   {
                     icon: <TrendingUp className="h-8 w-8 text-blue-400" />,

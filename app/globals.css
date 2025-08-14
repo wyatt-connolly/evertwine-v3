@@ -355,7 +355,9 @@ section {
 .feature-card:hover {
   transform: translateY(-16px);
   background-color: rgba(30, 41, 59, 0.8); /* slate-800 with opacity */
-  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.2), 0 10px 10px -5px rgba(0, 0, 0, 0.1);
+  box-shadow:
+    0 20px 25px -5px rgba(0, 0, 0, 0.2),
+    0 10px 10px -5px rgba(0, 0, 0, 0.1);
   margin-top: -8px;
   margin-bottom: 8px;
 }
@@ -364,7 +366,11 @@ section {
   content: "";
   position: absolute;
   inset: 0;
-  background: linear-gradient(to bottom right, rgba(59, 130, 246, 0.2), rgba(139, 92, 246, 0.2));
+  background: linear-gradient(
+    to bottom right,
+    rgba(59, 130, 246, 0.2),
+    rgba(139, 92, 246, 0.2)
+  );
   border-radius: inherit;
   z-index: -1;
   opacity: 0;
@@ -469,4 +475,11 @@ section {
   opacity: 0;
   transform: translateY(-10px);
   transition: all 0.5s ease;
+}
+
+/* Remove default focus outlines */
+input:focus,
+textarea:focus,
+select:focus {
+  outline: none !important;
 }

@@ -77,9 +77,9 @@ export default function SecuritySection({
               isSecurityVisible ? "animate-fade-in-delayed" : ""
             }`}
           >
-            From selfie and ID verification to strict community guidelines,
-            Evertwine ensures your in-person interactions are built on trust and
-            transparency.
+            From upcoming selfie and ID verification features to strict
+            community guidelines, Evertwine ensures your in-person interactions
+            are built on trust and transparency.
           </p>
         </div>
       </div>

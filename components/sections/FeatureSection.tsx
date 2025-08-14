@@ -78,11 +78,10 @@ export default function FeatureSection({
             }`}
           >
             Discover real-world connections through interest-based meetups near
-            you. Whether it&apos;s for friendship, networking, or both—Evertwine
-            makes it easy and local. Plan hangouts or discover ones happening
-            nearby—coffee chats, workouts, networking events, and more.
-            Evertwine gives you tools to meet people in real life, on your
-            terms.
+            you. Build genuine friendships through shared interests and local
+            activities. Plan hangouts or discover ones happening nearby—coffee
+            chats, workouts, hobby groups, and more. Evertwine gives you tools
+            to meet people in real life, on your terms.
           </p>
         </div>
       </div>

@@ -1,194 +1,199 @@
-"use client"
+"use client";
 
-import { useState, useEffect, useRef } from "react"
-import Navbar from "@/components/layout/Navbar"
-import MobileMenu from "@/components/layout/MobileMenu"
-import HeroSection from "@/components/sections/HeroSection"
-import FeatureSection from "@/components/sections/FeatureSection"
-import PrivacySection from "@/components/sections/PrivacySection"
-import SecuritySection from "@/components/sections/SecuritySection"
-import FeatureGridSection from "@/components/sections/FeatureGridSection"
-import TestimonialsSection from "@/components/sections/TestimonialsSection"
-import FaqSection from "@/components/sections/FaqSection"
-import DownloadSection from "@/components/sections/DownloadSection"
+import { useState, useEffect, useRef } from "react";
+import Navbar from "@/components/layout/Navbar";
+import MobileMenu from "@/components/layout/MobileMenu";
+import HeroSection from "@/components/sections/HeroSection";
+import FeatureSection from "@/components/sections/FeatureSection";
+import PrivacySection from "@/components/sections/PrivacySection";
+import SecuritySection from "@/components/sections/SecuritySection";
+import FeatureGridSection from "@/components/sections/FeatureGridSection";
+import TestimonialsSection from "@/components/sections/TestimonialsSection";
+import BlogSection from "@/components/sections/BlogSection";
+import FaqSection from "@/components/sections/FaqSection";
+import DownloadSection from "@/components/sections/DownloadSection";
 
 export default function Home() {
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
-  const [menuAnimation, setMenuAnimation] = useState<string | null>(null)
-  const [isLoaded, setIsLoaded] = useState(false)
-  const [isFeatureVisible, setIsFeatureVisible] = useState(false)
-  const [isPrivacyVisible, setIsPrivacyVisible] = useState(false)
-  const [isSecurityVisible, setIsSecurityVisible] = useState(false)
-  const [isFeatureGridVisible, setIsFeatureGridVisible] = useState(false)
-  const [isTestimonialsVisible, setIsTestimonialsVisible] = useState(false)
-  const [isFaqVisible, setIsFaqVisible] = useState(false)
-  const [isDownloadVisible, setIsDownloadVisible] = useState(false)
-  const [scrolled, setScrolled] = useState(false)
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [menuAnimation, setMenuAnimation] = useState<string | null>(null);
+  const [isLoaded, setIsLoaded] = useState(false);
+  const [isFeatureVisible, setIsFeatureVisible] = useState(false);
+  const [isPrivacyVisible, setIsPrivacyVisible] = useState(false);
+  const [isSecurityVisible, setIsSecurityVisible] = useState(false);
+  const [isFeatureGridVisible, setIsFeatureGridVisible] = useState(false);
+  const [isTestimonialsVisible, setIsTestimonialsVisible] = useState(false);
+  const [isFaqVisible, setIsFaqVisible] = useState(false);
+  const [isDownloadVisible, setIsDownloadVisible] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
 
-  const featureRef = useRef<HTMLDivElement>(null)
-  const privacyRef = useRef<HTMLDivElement>(null)
-  const securityRef = useRef<HTMLDivElement>(null)
-  const featureGridRef = useRef<HTMLDivElement>(null)
-  const testimonialsRef = useRef<HTMLDivElement>(null)
-  const faqRef = useRef<HTMLDivElement>(null)
-  const downloadRef = useRef<HTMLDivElement>(null)
-  const heroRef = useRef<HTMLDivElement>(null)
+  const featureRef = useRef<HTMLDivElement>(null);
+  const privacyRef = useRef<HTMLDivElement>(null);
+  const securityRef = useRef<HTMLDivElement>(null);
+  const featureGridRef = useRef<HTMLDivElement>(null);
+  const testimonialsRef = useRef<HTMLDivElement>(null);
+  const faqRef = useRef<HTMLDivElement>(null);
+  const downloadRef = useRef<HTMLDivElement>(null);
+  const heroRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     // Trigger the animation after component mount
-    setIsLoaded(true)
+    setIsLoaded(true);
 
     // Set up intersection observer for the feature section
     const featureObserver = new IntersectionObserver(
       (entries) => {
         if (entries[0].isIntersecting) {
-          setIsFeatureVisible(true)
-          featureObserver.disconnect()
+          setIsFeatureVisible(true);
+          featureObserver.disconnect();
         }
       },
-      { threshold: 0.2 },
-    )
+      { threshold: 0.2 }
+    );
 
     // Set up intersection observer for the privacy section
     const privacyObserver = new IntersectionObserver(
       (entries) => {
         if (entries[0].isIntersecting) {
-          setIsPrivacyVisible(true)
-          privacyObserver.disconnect()
+          setIsPrivacyVisible(true);
+          privacyObserver.disconnect();
         }
       },
-      { threshold: 0.2 },
-    )
+      { threshold: 0.2 }
+    );
 
     // Set up intersection observer for the security section
     const securityObserver = new IntersectionObserver(
       (entries) => {
         if (entries[0].isIntersecting) {
-          setIsSecurityVisible(true)
-          securityObserver.disconnect()
+          setIsSecurityVisible(true);
+          securityObserver.disconnect();
         }
       },
-      { threshold: 0.2 },
-    )
+      { threshold: 0.2 }
+    );
 
     // Set up intersection observer for the feature grid section
     const featureGridObserver = new IntersectionObserver(
       (entries) => {
         if (entries[0].isIntersecting) {
-          setIsFeatureGridVisible(true)
-          featureGridObserver.disconnect()
+          setIsFeatureGridVisible(true);
+          featureGridObserver.disconnect();
         }
       },
-      { threshold: 0.2 },
-    )
+      { threshold: 0.2 }
+    );
 
     // Set up intersection observer for the testimonials section
     const testimonialsObserver = new IntersectionObserver(
       (entries) => {
         if (entries[0].isIntersecting) {
-          setIsTestimonialsVisible(true)
-          testimonialsObserver.disconnect()
+          setIsTestimonialsVisible(true);
+          testimonialsObserver.disconnect();
         }
       },
-      { threshold: 0.2 },
-    )
+      { threshold: 0.2 }
+    );
 
     // Set up intersection observer for the FAQ section
     const faqObserver = new IntersectionObserver(
       (entries) => {
         if (entries[0].isIntersecting) {
-          setIsFaqVisible(true)
-          faqObserver.disconnect()
+          setIsFaqVisible(true);
+          faqObserver.disconnect();
         }
       },
-      { threshold: 0.2 },
-    )
+      { threshold: 0.2 }
+    );
 
     // Set up intersection observer for the download section
     const downloadObserver = new IntersectionObserver(
       (entries) => {
         if (entries[0].isIntersecting) {
-          setIsDownloadVisible(true)
-          downloadObserver.disconnect()
+          setIsDownloadVisible(true);
+          downloadObserver.disconnect();
         }
       },
-      { threshold: 0.2 },
-    )
+      { threshold: 0.2 }
+    );
 
     if (featureRef.current) {
-      featureObserver.observe(featureRef.current)
+      featureObserver.observe(featureRef.current);
     }
 
     if (privacyRef.current) {
-      privacyObserver.observe(privacyRef.current)
+      privacyObserver.observe(privacyRef.current);
     }
 
     if (securityRef.current) {
-      securityObserver.observe(securityRef.current)
+      securityObserver.observe(securityRef.current);
     }
 
     if (featureGridRef.current) {
-      featureGridObserver.observe(featureGridRef.current)
+      featureGridObserver.observe(featureGridRef.current);
     }
 
     if (testimonialsRef.current) {
-      testimonialsObserver.observe(testimonialsRef.current)
+      testimonialsObserver.observe(testimonialsRef.current);
     }
 
     if (faqRef.current) {
-      faqObserver.observe(faqRef.current)
+      faqObserver.observe(faqRef.current);
     }
 
     if (downloadRef.current) {
-      downloadObserver.observe(downloadRef.current)
+      downloadObserver.observe(downloadRef.current);
     }
 
     // Handle scroll event for navbar background change
     const handleScroll = () => {
-      const scrollPosition = window.scrollY
-      const windowHeight = window.innerHeight
+      const scrollPosition = window.scrollY;
+      const windowHeight = window.innerHeight;
 
       // Change navbar background when scrolled 75% down the hero section
       if (scrollPosition > windowHeight * 0.75) {
-        setScrolled(true)
+        setScrolled(true);
       } else {
-        setScrolled(false)
+        setScrolled(false);
       }
-    }
+    };
 
-    window.addEventListener("scroll", handleScroll)
+    window.addEventListener("scroll", handleScroll);
 
     return () => {
-      featureObserver.disconnect()
-      privacyObserver.disconnect()
-      securityObserver.disconnect()
-      featureGridObserver.disconnect()
-      testimonialsObserver.disconnect()
-      faqObserver.disconnect()
-      downloadObserver.disconnect()
-      window.removeEventListener("scroll", handleScroll)
-    }
-  }, [])
+      featureObserver.disconnect();
+      privacyObserver.disconnect();
+      securityObserver.disconnect();
+      featureGridObserver.disconnect();
+      testimonialsObserver.disconnect();
+      faqObserver.disconnect();
+      downloadObserver.disconnect();
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
 
   useEffect(() => {
     if (mobileMenuOpen) {
-      setMenuAnimation("slideIn")
+      setMenuAnimation("slideIn");
     } else if (menuAnimation) {
-      setMenuAnimation("slideOut")
+      setMenuAnimation("slideOut");
     }
-  }, [mobileMenuOpen])
+  }, [mobileMenuOpen, menuAnimation]);
 
   const handleCloseMenu = () => {
-    setMenuAnimation("slideOut")
+    setMenuAnimation("slideOut");
     setTimeout(() => {
-      setMobileMenuOpen(false)
-    }, 300)
-  }
+      setMobileMenuOpen(false);
+    }, 300);
+  };
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-blue-900 to-black">
       {/* Mobile Menu */}
-      <MobileMenu mobileMenuOpen={mobileMenuOpen} menuAnimation={menuAnimation} handleCloseMenu={handleCloseMenu} />
+      <MobileMenu
+        mobileMenuOpen={mobileMenuOpen}
+        menuAnimation={menuAnimation}
+        handleCloseMenu={handleCloseMenu}
+      />
 
       {/* Main Content */}
       <div className="relative z-10">
@@ -225,6 +230,11 @@ export default function Home() {
           <TestimonialsSection isTestimonialsVisible={isTestimonialsVisible} />
         </section>
 
+        {/* Blog Section */}
+        <section id="blog">
+          <BlogSection />
+        </section>
+
         {/* FAQ Section */}
         <section id="faq" ref={faqRef}>
           <FaqSection isFaqVisible={isFaqVisible} />
@@ -236,5 +246,5 @@ export default function Home() {
         </section>
       </div>
     </div>
-  )
+  );
 }

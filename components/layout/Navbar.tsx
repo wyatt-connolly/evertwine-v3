@@ -119,6 +119,14 @@ export default function Navbar({ scrolled, setMobileMenuOpen }: NavbarProps) {
                   </a>
                 </li>
                 <li>
+                  <Link
+                    href="/blog"
+                    className="text-white/90 hover:text-white font-light text-base"
+                  >
+                    Blog
+                  </Link>
+                </li>
+                <li>
                   <a
                     href={isHomePage ? "#download" : "/#download"}
                     onClick={
