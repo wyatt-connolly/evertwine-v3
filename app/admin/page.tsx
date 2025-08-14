@@ -33,7 +33,7 @@ import {
 import { Timestamp } from "firebase/firestore";
 
 // Force dynamic rendering - prevents prerendering issues with Firebase
-export const dynamic = 'force-dynamic';
+export const dynamic = "force-dynamic";
 
 interface LoginCredentials {
   username: string;

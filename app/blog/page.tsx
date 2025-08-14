@@ -66,9 +66,7 @@ export default function BlogPage() {
     <Link href={`/blog/${post.slug}`} key={post.id}>
       <article
         className={`group transition-all duration-700 ${
-          pageLoaded
-            ? "opacity-100 translate-y-0"
-            : "opacity-0 translate-y-12"
+          pageLoaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-12"
         } bg-gradient-to-br from-gray-800/50 to-gray-900/50 backdrop-blur-sm rounded-2xl overflow-hidden border border-gray-700/50 hover:border-blue-500/50 hover:shadow-xl hover:shadow-blue-500/10 transform hover:scale-105 hover:-translate-y-2 h-full`}
         style={{ transitionDelay: `${600 + index * 200}ms` }}
       >

@@ -102,11 +102,7 @@ const COLLECTION_NAME = "blog-posts";
 // Get all published blog posts, sorted by creation date (newest first)
 export async function getBlogPosts(): Promise<BlogPost[]> {
   try {
-    // Check if we're in a browser environment and Firebase is available
-    if (typeof window === "undefined") {
-      console.warn("⚠️ Server-side rendering detected, returning sample data");
-      return sampleBlogPosts;
-    }
+    console.log("🔍 Fetching blog posts from Firebase...");
 
     // Check if Firebase is properly initialized
     if (!db) {
@@ -147,6 +143,46 @@ export async function getBlogPosts(): Promise<BlogPost[]> {
 
     console.log("✅ Fetched published posts:", posts.length);
 
+    // If no published posts found, return all posts
+    if (posts.length === 0) {
+      console.log("🔍 No published posts found, fetching all posts...");
+      const allPostsQuery = await getDocs(postsRef);
+      const allPosts = allPostsQuery.docs.map((doc) => {
+        const data = doc.data();
+        return {
+          id: doc.id,
+          ...data,
+        } as BlogPost;
+      });
+
+      console.log("✅ Fetched all posts:", allPosts.length);
+
+      // If still no posts, return sample data
+      if (allPosts.length === 0) {
+        console.warn("No posts found in Firebase, returning sample data");
+        return sampleBlogPosts;
+      }
+
+      // Sort all posts by date
+      allPosts.sort((a, b) => {
+        const dateA =
+          a.date && a.date instanceof Timestamp
+            ? a.date.toDate()
+            : a.created_at instanceof Timestamp
+              ? a.created_at.toDate()
+              : new Date();
+        const dateB =
+          b.date && b.date instanceof Timestamp
+            ? b.date.toDate()
+            : b.created_at instanceof Timestamp
+              ? b.created_at.toDate()
+              : new Date();
+        return dateB.getTime() - dateA.getTime();
+      });
+
+      return allPosts;
+    }
+
     // Sort posts by date on the client side if date field exists
     posts.sort((a, b) => {
       const dateA =
@@ -179,12 +215,7 @@ export async function getBlogPostBySlug(
   slug: string
 ): Promise<BlogPost | null> {
   try {
-    // Check if we're in a browser environment
-    if (typeof window === "undefined") {
-      console.warn("⚠️ Server-side rendering detected, checking sample data");
-      const samplePost = sampleBlogPosts.find((post) => post.slug === slug);
-      return samplePost || null;
-    }
+    console.log("🔍 Fetching blog post by slug:", slug);
 
     // Check if Firebase is properly initialized
     if (!db) {
@@ -202,9 +233,23 @@ export async function getBlogPostBySlug(
     const querySnapshot = await getDocs(q);
 
     if (querySnapshot.empty) {
-      // Check sample data as fallback
-      const samplePost = sampleBlogPosts.find((post) => post.slug === slug);
-      return samplePost || null;
+      console.log("🔍 No published post found, trying unpublished...");
+      // Try without published filter
+      const allQuery = query(postsRef, where("slug", "==", slug));
+      const allQuerySnapshot = await getDocs(allQuery);
+
+      if (allQuerySnapshot.empty) {
+        // Check sample data as fallback
+        console.warn("Post not found in Firebase, checking sample data");
+        const samplePost = sampleBlogPosts.find((post) => post.slug === slug);
+        return samplePost || null;
+      }
+
+      const doc = allQuerySnapshot.docs[0];
+      return {
+        id: doc.id,
+        ...doc.data(),
+      } as BlogPost;
     }
 
     const doc = querySnapshot.docs[0];
