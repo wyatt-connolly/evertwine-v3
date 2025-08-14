@@ -102,6 +102,12 @@ const COLLECTION_NAME = "blog-posts";
 // Get all published blog posts, sorted by creation date (newest first)
 export async function getBlogPosts(): Promise<BlogPost[]> {
   try {
+    // Check if we're in a browser environment and Firebase is available
+    if (typeof window === "undefined") {
+      console.warn("⚠️ Server-side rendering detected, returning sample data");
+      return sampleBlogPosts;
+    }
+
     // Check if Firebase is properly initialized
     if (!db) {
       console.warn("⚠️ Firebase not initialized, returning sample data");
@@ -173,6 +179,13 @@ export async function getBlogPostBySlug(
   slug: string
 ): Promise<BlogPost | null> {
   try {
+    // Check if we're in a browser environment
+    if (typeof window === "undefined") {
+      console.warn("⚠️ Server-side rendering detected, checking sample data");
+      const samplePost = sampleBlogPosts.find((post) => post.slug === slug);
+      return samplePost || null;
+    }
+
     // Check if Firebase is properly initialized
     if (!db) {
       console.warn("⚠️ Firebase not initialized, checking sample data");
