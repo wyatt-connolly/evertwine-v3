@@ -1,0 +1,485 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --foreground-rgb: 255, 255, 255;
+  --background-rgb: 25, 25, 112;
+}
+
+html {
+  /* Make scrolling much slower and smoother */
+  scroll-behavior: smooth;
+  scroll-padding-top: 110px; /* Add padding for fixed header */
+}
+
+/* Add a custom class for extra slow scrolling */
+.slow-scroll {
+  scroll-behavior: smooth;
+  transition-duration: 2s;
+  transition-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* Removed scroll-snap properties to allow continuous scrolling */
+
+body {
+  color: rgb(var(--foreground-rgb));
+  background: rgb(var(--background-rgb));
+  font-feature_settings: "ss01", "ss02", "cv01", "cv02";
+  font-size: 18px;
+  /* Force scroll to top on page load */
+  overflow-anchor: none;
+}
+
+/* Force scroll to top for all pages */
+html,
+body {
+  scroll-behavior: auto;
+  overflow-x: hidden;
+}
+
+section {
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateX(100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideOut {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(100%);
+  }
+}
+
+.animate-slide-in {
+  animation: slideIn 0.3s forwards;
+}
+
+.animate-slide-out {
+  animation: slideOut 0.3s forwards;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in-up {
+  animation: fadeInUp 0.8s ease forwards;
+}
+
+.animate-fade-in-up-delayed {
+  animation: fadeInUp 0.8s ease forwards;
+  animation-delay: 0.2s;
+}
+
+.animate-fade-in-up-more-delayed {
+  animation: fadeInUp 0.8s ease forwards;
+  animation-delay: 0.4s;
+}
+
+/* New window sliding animations */
+@keyframes slideWindowFromRight {
+  from {
+    transform: translateX(100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideWindowFromLeft {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+.animate-window-from-right {
+  animation: slideWindowFromRight 1.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.animate-window-from-left {
+  animation: slideWindowFromLeft 1.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(-100px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.animate-slide-in-right {
+  animation: slideInRight 1s ease forwards;
+  animation-delay: 0.3s;
+}
+
+@keyframes slideInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(100px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.animate-slide-in-left {
+  animation: slideInLeft 1s ease forwards;
+  animation-delay: 0.3s;
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-slide-up-1 {
+  animation: slideUp 0.6s ease forwards;
+  animation-delay: 0.1s;
+}
+
+.animate-slide-up-2 {
+  animation: slideUp 0.6s ease forwards;
+  animation-delay: 0.3s;
+}
+
+.animate-slide-up-3 {
+  animation: slideUp 0.6s ease forwards;
+  animation-delay: 0.5s;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.animate-fade-in-delayed {
+  animation: fadeIn 0.8s ease forwards;
+  animation-delay: 0.7s;
+}
+
+@keyframes fadeInZoom {
+  from {
+    opacity: 0;
+    transform: scale(0.5);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.animate-fade-in-zoom {
+  animation: fadeInZoom 0.6s ease forwards;
+}
+
+/* Feature card animations */
+@keyframes featureCardAppear {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-feature-card-1 {
+  animation: featureCardAppear 0.5s ease forwards;
+  animation-delay: 0.1s;
+}
+
+.animate-feature-card-2 {
+  animation: featureCardAppear 0.5s ease forwards;
+  animation-delay: 0.2s;
+}
+
+.animate-feature-card-3 {
+  animation: featureCardAppear 0.5s ease forwards;
+  animation-delay: 0.3s;
+}
+
+.animate-feature-card-4 {
+  animation: featureCardAppear 0.5s ease forwards;
+  animation-delay: 0.4s;
+}
+
+.animate-feature-card-5 {
+  animation: featureCardAppear 0.5s ease forwards;
+  animation-delay: 0.5s;
+}
+
+.animate-feature-card-6 {
+  animation: featureCardAppear 0.5s ease forwards;
+  animation-delay: 0.6s;
+}
+
+/* Testimonial animations */
+@keyframes testimonialAppear {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-testimonial-1 {
+  animation: testimonialAppear 0.6s ease forwards;
+  animation-delay: 0.1s;
+}
+
+.animate-testimonial-2 {
+  animation: testimonialAppear 0.6s ease forwards;
+  animation-delay: 0.2s;
+}
+
+.animate-testimonial-3 {
+  animation: testimonialAppear 0.6s ease forwards;
+  animation-delay: 0.3s;
+}
+
+.animate-testimonial-4 {
+  animation: testimonialAppear 0.6s ease forwards;
+  animation-delay: 0.4s;
+}
+
+.animate-testimonial-5 {
+  animation: testimonialAppear 0.6s ease forwards;
+  animation-delay: 0.5s;
+}
+
+.animate-testimonial-6 {
+  animation: testimonialAppear 0.6s ease forwards;
+  animation-delay: 0.6s;
+}
+
+/* FAQ animations */
+@keyframes faqAppear {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.delay-100 {
+  animation-delay: 0.1s;
+}
+
+.delay-200 {
+  animation-delay: 0.2s;
+}
+
+.delay-300 {
+  animation-delay: 0.3s;
+}
+
+.delay-400 {
+  animation-delay: 0.4s;
+}
+
+.delay-500 {
+  animation-delay: 0.5s;
+}
+
+/* Spending path animation */
+@keyframes drawPath {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+.spending-path {
+  stroke-dasharray: 500;
+  stroke-dashoffset: 500;
+  animation: drawPath 2s ease forwards;
+  animation-delay: 0.8s;
+}
+
+.spending-path-accent {
+  stroke-dasharray: 300;
+  stroke-dashoffset: 300;
+  animation: drawPath 1.5s ease forwards;
+  animation-delay: 1.5s;
+}
+
+/* Feature card hover effects */
+.feature-card {
+  position: relative;
+  z-index: 1;
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.feature-card:hover {
+  transform: translateY(-16px);
+  background-color: rgba(30, 41, 59, 0.8); /* slate-800 with opacity */
+  box-shadow:
+    0 20px 25px -5px rgba(0, 0, 0, 0.2),
+    0 10px 10px -5px rgba(0, 0, 0, 0.1);
+  margin-top: -8px;
+  margin-bottom: 8px;
+}
+
+.feature-card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to bottom right,
+    rgba(59, 130, 246, 0.2),
+    rgba(139, 92, 246, 0.2)
+  );
+  border-radius: inherit;
+  z-index: -1;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.feature-card:hover::after {
+  opacity: 1;
+}
+
+/* Hide scrollbar for testimonials */
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+.scrollbar-hide {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
+
+/* Cursor styles for drag scrolling */
+.cursor-grab {
+  cursor: grab;
+}
+
+.cursor-grabbing {
+  cursor: grabbing;
+}
+
+/* Smooth scrolling */
+.scroll-smooth {
+  scroll-behavior: smooth;
+}
+
+/* Testimonial and FAQ animations */
+@keyframes fadeInScale {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes slideInStagger {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes pulseGlow {
+  0%,
+  100% {
+    box-shadow: 0 0 0 rgba(59, 130, 246, 0);
+  }
+  50% {
+    box-shadow: 0 0 20px rgba(59, 130, 246, 0.4);
+  }
+}
+
+.animate-fade-in-scale {
+  animation: fadeInScale 0.7s ease forwards;
+}
+
+.animate-slide-in-stagger {
+  animation: slideInStagger 0.5s ease forwards;
+}
+
+.animate-pulse-glow {
+  animation: pulseGlow 2s infinite;
+}
+
+/* Enhanced FAQ animations */
+.faq-item-enter {
+  max-height: 0;
+  opacity: 0;
+  transform: translateY(-10px);
+}
+
+.faq-item-enter-active {
+  max-height: 500px;
+  opacity: 1;
+  transform: translateY(0);
+  transition: all 0.5s ease;
+}
+
+.faq-item-exit {
+  max-height: 500px;
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.faq-item-exit-active {
+  max-height: 0;
+  opacity: 0;
+  transform: translateY(-10px);
+  transition: all 0.5s ease;
+}
+
+/* Remove default focus outlines */
+input:focus,
+textarea:focus,
+select:focus {
+  outline: none !important;
+}

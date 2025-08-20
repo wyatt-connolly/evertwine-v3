@@ -1,0 +1,190 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: evertwine-ingress
+  namespace: evertwine
+  labels:
+    app: evertwine
+  annotations:
+    # AWS Load Balancer Controller annotations
+    kubernetes.io/ingress.class: "alb"
+    alb.ingress.kubernetes.io/scheme: "internet-facing"
+    alb.ingress.kubernetes.io/target-type: "ip"
+    alb.ingress.kubernetes.io/group.name: "evertwine"
+
+    # SSL and security
+    alb.ingress.kubernetes.io/ssl-redirect: "443"
+    alb.ingress.kubernetes.io/certificate-arn: "arn:aws:acm:us-west-2:ACCOUNT:certificate/CERT-ID"
+    alb.ingress.kubernetes.io/ssl-policy: "ELBSecurityPolicy-TLS-1-2-2017-01"
+
+    # Health checks
+    alb.ingress.kubernetes.io/healthcheck-path: "/health"
+    alb.ingress.kubernetes.io/healthcheck-interval-seconds: "30"
+    alb.ingress.kubernetes.io/healthcheck-timeout-seconds: "5"
+    alb.ingress.kubernetes.io/healthy-threshold-count: "2"
+    alb.ingress.kubernetes.io/unhealthy-threshold-count: "3"
+
+    # Load balancer settings
+    alb.ingress.kubernetes.io/load-balancer-attributes: |
+      idle_timeout.timeout_seconds=60,
+      routing.http2.enabled=true,
+      access_logs.s3.enabled=true,
+      access_logs.s3.bucket=evertwine-alb-logs,
+      access_logs.s3.prefix=evertwine
+
+    # Security headers
+    alb.ingress.kubernetes.io/actions.response-headers: |
+      {
+        "type": "fixed-response",
+        "fixedResponseConfig": {
+          "statusCode": "200",
+          "contentType": "text/plain",
+          "messageBody": "OK"
+        },
+        "responseHeaders": {
+          "X-Frame-Options": "SAMEORIGIN",
+          "X-Content-Type-Options": "nosniff",
+          "X-XSS-Protection": "1; mode=block",
+          "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+          "Referrer-Policy": "strict-origin-when-cross-origin"
+        }
+      }
+
+    # Rate limiting (using AWS WAF)
+    alb.ingress.kubernetes.io/wafv2-acl-arn: "arn:aws:wafv2:us-west-2:ACCOUNT:webacl/evertwine-waf/ID"
+spec:
+  ingressClassName: alb
+  tls:
+    - hosts:
+        - evertwine.com
+        - api.evertwine.com
+      secretName: evertwine-tls
+  rules:
+    # Frontend domain
+    - host: evertwine.com
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: frontend-service
+                port:
+                  number: 3000
+    # API domain
+    - host: api.evertwine.com
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: backend-service
+                port:
+                  number: 3001
+    # Single domain with path-based routing (alternative)
+    - host: evertwine.com
+      http:
+        paths:
+          - path: /api
+            pathType: Prefix
+            backend:
+              service:
+                name: backend-service
+                port:
+                  number: 3001
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: frontend-service
+                port:
+                  number: 3000
+---
+# Network Policy for security
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: evertwine-network-policy
+  namespace: evertwine
+  labels:
+    app: evertwine
+spec:
+  podSelector: {}
+  policyTypes:
+    - Ingress
+    - Egress
+  ingress:
+    # Allow traffic from ALB
+    - from:
+        - namespaceSelector:
+            matchLabels:
+              name: kube-system
+    # Allow inter-service communication
+    - from:
+        - podSelector:
+            matchLabels:
+              tier: frontend
+        - podSelector:
+            matchLabels:
+              tier: application
+        - podSelector:
+            matchLabels:
+              tier: database
+        - podSelector:
+            matchLabels:
+              tier: cache
+  egress:
+    # Allow DNS resolution
+    - to: []
+      ports:
+        - protocol: UDP
+          port: 53
+    # Allow HTTPS to external services
+    - to: []
+      ports:
+        - protocol: TCP
+          port: 443
+    # Allow HTTP to external services (for APIs)
+    - to: []
+      ports:
+        - protocol: TCP
+          port: 80
+    # Allow inter-service communication
+    - to:
+        - podSelector: {}
+---
+# Service Monitor for Prometheus (if using Prometheus Operator)
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: evertwine-backend
+  namespace: evertwine
+  labels:
+    app: backend
+spec:
+  selector:
+    matchLabels:
+      app: backend
+  endpoints:
+    - port: http
+      path: /metrics
+      interval: 30s
+      scrapeTimeout: 10s
+---
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: evertwine-frontend
+  namespace: evertwine
+  labels:
+    app: frontend
+spec:
+  selector:
+    matchLabels:
+      app: frontend
+  endpoints:
+    - port: http
+      path: /api/metrics
+      interval: 30s
+      scrapeTimeout: 10s

@@ -1,0 +1,136 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: evertwine-config
+  namespace: evertwine
+  labels:
+    app: evertwine
+data:
+  # Backend configuration
+  NODE_ENV: "production"
+  PORT: "3001"
+  LOG_LEVEL: "info"
+  BCRYPT_ROUNDS: "12"
+
+  # Database configuration
+  DB_HOST: "postgres-service"
+  DB_PORT: "5432"
+  DB_NAME: "evertwine_db"
+
+  # Redis configuration
+  REDIS_HOST: "redis-service"
+  REDIS_PORT: "6379"
+
+  # Frontend configuration
+  NEXT_PUBLIC_APP_NAME: "Evertwine"
+  NEXT_PUBLIC_APP_VERSION: "1.0.0"
+  NEXT_PUBLIC_API_URL: "https://api.evertwine.com"
+
+  # Rate limiting
+  RATE_LIMIT_WINDOW_MS: "900000"
+  RATE_LIMIT_MAX_REQUESTS: "100"
+
+  # File upload
+  MAX_FILE_SIZE: "10485760"
+
+  # Email configuration
+  SMTP_HOST: "smtp.gmail.com"
+  SMTP_PORT: "587"
+  EMAIL_FROM: "noreply@evertwine.com"
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: postgres-config
+  namespace: evertwine
+  labels:
+    app: postgres
+data:
+  POSTGRES_DB: "evertwine_db"
+  POSTGRES_USER: "postgres"
+  PGDATA: "/var/lib/postgresql/data/pgdata"
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: redis-config
+  namespace: evertwine
+  labels:
+    app: redis
+data:
+  redis.conf: |
+    bind 0.0.0.0
+    port 6379
+    timeout 300
+    tcp-keepalive 300
+
+    # Memory management
+    maxmemory 256mb
+    maxmemory-policy allkeys-lru
+
+    # Persistence
+    save 900 1
+    save 300 10
+    save 60 10000
+
+    # Security
+    rename-command FLUSHDB ""
+    rename-command FLUSHALL ""
+    rename-command EVAL ""
+    rename-command DEBUG ""
+
+    # Logging
+    loglevel notice
+
+    # Append Only File
+    appendonly yes
+    appendfsync everysec
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: nginx-config
+  namespace: evertwine
+  labels:
+    app: nginx
+data:
+  nginx.conf: |
+    events {
+        worker_connections 1024;
+    }
+
+    http {
+        upstream backend {
+            server backend-service:3001;
+        }
+        
+        upstream frontend {
+            server frontend-service:3000;
+        }
+        
+        server {
+            listen 80;
+            server_name _;
+            
+            location /api/ {
+                proxy_pass http://backend;
+                proxy_set_header Host $host;
+                proxy_set_header X-Real-IP $remote_addr;
+                proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+                proxy_set_header X-Forwarded-Proto $scheme;
+            }
+            
+            location / {
+                proxy_pass http://frontend;
+                proxy_set_header Host $host;
+                proxy_set_header X-Real-IP $remote_addr;
+                proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+                proxy_set_header X-Forwarded-Proto $scheme;
+            }
+            
+            location /health {
+                return 200 "healthy\n";
+                add_header Content-Type text/plain;
+            }
+        }
+    }
