@@ -1,14 +1,6 @@
 "use server";
 
-import { db } from "@/lib/firebase";
-import {
-  doc,
-  collection,
-  query,
-  where,
-  getDocs,
-  writeBatch,
-} from "firebase/firestore";
+import { API_ENDPOINTS, getAuthHeaders } from "@/lib/firebase";
 
 interface DeleteAccountResult {
   success: boolean;
@@ -19,67 +11,18 @@ export async function deleteUserAccount(
   userId: string
 ): Promise<DeleteAccountResult> {
   try {
-    // Check if Firebase is properly initialized
-    if (!db) {
-      console.warn("⚠️ Firebase not initialized, cannot delete user account");
+    const response = await fetch(`${API_ENDPOINTS.users.deleteAccount}`, {
+      method: "DELETE",
+      headers: getAuthHeaders(),
+    });
+
+    if (!response.ok) {
+      const errorData = await response.json();
       return {
         success: false,
-        error: "Database not available",
+        error: errorData.message || "Failed to delete account",
       };
     }
-
-    const batch = writeBatch(db!);
-
-    // Collections to clean up
-    const collectionsToClean = [
-      { name: "messages", field: "creatorId" },
-      { name: "message_room", field: "creatorId" },
-      { name: "meetups", field: "creatorId" },
-      { name: "blocked", field: "creatorId" },
-      { name: "reports", field: "creatorId" },
-      { name: "notifications", field: "creatorId" },
-      { name: "unmatched", field: "creatorId" },
-      { name: "verification_docs", field: "creatorId" },
-      // Also check for documents where the user might be referenced differently
-      { name: "messages", field: "senderId" },
-      { name: "messages", field: "receiverId" },
-      { name: "blocked", field: "blockedUserId" },
-      { name: "reports", field: "reportedUserId" },
-      { name: "notifications", field: "userId" },
-      { name: "meetups", field: "participantIds", isArray: true },
-    ];
-
-    // Delete documents from each collection
-    for (const collectionInfo of collectionsToClean) {
-      let q;
-
-      if (collectionInfo.isArray) {
-        // For array fields, use array-contains
-        q = query(
-          collection(db!, collectionInfo.name),
-          where(collectionInfo.field, "array-contains", userId)
-        );
-      } else {
-        // For regular fields
-        q = query(
-          collection(db!, collectionInfo.name),
-          where(collectionInfo.field, "==", userId)
-        );
-      }
-
-      const querySnapshot = await getDocs(q);
-
-      querySnapshot.forEach((document) => {
-        batch.delete(doc(db!, collectionInfo.name, document.id));
-      });
-    }
-
-    // Delete the main user document
-    const userDocRef = doc(db!, "users", userId);
-    batch.delete(userDocRef);
-
-    // Commit the batch delete
-    await batch.commit();
 
     return {
       success: true,

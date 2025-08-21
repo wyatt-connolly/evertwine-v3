@@ -39,7 +39,7 @@ export interface BlogPostInput {
   content: string;
   category: string;
   tags?: string[];
-  status?: "draft" | "published";
+  status?: "draft" | "published" | "archived";
   featuredImage?: string;
   seoTitle?: string;
   seoDescription?: string;
@@ -386,7 +386,7 @@ export function createSlug(title: string): string {
 // Upload image (placeholder - would need to be implemented with your backend)
 export async function uploadBlogImage(
   file: File,
-  token: string
+  _token: string
 ): Promise<string | null> {
   try {
     console.log("🚀 Uploading image:", file.name);

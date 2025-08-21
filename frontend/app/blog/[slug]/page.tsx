@@ -215,7 +215,7 @@ export default function BlogPostPage({ params }: BlogPostPageProps) {
         </div>
 
         {/* Featured Image */}
-        {post.image && (
+        {post.featuredImage && (
           <div className="bg-gradient-to-b from-black via-gray-900 to-black py-16">
             <div className="container mx-auto px-6 md:px-8">
               <div className="max-w-4xl mx-auto">
@@ -227,7 +227,7 @@ export default function BlogPostPage({ params }: BlogPostPageProps) {
                   }`}
                 >
                   <Image
-                    src={post.image}
+                    src={post.featuredImage}
                     alt={post.title}
                     fill
                     className="object-cover"

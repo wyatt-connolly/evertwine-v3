@@ -112,15 +112,6 @@ export default function AdminPage() {
     setLoginData({ username: "", password: "" });
   };
 
-  const generateSlug = (title: string) => {
-    return title
-      .toLowerCase()
-      .replace(/[^a-z0-9 -]/g, "")
-      .replace(/\s+/g, "-")
-      .replace(/-+/g, "-")
-      .trim();
-  };
-
   // Handle file selection
   const handleFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -165,7 +156,6 @@ export default function AdminPage() {
         imageUrl = await handleImageUpload();
       }
 
-      const slug = generateSlug(formData.title);
       // For now, we'll use a placeholder token - in a real app, you'd get this from your auth system
       const token = "admin-token-placeholder";
       await createBlogPost({ ...formData, featuredImage: imageUrl }, token);
@@ -202,7 +192,6 @@ export default function AdminPage() {
         imageUrl = await handleImageUpload();
       }
 
-      const slug = generateSlug(formData.title);
       // For now, we'll use a placeholder token - in a real app, you'd get this from your auth system
       const token = "admin-token-placeholder";
       await updateBlogPost(
@@ -438,12 +427,10 @@ export default function AdminPage() {
                     title: "",
                     excerpt: "",
                     content: "",
-                    author: "",
-                    image: "",
-                    read_time: "",
                     category: "",
-                    slug: "",
-                    published: true,
+                    tags: [],
+                    status: "draft",
+                    featuredImage: "",
                   });
                   setSelectedFile(null);
                   setImagePreview("");
@@ -491,12 +478,10 @@ export default function AdminPage() {
                       title: "",
                       excerpt: "",
                       content: "",
-                      author: "",
-                      image: "",
-                      read_time: "",
                       category: "",
-                      slug: "",
-                      published: true,
+                      tags: [],
+                      status: "draft",
+                      featuredImage: "",
                     });
                     setSelectedFile(null);
                     setImagePreview("");
@@ -525,36 +510,6 @@ export default function AdminPage() {
                       className="w-full px-3 py-2 bg-gray-800 border border-gray-600 text-white rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                       required
                     />
-                  </div>
-                  <div>
-                    <label className="block text-sm font-medium text-gray-200 mb-2">
-                      Author
-                    </label>
-                    <Select
-                      value={formData.author}
-                      onValueChange={(value) =>
-                        setFormData({ ...formData, author: value })
-                      }
-                      required
-                    >
-                      <SelectTrigger className="w-full bg-gray-800 border border-gray-600 text-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
-                        <SelectValue placeholder="Select Author" />
-                      </SelectTrigger>
-                      <SelectContent className="bg-gray-800 border border-gray-600">
-                        <SelectItem
-                          value="Skylar Greggory (CEO)"
-                          className="text-white hover:bg-gray-700"
-                        >
-                          Skylar Greggory (CEO)
-                        </SelectItem>
-                        <SelectItem
-                          value="Wyatt Connolly (CTO)"
-                          className="text-white hover:bg-gray-700"
-                        >
-                          Wyatt Connolly (CTO)
-                        </SelectItem>
-                      </SelectContent>
-                    </Select>
                   </div>
                 </div>
 
@@ -588,22 +543,7 @@ export default function AdminPage() {
                   />
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                  <div>
-                    <label className="block text-sm font-medium text-gray-200 mb-2">
-                      Read Time (minutes)
-                    </label>
-                    <input
-                      type="number"
-                      value={formData.read_time}
-                      onChange={(e) =>
-                        setFormData({ ...formData, read_time: e.target.value })
-                      }
-                      placeholder="5"
-                      className="w-full px-3 py-2 bg-gray-800 border border-gray-600 text-white rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                      required
-                    />
-                  </div>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div>
                     <label className="block text-sm font-medium text-gray-200 mb-2">
                       Category
@@ -680,7 +620,7 @@ export default function AdminPage() {
                       <div className="mt-4">
                         <p className="text-sm text-gray-400 mb-2">Preview:</p>
                         <Image
-                          src={imagePreview || formData.featuredImage}
+                          src={imagePreview || formData.featuredImage || ""}
                           alt="Preview"
                           width={200}
                           height={120}
@@ -707,7 +647,7 @@ export default function AdminPage() {
                     onValueChange={(value) =>
                       setFormData({
                         ...formData,
-                        status: value as "draft" | "published",
+                        status: value as "draft" | "published" | "archived",
                       })
                     }
                     required
@@ -727,6 +667,12 @@ export default function AdminPage() {
                         className="text-white hover:bg-gray-700"
                       >
                         Published
+                      </SelectItem>
+                      <SelectItem
+                        value="archived"
+                        className="text-white hover:bg-gray-700"
+                      >
+                        Archived
                       </SelectItem>
                     </SelectContent>
                   </Select>

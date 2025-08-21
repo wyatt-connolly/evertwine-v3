@@ -6,115 +6,11 @@ const {
   requireRole,
   optionalAuth,
 } = require("../middleware/auth");
+const { Blog, User } = require("../models");
+const { cache, sequelize } = require("../config/database");
+const { Op } = require("sequelize");
 
 const router = express.Router();
-
-// Mock blog data
-const mockBlogPosts = [
-  {
-    id: "1",
-    title: "Building Meaningful Connections in the Digital Age",
-    slug: "building-meaningful-connections-digital-age",
-    excerpt:
-      "Discover how modern technology can help foster genuine relationships and community bonds in our increasingly connected world.",
-    content:
-      "In today's fast-paced digital world, it's easy to feel disconnected despite being constantly connected. Social media platforms promise to bring us together, but often leave us feeling more isolated than ever. This is where Evertwine comes in - we're building a platform that bridges the gap between digital convenience and genuine human connection.",
-    author: {
-      id: "1",
-      firstName: "Sarah",
-      lastName: "Johnson",
-      profileImage: "/hero-bg.webp",
-    },
-    category: "Technology",
-    tags: ["connections", "digital", "community", "social"],
-    status: "published",
-    isFeatured: true,
-    viewCount: 1250,
-    likeCount: 89,
-    commentCount: 23,
-    publishedAt: "2024-03-15T00:00:00.000Z",
-    createdAt: "2024-03-15T00:00:00.000Z",
-    updatedAt: "2024-03-15T00:00:00.000Z",
-    seoTitle: "Building Meaningful Connections in the Digital Age - Evertwine",
-    seoDescription:
-      "Discover how modern technology can help foster genuine relationships and community bonds in our increasingly connected world.",
-    seoKeywords: [
-      "social connections",
-      "community building",
-      "digital age",
-      "meaningful relationships",
-    ],
-  },
-  {
-    id: "2",
-    title: "The Future of Social Networking",
-    slug: "future-of-social-networking",
-    excerpt:
-      "Exploring how social platforms are evolving to prioritize authentic connections over superficial interactions.",
-    content:
-      "The landscape of social networking is undergoing a fundamental transformation. For years, platforms have focused on maximizing engagement through addictive algorithms and superficial interactions. But users are increasingly demanding more meaningful experiences that actually improve their lives rather than just consuming their time.",
-    author: {
-      id: "2",
-      firstName: "Mike",
-      lastName: "Chen",
-      profileImage: "/hero-bg.webp",
-    },
-    category: "Innovation",
-    tags: ["social networking", "future", "authenticity", "technology"],
-    status: "published",
-    isFeatured: false,
-    viewCount: 890,
-    likeCount: 67,
-    commentCount: 15,
-    publishedAt: "2024-03-10T00:00:00.000Z",
-    createdAt: "2024-03-10T00:00:00.000Z",
-    updatedAt: "2024-03-10T00:00:00.000Z",
-    seoTitle: "The Future of Social Networking - Authentic Connections",
-    seoDescription:
-      "Exploring how social platforms are evolving to prioritize authentic connections over superficial interactions.",
-    seoKeywords: [
-      "social networking",
-      "future",
-      "authentic connections",
-      "technology evolution",
-    ],
-  },
-  {
-    id: "3",
-    title: "Community Building Best Practices",
-    slug: "community-building-best-practices",
-    excerpt:
-      "Learn the essential strategies for creating and maintaining thriving online communities that last.",
-    content:
-      "Building a strong community is both an art and a science. Whether you're organizing a local meetup group or managing an online community, the principles of successful community building remain the same. Here are some essential strategies that have proven effective time and time again.",
-    author: {
-      id: "3",
-      firstName: "Emily",
-      lastName: "Rodriguez",
-      profileImage: "/hero-bg.webp",
-    },
-    category: "Community",
-    tags: ["community building", "best practices", "leadership", "inclusivity"],
-    status: "published",
-    isFeatured: false,
-    viewCount: 567,
-    likeCount: 45,
-    commentCount: 12,
-    publishedAt: "2024-03-05T00:00:00.000Z",
-    createdAt: "2024-03-05T00:00:00.000Z",
-    updatedAt: "2024-03-05T00:00:00.000Z",
-    seoTitle: "Community Building Best Practices - Evertwine Guide",
-    seoDescription:
-      "Learn the essential strategies for creating and maintaining thriving online communities that last.",
-    seoKeywords: [
-      "community building",
-      "best practices",
-      "leadership",
-      "inclusivity",
-      "meetup groups",
-    ],
-  },
-];
 
 // Get all published blog posts with pagination and filtering
 router.get(
@@ -135,54 +31,56 @@ router.get(
       }
 
       const { page = 1, limit = 10, category, tag, search, author } = req.query;
-      let filteredPosts = [...mockBlogPosts];
+      const offset = (page - 1) * limit;
 
-      // Filter by category
+      // Build where clause
+      const whereClause = { status: "published" };
+      
       if (category) {
-        filteredPosts = filteredPosts.filter(
-          (post) => post.category.toLowerCase() === category.toLowerCase()
-        );
+        whereClause.category = category;
       }
 
-      // Filter by tag
-      if (tag) {
-        filteredPosts = filteredPosts.filter((post) =>
-          post.tags.some((t) => t.toLowerCase().includes(tag.toLowerCase()))
-        );
-      }
-
-      // Filter by author
-      if (author) {
-        filteredPosts = filteredPosts.filter((post) =>
-          `${post.author.firstName} ${post.author.lastName}`
-            .toLowerCase()
-            .includes(author.toLowerCase())
-        );
-      }
-
-      // Search functionality
       if (search) {
-        const searchLower = search.toLowerCase();
-        filteredPosts = filteredPosts.filter(
-          (post) =>
-            post.title.toLowerCase().includes(searchLower) ||
-            post.content.toLowerCase().includes(searchLower) ||
-            post.excerpt.toLowerCase().includes(searchLower) ||
-            post.tags.some((tag) => tag.toLowerCase().includes(searchLower))
-        );
+        whereClause[Op.or] = [
+          { title: { [Op.iLike]: `%${search}%` } },
+          { content: { [Op.iLike]: `%${search}%` } },
+          { excerpt: { [Op.iLike]: `%${search}%` } },
+        ];
       }
 
-      // Pagination
-      const startIndex = (page - 1) * limit;
-      const endIndex = page * limit;
-      const paginatedPosts = filteredPosts.slice(startIndex, endIndex);
+      // Build include clause for author
+      const includeClause = [
+        {
+          model: User,
+          as: "author",
+          attributes: ["id", "firstName", "lastName", "profileImage"],
+          where: author ? {
+            [Op.or]: [
+              { firstName: { [Op.iLike]: `%${author}%` } },
+              { lastName: { [Op.iLike]: `%${author}%` } },
+            ]
+          } : undefined,
+        },
+      ];
 
-      const total = filteredPosts.length;
-      const totalPages = Math.ceil(total / limit);
+      // Handle tag filtering
+      if (tag) {
+        whereClause.tags = { [Op.overlap]: [tag] };
+      }
+
+      const { count, rows: posts } = await Blog.findAndCountAll({
+        where: whereClause,
+        include: includeClause,
+        order: [["publishedAt", "DESC"]],
+        limit: parseInt(limit),
+        offset: offset,
+      });
+
+      const totalPages = Math.ceil(count / limit);
 
       res.json({
-        posts: paginatedPosts,
-        total,
+        posts,
+        total: count,
         page: parseInt(page),
         totalPages,
         hasNext: page < totalPages,
@@ -198,7 +96,22 @@ router.get(
 // Get featured blog posts
 router.get("/featured", async (req, res) => {
   try {
-    const featuredPosts = mockBlogPosts.filter((post) => post.isFeatured);
+    const featuredPosts = await Blog.findAll({
+      where: { 
+        status: "published",
+        isFeatured: true 
+      },
+      include: [
+        {
+          model: User,
+          as: "author",
+          attributes: ["id", "firstName", "lastName", "profileImage"],
+        },
+      ],
+      order: [["publishedAt", "DESC"]],
+      limit: 5,
+    });
+
     res.json(featuredPosts);
   } catch (error) {
     logger.error("Error fetching featured posts:", error);
@@ -210,14 +123,37 @@ router.get("/featured", async (req, res) => {
 router.get("/:slug", async (req, res) => {
   try {
     const { slug } = req.params;
-    const post = mockBlogPosts.find((p) => p.slug === slug);
+    
+    // Try to get from cache first
+    const cacheKey = `blog:${slug}`;
+    const cachedPost = await cache.get(cacheKey);
+    
+    if (cachedPost) {
+      // Increment view count in background
+      Blog.increment("viewCount", { where: { slug } });
+      return res.json(cachedPost);
+    }
+
+    const post = await Blog.findOne({
+      where: { slug, status: "published" },
+      include: [
+        {
+          model: User,
+          as: "author",
+          attributes: ["id", "firstName", "lastName", "profileImage"],
+        },
+      ],
+    });
 
     if (!post) {
       return res.status(404).json({ error: "Blog post not found" });
     }
 
-    // Increment view count (in a real app, this would be in the database)
-    post.viewCount += 1;
+    // Increment view count
+    await post.incrementViewCount();
+
+    // Cache the post for 1 hour
+    await cache.set(cacheKey, post.toJSON(), 3600);
 
     res.json(post);
   } catch (error) {
@@ -229,8 +165,14 @@ router.get("/:slug", async (req, res) => {
 // Get blog categories
 router.get("/categories", async (req, res) => {
   try {
-    const categories = [...new Set(mockBlogPosts.map((post) => post.category))];
-    res.json(categories);
+    const categories = await Blog.findAll({
+      attributes: [[sequelize.fn('DISTINCT', sequelize.col('category')), 'category']],
+      where: { status: "published" },
+      raw: true,
+    });
+
+    const categoryList = categories.map(cat => cat.category).filter(Boolean);
+    res.json(categoryList);
   } catch (error) {
     logger.error("Error fetching categories:", error);
     res.status(500).json({ error: "Internal server error" });
@@ -240,7 +182,13 @@ router.get("/categories", async (req, res) => {
 // Get blog tags
 router.get("/tags", async (req, res) => {
   try {
-    const allTags = mockBlogPosts.flatMap((post) => post.tags);
+    const posts = await Blog.findAll({
+      attributes: ["tags"],
+      where: { status: "published" },
+      raw: true,
+    });
+
+    const allTags = posts.flatMap(post => post.tags || []);
     const uniqueTags = [...new Set(allTags)];
     res.json(uniqueTags);
   } catch (error) {
@@ -287,18 +235,18 @@ router.post(
         .replace(/[\s_-]+/g, "-")
         .replace(/^-+|-+$/g, "");
 
-      const newPost = {
-        id: Date.now().toString(),
+      // Check if slug already exists
+      const existingPost = await Blog.findOne({ where: { slug } });
+      if (existingPost) {
+        return res.status(400).json({ error: "A post with this title already exists" });
+      }
+
+      const newPost = await Blog.create({
         title,
         slug,
         excerpt,
         content,
-        author: {
-          id: req.user.id,
-          firstName: req.user.firstName,
-          lastName: req.user.lastName,
-          profileImage: "/hero-bg.webp",
-        },
+        authorId: req.user.id,
         category,
         tags,
         status,
@@ -306,14 +254,12 @@ router.post(
         viewCount: 0,
         likeCount: 0,
         commentCount: 0,
-        publishedAt: status === "published" ? new Date().toISOString() : null,
-        createdAt: new Date().toISOString(),
-        updatedAt: new Date().toISOString(),
+        publishedAt: status === "published" ? new Date() : null,
         featuredImage,
-      };
+      });
 
-      // In a real app, this would be saved to the database
-      mockBlogPosts.unshift(newPost);
+      // Clear cache
+      await cache.del("blog:featured");
 
       res
         .status(201)
@@ -347,28 +293,31 @@ router.put(
       }
 
       const { id } = req.params;
-      const postIndex = mockBlogPosts.findIndex((p) => p.id === id);
+      const post = await Blog.findByPk(id);
 
-      if (postIndex === -1) {
+      if (!post) {
         return res.status(404).json({ error: "Blog post not found" });
       }
 
-      const post = mockBlogPosts[postIndex];
       const updates = req.body;
 
       // Update fields
       Object.keys(updates).forEach((key) => {
-        if (key !== "id" && key !== "author" && key !== "createdAt") {
+        if (key !== "id" && key !== "authorId" && key !== "createdAt") {
           post[key] = updates[key];
         }
       });
 
       // Update publishedAt if status changed to published
       if (updates.status === "published" && !post.publishedAt) {
-        post.publishedAt = new Date().toISOString();
+        post.publishedAt = new Date();
       }
 
-      post.updatedAt = new Date().toISOString();
+      await post.save();
+
+      // Clear cache
+      await cache.del(`blog:${post.slug}`);
+      await cache.del("blog:featured");
 
       res.json({ message: "Blog post updated successfully" });
     } catch (error) {
@@ -382,14 +331,17 @@ router.put(
 router.delete("/:id", [verifyToken, requireRole("admin")], async (req, res) => {
   try {
     const { id } = req.params;
-    const postIndex = mockBlogPosts.findIndex((p) => p.id === id);
+    const post = await Blog.findByPk(id);
 
-    if (postIndex === -1) {
+    if (!post) {
       return res.status(404).json({ error: "Blog post not found" });
     }
 
-    // In a real app, this would be deleted from the database
-    mockBlogPosts.splice(postIndex, 1);
+    await post.destroy();
+
+    // Clear cache
+    await cache.del(`blog:${post.slug}`);
+    await cache.del("blog:featured");
 
     res.json({ message: "Blog post deleted successfully" });
   } catch (error) {

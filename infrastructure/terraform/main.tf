@@ -213,7 +213,7 @@ resource "aws_elasticache_parameter_group" "main" {
 
 resource "aws_elasticache_replication_group" "main" {
   replication_group_id       = "${var.project_name}-redis"
-  replication_group_description = "Redis cluster for ${var.project_name}"
+  description = "Redis cluster for ${var.project_name}"
 
   node_type                  = var.redis_node_type
   port                       = 6379

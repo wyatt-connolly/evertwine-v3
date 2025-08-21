@@ -40,11 +40,11 @@ export const API_ENDPOINTS = {
 // Default headers for API requests
 export const DEFAULT_HEADERS = {
   "Content-Type": "application/json",
-};
+} as const;
 
 // Helper function to get auth headers
 export const getAuthHeaders = (token?: string) => {
-  const headers = { ...DEFAULT_HEADERS };
+  const headers: Record<string, string> = { ...DEFAULT_HEADERS };
   if (token) {
     headers["Authorization"] = `Bearer ${token}`;
   }

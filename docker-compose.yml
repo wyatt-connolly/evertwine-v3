@@ -43,6 +43,8 @@ services:
       context: ./backend
       dockerfile: Dockerfile
       target: development
+      platforms:
+        - linux/amd64
     container_name: evertwine-backend
     environment:
       NODE_ENV: development
@@ -80,6 +82,8 @@ services:
       context: ./frontend
       dockerfile: Dockerfile
       target: development
+      platforms:
+        - linux/amd64
     container_name: evertwine-frontend
     environment:
       NEXT_PUBLIC_API_URL: http://localhost:3001/api
