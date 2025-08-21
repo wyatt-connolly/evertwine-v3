@@ -17,10 +17,12 @@ The CI/CD pipeline consists of three main workflows:
 You need to configure these secrets in your GitHub repository:
 
 **AWS Credentials:**
+
 - `AWS_ACCESS_KEY_ID` - Your AWS access key
 - `AWS_SECRET_ACCESS_KEY` - Your AWS secret key
 
 **Optional (for enhanced features):**
+
 - `SNYK_TOKEN` - For Snyk security scanning
 - `SONAR_TOKEN` - For SonarCloud code quality analysis
 
@@ -68,6 +70,7 @@ graph TD
 ```
 
 **Jobs:**
+
 1. **Test** - Runs frontend and backend tests
 2. **Build and Push** - Builds Docker images and pushes to ECR
 3. **Deploy** - Deploys to AWS ECS
@@ -92,12 +95,14 @@ graph TD
 ### 1. Automatic Deployment
 
 The pipeline automatically runs when you:
+
 - Push to the `main` branch
 - Create a pull request to `main`
 
 ### 2. Manual Deployment
 
 You can manually trigger the workflow:
+
 1. Go to your GitHub repository
 2. Click "Actions" tab
 3. Select "CI/CD Pipeline"
@@ -124,6 +129,7 @@ You can manually trigger the workflow:
 ### 🔧 Configuration
 
 **Environment Variables:**
+
 ```yaml
 AWS_REGION: us-west-2
 ECR_REPOSITORY_FRONTEND: evertwine-frontend
@@ -134,6 +140,7 @@ ECS_SERVICE_BACKEND: evertwine-backend-service
 ```
 
 **Task Definitions:**
+
 - `ecs-frontend-task.json` - Frontend service configuration
 - `ecs-backend-task.json` - Backend service configuration
 
@@ -142,11 +149,13 @@ ECS_SERVICE_BACKEND: evertwine-backend-service
 ### Common Issues
 
 1. **Build Failures**
+
    - Check Dockerfile syntax
    - Verify dependencies are installed
    - Check for TypeScript errors
 
 2. **Deployment Failures**
+
    - Verify ECS cluster and services exist
    - Check IAM permissions
    - Review CloudWatch logs
@@ -172,11 +181,13 @@ aws ecr describe-images --repository-name evertwine-frontend
 ## 🔒 Security Best Practices
 
 1. **Secrets Management**
+
    - Use GitHub Secrets for sensitive data
    - Rotate AWS credentials regularly
    - Use least-privilege IAM policies
 
 2. **Image Security**
+
    - Scan images for vulnerabilities
    - Use multi-stage builds
    - Keep base images updated
@@ -191,6 +202,7 @@ aws ecr describe-images --repository-name evertwine-frontend
 ### CloudWatch Alarms
 
 Set up alarms for:
+
 - ECS service health
 - Application response times
 - Error rates
