@@ -54,9 +54,9 @@ WORKDIR /app
 RUN addgroup -g 1001 -S nodejs
 RUN adduser -S nextjs -u 1001
 
-# Copy built application
-# Copy public assets from build context (not from builder) to avoid missing path issues
-COPY ./public ./public
+    # Copy built application
+    # Copy public assets from builder stage
+    COPY --from=builder /app/public ./public
 COPY --from=builder /app/.next/standalone ./
 COPY --from=builder /app/.next/static ./.next/static
 
