@@ -2,7 +2,7 @@ name: CI/CD Pipeline
 
 on:
   push:
-    branches: [main, develop]
+    branches: [main, develop, devops-practice-environment]
   pull_request:
     branches: [main]
 
@@ -49,7 +49,7 @@ jobs:
     name: Build and Push Docker Images
     needs: test
     runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/main'
+    if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/devops-practice-environment'
 
     steps:
       - name: Checkout code
@@ -99,7 +99,7 @@ jobs:
     name: Deploy to ECS
     needs: build-and-push
     runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/main'
+    if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/devops-practice-environment'
 
     steps:
       - name: Checkout code
@@ -132,7 +132,7 @@ jobs:
     name: Notify Deployment Status
     needs: [deploy]
     runs-on: ubuntu-latest
-    if: always() && github.ref == 'refs/heads/main'
+    if: always() && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/devops-practice-environment')
 
     steps:
       - name: Notify success
