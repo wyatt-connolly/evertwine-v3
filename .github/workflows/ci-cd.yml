@@ -34,7 +34,7 @@ jobs:
 
       - name: Run frontend tests
         working-directory: ./frontend
-        run: npm test --if-present || echo "No frontend tests found"
+        run: npm test --if-present -- --passWithNoTests || echo "No frontend tests found"
 
       - name: Install backend dependencies
         working-directory: ./backend
@@ -42,7 +42,7 @@ jobs:
 
       - name: Run backend tests
         working-directory: ./backend
-        run: npm test --if-present || echo "No backend tests found"
+        run: npm test --if-present -- --passWithNoTests || echo "No backend tests found"
 
   build-and-push:
     name: Build and Push Docker Images

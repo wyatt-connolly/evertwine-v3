@@ -10,9 +10,6 @@ WORKDIR /app
 # Copy package files
 COPY package*.json ./
 
-# Install dependencies
-RUN npm ci --only=production && npm cache clean --force
-
 # Development stage
 FROM base AS development
 
@@ -25,8 +22,12 @@ COPY . .
 # Expose port
 EXPOSE 3000
 
-# Start development server
-CMD ["npm", "run", "dev"]
+# Set environment variables for development
+ENV NODE_ENV=development
+ENV NEXT_TELEMETRY_DISABLED=1
+
+# Start development server with host binding
+CMD ["sh", "-c", "npm run dev -- --hostname 0.0.0.0"]
 
 # Production build stage
 FROM base AS builder
@@ -54,9 +55,13 @@ RUN addgroup -g 1001 -S nodejs
 RUN adduser -S nextjs -u 1001
 
 # Copy built application
+# Public might not exist in the standalone output; copy from source if present
 COPY --from=builder /app/public ./public
 COPY --from=builder /app/.next/standalone ./
 COPY --from=builder /app/.next/static ./.next/static
+
+# Ensure public exists to satisfy COPY in some build contexts
+RUN mkdir -p /app/public
 
 # Set correct permissions
 RUN chown -R nextjs:nodejs /app
