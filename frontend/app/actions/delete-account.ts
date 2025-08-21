@@ -8,7 +8,7 @@ interface DeleteAccountResult {
 }
 
 export async function deleteUserAccount(
-  userId: string
+  _userId: string
 ): Promise<DeleteAccountResult> {
   try {
     const response = await fetch(`${API_ENDPOINTS.users.deleteAccount}`, {

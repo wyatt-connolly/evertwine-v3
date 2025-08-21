@@ -2,6 +2,7 @@
 import type React from "react";
 import { smoothScrollTo } from "@/utils/smooth-scroll";
 import Link from "next/link";
+import Image from "next/image";
 
 interface HeroSectionProps {
   isLoaded: boolean;
@@ -33,11 +34,13 @@ export default function HeroSection({ isLoaded }: HeroSectionProps) {
       {/* Fixed background image */}
       <div className="absolute inset-0 z-0">
         <div className="absolute inset-0 bg-blue-900/90 mix-blend-multiply"></div>
-        <img
+        <Image
           src="/hero-bg.webp"
           alt="Evertwine background"
-          className="w-full h-full object-cover object-center fixed"
+          fill
+          className="object-cover object-center fixed"
           style={{ zIndex: -1 }}
+          priority
         />
       </div>
       {/* Mobile version (hidden on desktop) */}

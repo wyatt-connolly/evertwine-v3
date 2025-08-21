@@ -14,7 +14,7 @@ export interface User {
   isEmailVerified: boolean;
   lastLoginAt?: string;
   profileImage?: string;
-  preferences?: Record<string, any>;
+  preferences?: Record<string, unknown>;
   createdAt: string;
   updatedAt: string;
 }
@@ -39,7 +39,7 @@ export interface BlogPost {
   seoTitle?: string;
   seoDescription?: string;
   seoKeywords: string[];
-  metaData?: Record<string, any>;
+  metaData?: Record<string, unknown>;
   createdAt: string;
   updatedAt: string;
 }
