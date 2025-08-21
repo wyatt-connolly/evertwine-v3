@@ -6,7 +6,9 @@ A modern full-stack web application built with Next.js and Node.js, demonstratin
 
 - **Frontend**: Next.js 15 with TypeScript, Tailwind CSS
 - **Backend**: Node.js with Express, PostgreSQL
-- **Cloud**: AWS DynamoDB, Lambda, API Gateway
+- **Cloud**: AWS DynamoDB, Lambda, API Gateway, ECS
+- **Infrastructure**: Terraform for AWS provisioning
+- **Orchestration**: Kubernetes for container deployment
 - **DevOps**: Docker, GitHub Actions, automated testing
 
 ## 📋 Prerequisites
@@ -33,10 +35,22 @@ cd backend && npm install && npm run dev
 ## 🏗️ Architecture
 
 ```
-├── frontend/          # Next.js React application
-├── backend/           # Node.js API server
-├── .github/workflows/ # CI/CD pipelines
-└── docker-compose.yml # Local development setup
+├── frontend/                    # Next.js React application
+├── backend/                     # Node.js API server
+├── infrastructure/              # Terraform & infrastructure code
+│   ├── terraform/              # AWS infrastructure as code
+│   └── kubernetes/             # K8s manifests
+├── k8s/                        # Kubernetes deployment files
+├── aws/                        # AWS-specific resources
+│   ├── lambda/                 # Lambda functions
+│   ├── scripts/                # AWS deployment scripts
+│   └── config/                 # AWS configuration files
+├── docs/                       # Documentation
+│   ├── aws/                    # AWS setup guides
+│   └── deployment/             # Deployment documentation
+├── scripts/                    # Utility scripts
+├── .github/workflows/          # CI/CD pipelines
+└── docker-compose.yml          # Local development setup
 ```
 
 ## 🔄 CI/CD Pipeline
@@ -52,12 +66,15 @@ cd backend && npm install && npm run dev
 ## 🛠️ Development
 
 This project showcases modern development practices including:
-- TypeScript for type safety
-- ESLint/Prettier for code quality
-- Docker for containerization
-- GitHub Actions for CI/CD
-- AWS cloud services integration
+
+- **TypeScript** for type safety
+- **ESLint/Prettier** for code quality
+- **Docker** for containerization
+- **GitHub Actions** for CI/CD
+- **Terraform** for infrastructure as code
+- **Kubernetes** for container orchestration
+- **AWS** cloud services integration
 
 ---
 
-*Built to demonstrate full-stack development and DevOps capabilities.*
+_Built to demonstrate full-stack development and DevOps capabilities._
