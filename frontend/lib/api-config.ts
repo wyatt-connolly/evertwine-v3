@@ -1,5 +1,5 @@
 // API Configuration for Evertwine Backend
-// This replaces the Firebase configuration with our custom backend API
+// API Configuration for Evertwine Backend
 
 export const API_BASE_URL =
   process.env.NEXT_PUBLIC_API_URL || "http://localhost:3001/api";
@@ -19,7 +19,6 @@ export const API_ENDPOINTS = {
     profile: "/users/profile",
     updateProfile: "/users/profile",
     changePassword: "/users/password",
-    deleteAccount: "/users/account",
   },
   blog: {
     posts: "/blog",
@@ -67,13 +66,14 @@ export interface PaginatedResponse<T> {
 
 // Error handling
 export class ApiError extends Error {
-  constructor(
-    message: string,
-    public status: number,
-    public data?: unknown
-  ) {
+  public status: number;
+  public data?: unknown;
+
+  constructor(message: string, status: number, data?: unknown) {
     super(message);
     this.name = "ApiError";
+    this.status = status;
+    this.data = data;
   }
 }
 

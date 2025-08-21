@@ -31,7 +31,7 @@ import {
   type BlogPostInput,
 } from "@/lib/blog-service";
 
-// Force dynamic rendering - prevents prerendering issues with Firebase
+// Force dynamic rendering - prevents prerendering issues
 export const dynamic = "force-dynamic";
 
 interface LoginCredentials {

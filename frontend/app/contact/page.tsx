@@ -43,12 +43,7 @@ const subjectOptions = [
     instructions:
       "Please describe your business proposal or partnership opportunity.",
   },
-  {
-    value: "delete-account",
-    label: "Delete My Account/Data",
-    instructions:
-      "To delete your account, please provide: (1) Your registered email address, (2) Your account username, and (3) Reason for deletion. Note: This action is permanent and cannot be undone.",
-  },
+
   {
     value: "privacy",
     label: "Privacy Concern",

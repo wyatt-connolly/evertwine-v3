@@ -140,7 +140,7 @@ export default function CookiePolicyPage() {
             </p>
             <ul className="list-disc pl-6 space-y-2">
               <li>Google Analytics</li>
-              <li>Firebase Analytics</li>
+              <li>Google Analytics</li>
             </ul>
             <p>
               These services help us understand overall usage trends; they do

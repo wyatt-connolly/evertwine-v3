@@ -3,7 +3,12 @@ import {
   API_ENDPOINTS,
   getAuthHeaders,
   ApiError,
-} from "./firebase";
+} from "./api-config";
+
+// AWS API Configuration
+const AWS_API_BASE_URL =
+  process.env.NEXT_PUBLIC_AWS_API_URL ||
+  "https://491icyf530.execute-api.us-west-1.amazonaws.com/prod";
 
 export interface BlogPost {
   id: string;
@@ -53,81 +58,7 @@ export interface PaginatedBlogResponse {
   totalPages: number;
 }
 
-// Sample data for fallback when API is not available
-const sampleBlogPosts: BlogPost[] = [
-  {
-    id: "1",
-    title: "Building Meaningful Connections in the Digital Age",
-    slug: "building-meaningful-connections-digital-age",
-    excerpt:
-      "Discover how modern technology can help foster genuine relationships and community bonds in our increasingly connected world.",
-    content: "Full article content here...",
-    author: {
-      id: "1",
-      firstName: "Sarah",
-      lastName: "Johnson",
-      profileImage: "/hero-bg.webp",
-    },
-    category: "Technology",
-    tags: ["connections", "digital", "community"],
-    status: "published",
-    isFeatured: false,
-    viewCount: 1250,
-    likeCount: 89,
-    commentCount: 23,
-    publishedAt: "2024-03-15T00:00:00.000Z",
-    createdAt: "2024-03-15T00:00:00.000Z",
-    updatedAt: "2024-03-15T00:00:00.000Z",
-  },
-  {
-    id: "2",
-    title: "The Future of Social Networking",
-    slug: "future-of-social-networking",
-    excerpt:
-      "Exploring how social platforms are evolving to prioritize authentic connections over superficial interactions.",
-    content: "Full article content here...",
-    author: {
-      id: "2",
-      firstName: "Mike",
-      lastName: "Chen",
-      profileImage: "/hero-bg.webp",
-    },
-    category: "Innovation",
-    tags: ["social", "networking", "future"],
-    status: "published",
-    isFeatured: false,
-    viewCount: 980,
-    likeCount: 67,
-    commentCount: 15,
-    publishedAt: "2024-03-10T00:00:00.000Z",
-    createdAt: "2024-03-10T00:00:00.000Z",
-    updatedAt: "2024-03-10T00:00:00.000Z",
-  },
-  {
-    id: "3",
-    title: "Community Building Best Practices",
-    slug: "community-building-best-practices",
-    excerpt:
-      "Learn the essential strategies for creating and maintaining thriving online communities that last.",
-    content: "Full article content here...",
-    author: {
-      id: "3",
-      firstName: "Emily",
-      lastName: "Rodriguez",
-      profileImage: "/hero-bg.webp",
-    },
-    category: "Community",
-    tags: ["community", "best-practices", "online"],
-    status: "published",
-    isFeatured: false,
-    viewCount: 1450,
-    likeCount: 112,
-    commentCount: 34,
-    publishedAt: "2024-03-05T00:00:00.000Z",
-    createdAt: "2024-03-05T00:00:00.000Z",
-    updatedAt: "2024-03-05T00:00:00.000Z",
-  },
-];
+// No sample data needed - using AWS DynamoDB for all blog data
 
 // Helper function to handle API requests
 async function apiRequest<T>(
@@ -170,8 +101,6 @@ export async function getBlogPosts(params?: {
   author?: string;
 }): Promise<PaginatedBlogResponse> {
   try {
-    console.log("🔍 Fetching blog posts from API...");
-
     const searchParams = new URLSearchParams();
     if (params?.page) searchParams.append("page", params.page.toString());
     if (params?.limit) searchParams.append("limit", params.limit.toString());
@@ -180,22 +109,37 @@ export async function getBlogPosts(params?: {
     if (params?.search) searchParams.append("search", params.search);
     if (params?.author) searchParams.append("author", params.author);
 
-    const endpoint = `${API_ENDPOINTS.blog.posts}?${searchParams.toString()}`;
-    const response = await apiRequest<PaginatedBlogResponse>(endpoint);
+    const url = `${AWS_API_BASE_URL}/api/blog?${searchParams.toString()}`;
 
-    console.log("✅ Fetched blog posts:", response.posts.length);
-    return response;
+    // Use AWS API instead of local backend
+    const response = await fetch(url, {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    if (!response.ok) {
+      throw new ApiError(
+        `HTTP error! status: ${response.status}`,
+        response.status
+      );
+    }
+
+    const data = await response.json();
+    return data;
   } catch (error) {
-    console.error("❌ Error fetching blog posts:", error);
-    console.warn("Using sample blog data due to API error");
+    console.error("Error fetching blog posts from AWS:", error);
 
-    // Return sample data in the expected format
-    return {
-      posts: sampleBlogPosts,
-      total: sampleBlogPosts.length,
-      page: 1,
-      totalPages: 1,
-    };
+    if (error instanceof ApiError) {
+      throw error;
+    } else if (error instanceof Error) {
+      throw new ApiError(
+        `Failed to fetch blog posts from AWS: ${error.message}`,
+        500
+      );
+    } else {
+      throw new ApiError("Failed to fetch blog posts from AWS", 500);
+    }
   }
 }
 
@@ -210,10 +154,18 @@ export async function getFeaturedPosts(): Promise<BlogPost[]> {
     return response;
   } catch (error) {
     console.error("❌ Error fetching featured posts:", error);
-    console.warn("Using sample featured data due to API error");
 
-    // Return first post as featured
-    return [sampleBlogPosts[0]];
+    // Handle different types of errors
+    if (error instanceof ApiError) {
+      throw error;
+    } else if (error instanceof Error) {
+      throw new ApiError(
+        `Failed to fetch featured posts: ${error.message}`,
+        500
+      );
+    } else {
+      throw new ApiError("Failed to fetch featured posts", 500);
+    }
   }
 }
 
@@ -222,37 +174,66 @@ export async function getBlogPostBySlug(
   slug: string
 ): Promise<BlogPost | null> {
   try {
-    console.log("🔍 Fetching blog post by slug:", slug);
+    console.log("🔍 Fetching blog post by slug from AWS:", slug);
 
-    const response = await apiRequest<BlogPost>(API_ENDPOINTS.blog.post(slug));
+    // Use AWS API instead of local backend
+    const response = await fetch(`${AWS_API_BASE_URL}/api/blog/${slug}`, {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
 
-    console.log("✅ Fetched blog post:", response.title);
-    return response;
-  } catch (error) {
-    console.error("❌ Error fetching blog post:", error);
-
-    // Check sample data as fallback
-    const samplePost = sampleBlogPosts.find((post) => post.slug === slug);
-    if (samplePost) {
-      console.warn("Using sample blog data due to API error");
-      return samplePost;
+    if (!response.ok) {
+      throw new ApiError(
+        `HTTP error! status: ${response.status}`,
+        response.status
+      );
     }
 
-    return null;
+    const data = await response.json();
+    console.log("✅ Fetched blog post from AWS:", data.title);
+    return data;
+  } catch (error) {
+    console.error("❌ Error fetching blog post from AWS:", error);
+
+    // Handle different types of errors
+    if (error instanceof ApiError) {
+      throw error;
+    } else if (error instanceof Error) {
+      throw new ApiError(
+        `Failed to fetch blog post ${slug}: ${error.message}`,
+        500
+      );
+    } else {
+      throw new ApiError(`Failed to fetch blog post: ${slug}`, 500);
+    }
   }
 }
 
 // Get blog categories
 export async function getBlogCategories(): Promise<string[]> {
   try {
-    console.log("🔍 Fetching blog categories...");
+    console.log("🔍 Fetching blog categories from AWS...");
 
-    const response = await apiRequest<string[]>(API_ENDPOINTS.blog.categories);
+    // Use AWS API instead of local backend
+    const response = await fetch(`${AWS_API_BASE_URL}/api/blog/categories`, {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
 
-    console.log("✅ Fetched categories:", response.length);
-    return response;
+    if (!response.ok) {
+      throw new ApiError(
+        `HTTP error! status: ${response.status}`,
+        response.status
+      );
+    }
+
+    const data = await response.json();
+    console.log("✅ Fetched categories from AWS:", data.length);
+    return data;
   } catch (error) {
-    console.error("❌ Error fetching categories:", error);
+    console.error("❌ Error fetching categories from AWS:", error);
 
     // Return sample categories
     return ["Technology", "Innovation", "Community"];
@@ -262,14 +243,27 @@ export async function getBlogCategories(): Promise<string[]> {
 // Get blog tags
 export async function getBlogTags(): Promise<string[]> {
   try {
-    console.log("🔍 Fetching blog tags...");
+    console.log("🔍 Fetching blog tags from AWS...");
 
-    const response = await apiRequest<string[]>(API_ENDPOINTS.blog.tags);
+    // Use AWS API instead of local backend
+    const response = await fetch(`${AWS_API_BASE_URL}/api/blog/tags`, {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
 
-    console.log("✅ Fetched tags:", response.length);
-    return response;
+    if (!response.ok) {
+      throw new ApiError(
+        `HTTP error! status: ${response.status}`,
+        response.status
+      );
+    }
+
+    const data = await response.json();
+    console.log("✅ Fetched tags from AWS:", data.length);
+    return data;
   } catch (error) {
-    console.error("❌ Error fetching tags:", error);
+    console.error("❌ Error fetching tags from AWS:", error);
 
     // Return sample tags
     return [

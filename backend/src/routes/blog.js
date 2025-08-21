@@ -35,7 +35,7 @@ router.get(
 
       // Build where clause
       const whereClause = { status: "published" };
-      
+
       if (category) {
         whereClause.category = category;
       }
@@ -54,12 +54,14 @@ router.get(
           model: User,
           as: "author",
           attributes: ["id", "firstName", "lastName", "profileImage"],
-          where: author ? {
-            [Op.or]: [
-              { firstName: { [Op.iLike]: `%${author}%` } },
-              { lastName: { [Op.iLike]: `%${author}%` } },
-            ]
-          } : undefined,
+          where: author
+            ? {
+                [Op.or]: [
+                  { firstName: { [Op.iLike]: `%${author}%` } },
+                  { lastName: { [Op.iLike]: `%${author}%` } },
+                ],
+              }
+            : undefined,
         },
       ];
 
@@ -97,9 +99,9 @@ router.get(
 router.get("/featured", async (req, res) => {
   try {
     const featuredPosts = await Blog.findAll({
-      where: { 
+      where: {
         status: "published",
-        isFeatured: true 
+        isFeatured: true,
       },
       include: [
         {
@@ -119,15 +121,52 @@ router.get("/featured", async (req, res) => {
   }
 });
 
+// Get blog categories
+router.get("/categories", async (req, res) => {
+  try {
+    const categories = await Blog.findAll({
+      attributes: [
+        [sequelize.fn("DISTINCT", sequelize.col("category")), "category"],
+      ],
+      where: { status: "published" },
+      raw: true,
+    });
+
+    const categoryList = categories.map((cat) => cat.category).filter(Boolean);
+    res.json(categoryList);
+  } catch (error) {
+    logger.error("Error fetching categories:", error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+});
+
+// Get blog tags
+router.get("/tags", async (req, res) => {
+  try {
+    const posts = await Blog.findAll({
+      attributes: ["tags"],
+      where: { status: "published" },
+      raw: true,
+    });
+
+    const allTags = posts.flatMap((post) => post.tags || []);
+    const uniqueTags = [...new Set(allTags)];
+    res.json(uniqueTags);
+  } catch (error) {
+    logger.error("Error fetching tags:", error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+});
+
 // Get a single blog post by slug
 router.get("/:slug", async (req, res) => {
   try {
     const { slug } = req.params;
-    
+
     // Try to get from cache first
     const cacheKey = `blog:${slug}`;
     const cachedPost = await cache.get(cacheKey);
-    
+
     if (cachedPost) {
       // Increment view count in background
       Blog.increment("viewCount", { where: { slug } });
@@ -158,41 +197,6 @@ router.get("/:slug", async (req, res) => {
     res.json(post);
   } catch (error) {
     logger.error("Error fetching blog post:", error);
-    res.status(500).json({ error: "Internal server error" });
-  }
-});
-
-// Get blog categories
-router.get("/categories", async (req, res) => {
-  try {
-    const categories = await Blog.findAll({
-      attributes: [[sequelize.fn('DISTINCT', sequelize.col('category')), 'category']],
-      where: { status: "published" },
-      raw: true,
-    });
-
-    const categoryList = categories.map(cat => cat.category).filter(Boolean);
-    res.json(categoryList);
-  } catch (error) {
-    logger.error("Error fetching categories:", error);
-    res.status(500).json({ error: "Internal server error" });
-  }
-});
-
-// Get blog tags
-router.get("/tags", async (req, res) => {
-  try {
-    const posts = await Blog.findAll({
-      attributes: ["tags"],
-      where: { status: "published" },
-      raw: true,
-    });
-
-    const allTags = posts.flatMap(post => post.tags || []);
-    const uniqueTags = [...new Set(allTags)];
-    res.json(uniqueTags);
-  } catch (error) {
-    logger.error("Error fetching tags:", error);
     res.status(500).json({ error: "Internal server error" });
   }
 });
@@ -238,7 +242,9 @@ router.post(
       // Check if slug already exists
       const existingPost = await Blog.findOne({ where: { slug } });
       if (existingPost) {
-        return res.status(400).json({ error: "A post with this title already exists" });
+        return res
+          .status(400)
+          .json({ error: "A post with this title already exists" });
       }
 
       const newPost = await Blog.create({

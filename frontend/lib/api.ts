@@ -178,11 +178,6 @@ export const userAPI = {
     const response = await api.put("/users/password", passwords);
     return response.data;
   },
-
-  deleteAccount: async (password: string): Promise<{ message: string }> => {
-    const response = await api.delete("/users/account", { data: { password } });
-    return response.data;
-  },
 };
 
 // Blog API

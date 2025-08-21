@@ -1,0 +1,40 @@
+name: Deploy
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  deploy:
+    name: Deploy to Production
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+
+      - name: Build frontend
+        working-directory: ./frontend
+        run: |
+          npm ci
+          npm run build
+
+      - name: Build backend
+        working-directory: ./backend
+        run: |
+          npm ci
+
+      # In a real scenario, you'd deploy to AWS, Vercel, etc.
+      - name: Deploy (simulation)
+        run: |
+          echo "🚀 Deploying to production..."
+          echo "📦 Frontend built successfully"
+          echo "🔧 Backend prepared for deployment"
+          echo "✅ Deployment complete!"
+          echo "🌐 App would be live at: https://evertwine.com"

@@ -1,0 +1,210 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "Evertwine Blog API",
+    "description": "API for Evertwine blog posts",
+    "version": "1.0.0"
+  },
+  "host": "your-api-gateway-url.amazonaws.com",
+  "basePath": "/prod",
+  "schemes": ["https"],
+  "paths": {
+    "/health": {
+      "get": {
+        "summary": "Health check",
+        "responses": {
+          "200": {
+            "description": "API is healthy",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": { "type": "string" },
+                "message": { "type": "string" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/blog": {
+      "get": {
+        "summary": "Get all blog posts",
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "type": "integer",
+            "description": "Page number"
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "type": "integer",
+            "description": "Number of posts per page"
+          },
+          {
+            "name": "category",
+            "in": "query",
+            "type": "string",
+            "description": "Filter by category"
+          },
+          {
+            "name": "tag",
+            "in": "query",
+            "type": "string",
+            "description": "Filter by tag"
+          },
+          {
+            "name": "search",
+            "in": "query",
+            "type": "string",
+            "description": "Search term"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of blog posts",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "posts": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/definitions/BlogPost"
+                  }
+                },
+                "total": { "type": "integer" },
+                "page": { "type": "integer" },
+                "totalPages": { "type": "integer" },
+                "hasNext": { "type": "boolean" },
+                "hasPrev": { "type": "boolean" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/blog/featured": {
+      "get": {
+        "summary": "Get featured blog posts",
+        "responses": {
+          "200": {
+            "description": "List of featured blog posts",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/BlogPost"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/blog/categories": {
+      "get": {
+        "summary": "Get all blog categories",
+        "responses": {
+          "200": {
+            "description": "List of categories",
+            "schema": {
+              "type": "array",
+              "items": { "type": "string" }
+            }
+          }
+        }
+      }
+    },
+    "/api/blog/tags": {
+      "get": {
+        "summary": "Get all blog tags",
+        "responses": {
+          "200": {
+            "description": "List of tags",
+            "schema": {
+              "type": "array",
+              "items": { "type": "string" }
+            }
+          }
+        }
+      }
+    },
+    "/api/blog/{slug}": {
+      "get": {
+        "summary": "Get blog post by slug",
+        "parameters": [
+          {
+            "name": "slug",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "Blog post slug"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Blog post details",
+            "schema": {
+              "$ref": "#/definitions/BlogPost"
+            }
+          },
+          "404": {
+            "description": "Blog post not found",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error": { "type": "string" }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "BlogPost": {
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "title": { "type": "string" },
+        "slug": { "type": "string" },
+        "excerpt": { "type": "string" },
+        "content": { "type": "string" },
+        "featuredImage": { "type": "string", "nullable": true },
+        "authorId": { "type": "string" },
+        "status": {
+          "type": "string",
+          "enum": ["draft", "published", "archived"]
+        },
+        "publishedAt": { "type": "string", "format": "date-time" },
+        "tags": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "category": { "type": "string" },
+        "readTime": { "type": "integer" },
+        "viewCount": { "type": "integer" },
+        "likeCount": { "type": "integer" },
+        "commentCount": { "type": "integer" },
+        "isFeatured": { "type": "boolean" },
+        "seoTitle": { "type": "string" },
+        "seoDescription": { "type": "string" },
+        "seoKeywords": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "metaData": { "type": "object" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" },
+        "author": {
+          "type": "object",
+          "properties": {
+            "id": { "type": "string" },
+            "firstName": { "type": "string" },
+            "lastName": { "type": "string" },
+            "profileImage": { "type": "string", "nullable": true }
+          }
+        }
+      }
+    }
+  }
+}

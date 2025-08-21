@@ -6,7 +6,8 @@ const sampleBlogPosts = [
   {
     title: "Building Meaningful Connections in the Digital Age",
     slug: "building-meaningful-connections-digital-age",
-    excerpt: "Discover how modern technology can help foster genuine relationships and community bonds in our increasingly connected world.",
+    excerpt:
+      "Discover how modern technology can help foster genuine relationships and community bonds in our increasingly connected world.",
     content: `In today's fast-paced digital world, it's easy to feel disconnected despite being constantly connected. Social media platforms promise to bring us together, but often leave us feeling more isolated than ever. This is where Evertwine comes in - we're building a platform that bridges the gap between digital convenience and genuine human connection.
 
 The challenge of building meaningful relationships in the digital age is multifaceted. On one hand, we have unprecedented access to people from all walks of life, cultures, and backgrounds. On the other hand, the superficial nature of many online interactions can leave us feeling empty and unfulfilled.
@@ -32,19 +33,26 @@ The future of social networking lies in platforms that understand the difference
     likeCount: 89,
     commentCount: 23,
     publishedAt: new Date("2024-03-15"),
-    seoTitle: "Building Meaningful Connections in the Digital Age - Evertwine",
-    seoDescription: "Discover how modern technology can help foster genuine relationships and community bonds in our increasingly connected world.",
-    seoKeywords: ["social connections", "community building", "digital age", "meaningful relationships"],
+    seoTitle: "Building Meaningful Connections - Evertwine",
+    seoDescription:
+      "Discover how modern technology can help foster genuine relationships and community bonds in our increasingly connected world.",
+    seoKeywords: [
+      "social connections",
+      "community building",
+      "digital age",
+      "meaningful relationships",
+    ],
     metaData: {
       readingTime: "5 min read",
       difficulty: "Beginner",
-      topics: ["Social Media", "Community", "Technology"]
-    }
+      topics: ["Social Media", "Community", "Technology"],
+    },
   },
   {
     title: "The Future of Social Networking",
     slug: "future-of-social-networking",
-    excerpt: "Exploring how social platforms are evolving to prioritize authentic connections over superficial interactions.",
+    excerpt:
+      "Exploring how social platforms are evolving to prioritize authentic connections over superficial interactions.",
     content: `The landscape of social networking is undergoing a fundamental transformation. For years, platforms have focused on maximizing engagement through addictive algorithms and superficial interactions. But users are increasingly demanding more meaningful experiences that actually improve their lives rather than just consuming their time.
 
 The traditional social media model is showing its limitations. Users are becoming more aware of the negative impacts of endless scrolling, comparison culture, and the pressure to present a perfect life online. This awareness is driving a shift toward platforms that prioritize mental health, authentic connections, and real-world impact.
@@ -75,19 +83,26 @@ The future belongs to platforms that understand that social networking should se
     likeCount: 67,
     commentCount: 15,
     publishedAt: new Date("2024-03-10"),
-    seoTitle: "The Future of Social Networking - Authentic Connections",
-    seoDescription: "Exploring how social platforms are evolving to prioritize authentic connections over superficial interactions.",
-    seoKeywords: ["social networking", "future", "authentic connections", "technology evolution"],
+    seoTitle: "Future of Social Networking - Authentic Connections",
+    seoDescription:
+      "Exploring how social platforms are evolving to prioritize authentic connections over superficial interactions.",
+    seoKeywords: [
+      "social networking",
+      "future",
+      "authentic connections",
+      "technology evolution",
+    ],
     metaData: {
       readingTime: "4 min read",
       difficulty: "Intermediate",
-      topics: ["Social Media", "Technology Trends", "User Experience"]
-    }
+      topics: ["Social Media", "Technology Trends", "User Experience"],
+    },
   },
   {
     title: "Community Building Best Practices",
     slug: "community-building-best-practices",
-    excerpt: "Learn the essential strategies for creating and maintaining thriving online communities that last.",
+    excerpt:
+      "Learn the essential strategies for creating and maintaining thriving online communities that last.",
     content: `Building a strong community is both an art and a science. Whether you're organizing a local meetup group or managing an online community, the principles of successful community building remain the same. Here are some essential strategies that have proven effective time and time again.
 
 **1. Define Your Purpose**
@@ -123,15 +138,22 @@ Remember, community building is a long-term commitment. The most successful comm
     likeCount: 45,
     commentCount: 12,
     publishedAt: new Date("2024-03-05"),
-    seoTitle: "Community Building Best Practices - Evertwine Guide",
-    seoDescription: "Learn the essential strategies for creating and maintaining thriving online communities that last.",
-    seoKeywords: ["community building", "best practices", "leadership", "inclusivity", "meetup groups"],
+    seoTitle: "Community Building Best Practices - Evertwine",
+    seoDescription:
+      "Learn the essential strategies for creating and maintaining thriving online communities that last.",
+    seoKeywords: [
+      "community building",
+      "best practices",
+      "leadership",
+      "inclusivity",
+      "meetup groups",
+    ],
     metaData: {
       readingTime: "6 min read",
       difficulty: "Beginner",
-      topics: ["Community Management", "Leadership", "Social Skills"]
-    }
-  }
+      topics: ["Community Management", "Leadership", "Social Skills"],
+    },
+  },
 ];
 
 const seedBlogPosts = async () => {
@@ -182,4 +204,3 @@ if (require.main === module) {
 }
 
 module.exports = { seedBlogPosts };
-
